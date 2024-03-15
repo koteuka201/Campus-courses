@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { Container, Button, Alert, Card, CardBody, CardTitle,Form, FormGroup, FormControl, FormLabel } from 'react-bootstrap';
 import { registation } from "../services/apiService";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
 export default function Registration(){
+
+    const navigate = useNavigate();
     const [isEmpty, setIsempty]=useState(false)
     const [errorMessage, setErrorMessage] = useState('')
     const [data,setData]=useState({
@@ -49,14 +51,15 @@ export default function Registration(){
 
     const handleSubmit=async (e)=>{
         e.preventDefault()
-        debugger
+        
         if(data.email!='' && data.password!='' && data.fullName!='' && data.birthDate!='' && data.confirmPassword!=''){
             setIsempty(false)
             setErrorMessage('')
             const response=await registation(data.email, data.password, data.fullName, data.birthDate, data.confirmPassword)
-            debugger
+            
             if(response.token){
                 localStorage.setItem('token', response.token)
+                navigate('/')
             }
         }
         else{

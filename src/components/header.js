@@ -3,17 +3,35 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {  Container,NavbarToggle, Navbar, NavbarCollapse, NavbarBrand, Nav } from 'react-bootstrap';
 import '../styles/header.css'
+import { getProfile, logout } from "../services/apiService";
 
 
-export const Header=()=>{
+export const Header=  ()=>{
 
-
-
+    const [name, setName]=useState('')
+    const navigate = useNavigate();
 
     const token=localStorage.getItem('token')
-
+    async function getName(){
+        if (token) {
+            const response = await getProfile(token)
+            if(response.fullName){
+                setName(response.fullName)
+            }
+        }
+    }
+    getName()
     
+    const handleLogout = async (e) => {
+        e.preventDefault()
+        debugger
+        const response=await logout(localStorage.getItem('token'))
         
+        if (response){
+            localStorage.clear()
+            navigate('/login')
+        }
+    };    
 
     return (
         <Navbar className="bg-secondary shadow fixed-top" expand='lg'>
@@ -31,34 +49,31 @@ export const Header=()=>{
                     {
                         token ? (
                             <>
-                                <Link to='/' className="link">
+                                <Link to='/' className="nav-link">
                                     Группы курсов
 
                                 </Link>
-                                <Link to='/' className="link">
+                                <Link to='/' className="nav-link">
                                     Мои курсы
                                 </Link>
-                                <Link to='/' className="link">
+                                <Link to='/' className="nav-link">
                                     Преподаваемые курсы
                                 </Link>
-                                <div className="text-white  ms-lg-auto ms-5 mt-lg-0 mt-3">
 
-                                    {/* {Name} */}
-                                    <span style={{ opacity: 0.7, cursor: 'pointer' }}>Выход</span>
-                                </div>
+                                <Link className="nav-link ms-lg-auto">{name}</Link>
+                                <Link className="nav-link" onClick={handleLogout}>Выход</Link>
                                 
-
                             </>
                             
                         ) : 
-                            <div className="text-white ms-lg-auto ms-3 mt-lg-0 mt-3">
-                                <Link to="/login" className="authLink">
+                            < >
+                                <Link to="/login" className="nav-link ms-lg-auto mt-lg-0">
                                     Вход
                                 </Link>
-                                <Link to="/registration" className="authLink">
+                                <Link to="/registration" className="nav-link">
                                     Регистрация
                                 </Link>
-                            </div>
+                            </>
                             
                     }
                     </Nav>

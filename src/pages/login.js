@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function Login(){
 
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
     const [data, setData]=useState({
         email: '',
         password: ''
@@ -34,8 +34,9 @@ export default function Login(){
             const response=await login(data.email, data.password)
             if(response.token){
                 localStorage.setItem('token', response.token)
+                navigate('/')
             }
-            debugger
+            
         }
     }
     return (
