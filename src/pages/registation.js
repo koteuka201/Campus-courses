@@ -64,7 +64,7 @@ export default function Registration(){
             setErrorMessage('Заполните все поля!')
         }
     }
-
+ 
     return(
         <Container style={{marginTop: '110px'}} className="">
             <Card>
