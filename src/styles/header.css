@@ -1,0 +1,12 @@
+.link{
+    text-decoration: none;
+    color: white;
+    margin-left: 50px;
+    opacity: 0.7;
+}
+.authLink{
+    text-decoration: none;
+    color: white;
+    margin-right: 30px;
+    opacity: 0.7;
+}
