@@ -62,3 +62,19 @@ export const logout= async (token)=>{
         return error.response.data;
     }
 }
+export const putProfile= async (fullName,birthDate,token)=>{
+    try{
+        const response=await axios.put(`${apiURL}/profile`,{
+            fullName,
+            birthDate
+        },{
+            headers:{
+                Authorization: `Bearer ${token}`
+            }
+        })
+        return response.data
+    } catch(error){
+        console.error('An error occurred:', error);
+        return error.response.data;
+    }
+}

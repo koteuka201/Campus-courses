@@ -4,6 +4,7 @@ import {Header} from '../components/header';
 import Login from '../pages/login';
 import Registration from '../pages/registation';
 import WelcomePage from '../pages/welcomePage';
+import Profile from '../pages/profile';
 
 export default function Router(){
     return(
@@ -26,6 +27,13 @@ export default function Router(){
                 <>
                     <Header/>
                     <Registration/>
+                </>
+                
+            }/>
+            <Route path='/profile' element={
+                <>
+                    <Header/>
+                    <Profile/>
                 </>
                 
             }/>

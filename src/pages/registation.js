@@ -64,7 +64,7 @@ export default function Registration(){
         }
         else{
             setIsempty(true)
-            setErrorMessage('Заполните все поля!')
+            setErrorMessage('Заполните выделенные поля!')
         }
     }
  

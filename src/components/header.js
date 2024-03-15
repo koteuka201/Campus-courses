@@ -24,13 +24,16 @@ export const Header=  ()=>{
     
     const handleLogout = async (e) => {
         e.preventDefault()
-        debugger
-        const response=await logout(localStorage.getItem('token'))
         
-        if (response){
+        if(token){
+            const response=await logout(token)
+        
+            // if (response){
             localStorage.clear()
             navigate('/login')
+            // }
         }
+        
     };    
 
     return (
@@ -60,7 +63,7 @@ export const Header=  ()=>{
                                     Преподаваемые курсы
                                 </Link>
 
-                                <Link className="nav-link ms-lg-auto">{name}</Link>
+                                <Link to='/profile' className="nav-link ms-lg-auto">{name}</Link>
                                 <Link className="nav-link" onClick={handleLogout}>Выход</Link>
                                 
                             </>
