@@ -6,11 +6,16 @@ import { dateConvertor } from "../helpers/dateConverter";
 
 export default function Profile(){
 
+    const navigate=useNavigate()
     const [email,setEmail]=useState('')
     const [isEmpty, setIsempty]=useState(false)
     const [fullName, setName]=useState('')
     const [birthDate, setDate]=useState('')
     const [errorMessage, setErrorMessage] = useState('')
+    const [data, setData]=useState({
+        fullName: '',
+        birthDate: '' 
+    })
 
     const token=localStorage.getItem('token')
     
@@ -19,9 +24,16 @@ export default function Profile(){
             if (token) {
                 const response = await getProfile(token);
                 if(response.fullName){
+
                     setName(response.fullName);
                     setDate(dateConvertor(response.birthDate));
                     setEmail(response.email);
+
+                    setData({
+                        ...data,
+                        fullName: response.fullName,
+                        birthDate: dateConvertor(response.birthDate)
+                    })
                 }
             }
         }
@@ -45,6 +57,10 @@ export default function Profile(){
             setErrorMessage('')
             const response=await putProfile(fullName,birthDate, token)
             
+            if(response.status===400){
+                setDate(data.birthDate)
+                setName(data.fullName)
+            }
         }
         else{
             setIsempty(true)

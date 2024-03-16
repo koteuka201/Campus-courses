@@ -32,9 +32,12 @@ export default function Login(){
         e.preventDefault()
         if(data.email!='' && data.password!=''){
             const response=await login(data.email, data.password)
-            if(response.token){
+            if(response){
                 localStorage.setItem('token', response.token)
                 navigate('/')
+            }
+            else{
+                setErrorMessage('Неправильный email или пароль')
             }
             
         }

@@ -55,7 +55,7 @@ export const logout= async (token)=>{
                 Authorization: `Bearer ${token}`
             }
         })
-        debugger
+        
         return response.data
     } catch(error){
         console.error('An error occurred:', error);
