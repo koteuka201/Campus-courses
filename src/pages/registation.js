@@ -113,12 +113,12 @@ export default function Registration(){
                         </FormGroup>
                         <FormGroup className="mt-2">
                             <FormLabel>День рождения</FormLabel>
-                            <FormControl className={data.birthDate.trim() === "" && isEmpty ? "border-danger" : ""} type="date" value={data.birthDate} onChange={handleDateBirth}></FormControl>
+                            <FormControl className={(data.birthDate.trim() === "" && isEmpty) || !isDate ? "border-danger" : ""} type="date" value={data.birthDate} onChange={handleDateBirth}></FormControl>
                         </FormGroup>
                         {isDate ? (
                             <></>
                         ) :(
-                            <span className="text-danger">День рождение не может быть в будущем!</span>
+                            <span className="text-danger">День рождения не может быть в будущем!</span>
                         )}
                         <FormGroup className="mt-2">
                             <FormLabel>Email</FormLabel>
