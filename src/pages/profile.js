@@ -8,17 +8,19 @@ export default function Profile(){
 
     const navigate=useNavigate()
     const [email,setEmail]=useState('')
+    const [isDate, setIsDate]=useState(false)
     const [isEmpty, setIsempty]=useState(false)
     const [fullName, setName]=useState('')
     const [birthDate, setDate]=useState('')
     const [errorMessage, setErrorMessage] = useState('')
-    const [data, setData]=useState({
-        fullName: '',
-        birthDate: '' 
-    })
+    
 
     const token=localStorage.getItem('token')
     
+    useEffect(()=>{
+        checkDate(birthDate)
+    },[birthDate])
+
     useEffect(() => {
         async function getName(){
             if (token) {
@@ -29,11 +31,7 @@ export default function Profile(){
                     setDate(dateConvertor(response.birthDate));
                     setEmail(response.email);
 
-                    setData({
-                        ...data,
-                        fullName: response.fullName,
-                        birthDate: dateConvertor(response.birthDate)
-                    })
+                    
                 }
             }
         }
@@ -52,14 +50,13 @@ export default function Profile(){
 
     const handleSubmit=async (e)=>{
         e.preventDefault()
-        if(fullName!='' && birthDate!=''){
+        if(fullName!='' && birthDate!='' && isDate){
             setIsempty(false)
             setErrorMessage('')
             const response=await putProfile(fullName,birthDate, token)
             
             if(response.status===400){
-                setDate(data.birthDate)
-                setName(data.fullName)
+                
             }
         }
         else{
@@ -68,6 +65,14 @@ export default function Profile(){
         }
     }
 
+    function checkDate(date){
+        if(new Date(date)>new Date()){
+            setIsDate(false)
+        }
+        else{
+            setIsDate(true)
+        }
+    }
     return(
         <Container style={{marginTop: '110px'}} className="">
             <Card>
@@ -85,15 +90,21 @@ export default function Profile(){
                             <Col sm={10}>
                                 {email}
                             </Col>
-                            
-                            
                         </Row>
+                        
                         <Row className=" mb-2">
                             <FormLabel column sm={2}>День рождения</FormLabel>
                             <Col sm={10}>
                                 <FormControl className={birthDate.trim() === "" && isEmpty ? "border-danger" : ""} type="date" value={birthDate} onChange={handleDateBirth}></FormControl>
+                                {isDate ? (
+                                    <></>
+                                ) :(
+                                    <span className="text-danger">День рождения не может быть в будущем!</span>
+                                )}
                             </Col>
+                            
                         </Row>
+                        
                         
                         
                         <Row className="mb-2">

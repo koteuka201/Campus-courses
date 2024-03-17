@@ -5,6 +5,7 @@ import Login from '../pages/login';
 import Registration from '../pages/registation';
 import WelcomePage from '../pages/welcomePage';
 import Profile from '../pages/profile';
+import GroupsPage from '../pages/groupsPage';
 
 export default function Router(){
     return(
@@ -34,6 +35,13 @@ export default function Router(){
                 <>
                     <Header/>
                     <Profile/>
+                </>
+                
+            }/>
+            <Route path='/groups/' element={
+                <>
+                    <Header/>
+                    <GroupsPage/>
                 </>
                 
             }/>

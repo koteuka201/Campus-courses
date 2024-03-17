@@ -18,7 +18,9 @@ export const Header=  ()=>{
             if(response.fullName){
                 setName(response.fullName)
             }
+            
         }
+        
     }
     getName()
     
@@ -52,7 +54,7 @@ export const Header=  ()=>{
                     {
                         token ? (
                             <>
-                                <Link to='/' className="nav-link">
+                                <Link to='/groups/' className="nav-link">
                                     Группы курсов
 
                                 </Link>
