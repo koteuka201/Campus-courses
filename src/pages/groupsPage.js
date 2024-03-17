@@ -28,20 +28,20 @@ export default function GroupsPage(){
     },[groupName])
 
     async function getRole(){
-        if (token) {
-            const response = await getRoles(token)
+        
+        const response = await getRoles(token)
+        
+        if(response){
             
-            if(response){
-                
-                setRoles({
-                    ...roles,
-                    isStudent: response.isStudent,
-                    isTeacher: response.isTeacher,
-                    isAdmin: response.isAdmin
-                })
-                
-            }
-        }   
+            setRoles({
+                ...roles,
+                isStudent: response.isStudent,
+                isTeacher: response.isTeacher,
+                isAdmin: response.isAdmin
+            })
+            
+        }
+        
     }
     async function getGroup(){
         const response=await getGroups(token)

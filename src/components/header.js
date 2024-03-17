@@ -3,37 +3,66 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {  Container,NavbarToggle, Navbar, NavbarCollapse, NavbarBrand, Nav } from 'react-bootstrap';
 import '../styles/header.css'
-import { getProfile, logout } from "../services/apiService";
+import { getProfile, logout,getRoles } from "../services/apiService";
 
 
 export const Header=  ()=>{
 
     const [name, setName]=useState('')
     const navigate = useNavigate();
-
+    const [roles,setRoles]=useState({
+        isStudent: '',
+        isTeacher: '',
+        isAdmin: ''
+    })
     const token=localStorage.getItem('token')
+
+    useEffect(()=>{
+        getName()
+        getRole()
+    },[token])
     async function getName(){
-        if (token) {
+        if(token){
             const response = await getProfile(token)
             if(response.fullName){
                 setName(response.fullName)
             }
-            
         }
         
+
+        
     }
-    getName()
     
+    
+    async function getRole(){
+       if(token){
+            const response = await getRoles(token)
+            
+            if(response){
+                
+                setRoles({
+                    ...roles,
+                    isStudent: response.isStudent,
+                    isTeacher: response.isTeacher,
+                    isAdmin: response.isAdmin
+                })
+                
+            }
+       }
+        
+         
+    }
+
     const handleLogout = async (e) => {
         e.preventDefault()
         
         if(token){
             const response=await logout(token)
         
-            // if (response){
+            
             localStorage.clear()
             navigate('/login')
-            // }
+            
         }
         
     };    
@@ -58,12 +87,22 @@ export const Header=  ()=>{
                                     Группы курсов
 
                                 </Link>
-                                <Link to='/' className="nav-link">
-                                    Мои курсы
-                                </Link>
-                                <Link to='/' className="nav-link">
-                                    Преподаваемые курсы
-                                </Link>
+                                {roles.isStudent ? (
+                                    <Link to='/' className="nav-link">
+                                        Мои курсы
+                                    </Link>
+                                ) : (
+                                    <></>
+                                )}
+                                
+                                {roles.isTeacher ? (
+                                    <Link to='/' className="nav-link">
+                                        Преподаваемые курсы
+                                    </Link>
+                                ) : (
+                                    <></>
+                                )}
+                                
 
                                 <Link to='/profile' className="nav-link ms-lg-auto">{name}</Link>
                                 <Link className="nav-link" onClick={handleLogout}>Выход</Link>
