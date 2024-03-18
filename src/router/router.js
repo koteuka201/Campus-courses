@@ -6,6 +6,7 @@ import Registration from '../pages/registation';
 import WelcomePage from '../pages/welcomePage';
 import Profile from '../pages/profile';
 import GroupsPage from '../pages/groupsPage';
+import GroupCoursesPage from '../pages/groupCoursesPage';
 
 export default function Router(){
     return(
@@ -38,10 +39,17 @@ export default function Router(){
                 </>
                 
             }/>
-            <Route path='/groups/' element={
+            <Route path='/groups' element={
                 <>
                     <Header/>
                     <GroupsPage/>
+                </>
+                
+            }/>
+            <Route path='/groups/:id' element={
+                <>
+                    <Header/>
+                    <GroupCoursesPage/>
                 </>
                 
             }/>

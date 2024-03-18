@@ -30,9 +30,12 @@ export default function GroupsCard({ id, name, isAdmin, onUpdateName, onDelete }
         <>
             <Card>
                 <CardBody className="row">
-                    <Col sm={8} className="fs-5">{name}</Col>
+                    <Link to={`/groups/${id}`} className="col-sm-6 fs-5">
+                        {name}
+
+                    </Link>
                     {isAdmin===true ? (
-                        <Col sm={4} className="text-end">
+                        <Col sm={6} className="text-end">
                         <Button className="bg-warning border-0 text-dark" onClick={handleEdit}>Редактировать</Button>
                         <Button className="bg-danger border-0 ms-1" onClick={onDelete}>Удалить</Button>
                         </Col>

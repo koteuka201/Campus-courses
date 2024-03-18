@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const apiURL='https://camp-courses.api.kreosoft.space'
-
+//все что связано с юзером
 export const login = async (email, password)=>{
     try{
         
@@ -91,6 +91,8 @@ export const getRoles= async (token)=>{
         return error.response.data;
     }
 }
+
+//группы курсов
 export const getGroups= async (token)=>{
     try{
         const response=await axios.get(`${apiURL}/groups`,{
@@ -148,3 +150,20 @@ export const deleteGroup= async (token,id)=>{
         return error.response.data;
     }
 }
+export const getGroupCourses= async (token,id)=>{
+    try{
+        
+        const response=await axios.get(`${apiURL}/groups/${id}`,{
+            headers:{
+                Authorization: `Bearer ${token}`
+            }
+        })
+        return response.data
+    } catch(error){
+        console.error('An error occurred:', error);
+        return error.response.data;
+    }
+}
+
+//курсы
+// 
