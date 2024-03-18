@@ -117,7 +117,7 @@ export default function GroupsPage(){
             </div>
             <Modal show={showModal} onHide={() => setShowModal(false)}>
                 <ModalHeader closeButton>
-                    <ModalTitle>Создать курс</ModalTitle>
+                    <ModalTitle>Создание группы</ModalTitle>
                 </ModalHeader>
                 <ModalBody>
                     <FormControl className={isModalEmpty ? "border-danger" : ""} type="text" placeholder="Название курса" value={groupName} onChange={(e) => setGroupName(e.target.value)} />
