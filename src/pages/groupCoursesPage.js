@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
-import {Row,Col, Container, Button, Alert,  CardTitle,Form, FormCheck, FormGroup, FormControl, Modal, ModalHeader,ModalFooter,ModalBody,ModalTitle, FormLabel } from 'react-bootstrap';
-import { getRoles, getGroupCourses, getGroups } from "../services/apiService";
+import ReactQuill from 'react-quill';
+import ReactSelect from 'react-select';
+import 'react-quill/dist/quill.snow.css';
+import {Container, Button, Alert,  CardTitle,Form, FormCheck, FormGroup, FormControl, Modal, ModalHeader,ModalFooter,ModalBody,ModalTitle, FormLabel } from 'react-bootstrap';
+import { getRoles, getGroupCourses, getGroups, getUsers,createCourse } from "../services/apiService";
 import { Navigate, useNavigate,useParams  } from "react-router-dom";
 import CourseCard from "../components/courseCard";
 
@@ -8,30 +11,40 @@ export default function GroupCoursesPage(){
 
     const { id } = useParams();
     
+    const [users, setUsers]=useState([])
     const [courses, setCourses]=useState([])
     const [isRequested, setIsRequested]=useState(false)
     const [groupName, setGroupName]=useState('')
     const [showModal, setShowModal]=useState(false)
-
     const [roles,setRoles]=useState({
         isStudent: '',
         isTeacher: '',
         isAdmin: ''
     })
-    const token=localStorage.getItem('token')
+    const [courseData, setCourseData]=useState({
+        name: "",
+        startYear: "",
+        maximumStudentsCount: "",
+        semester: "",
+        requirements: "",
+        annotations:"",
+        mainTeacherId: ""
+    })
 
     useEffect(()=>{
         getRole()
         GetGroupCourses()
         getGroupName()
+        getUsersList()
     },[])
+
+    const token=localStorage.getItem('token')
+
+    
     
     async function getRole(){
-        
         const response = await getRoles(token)
-        
         if(response){
-            
             setRoles({
                 ...roles,
                 isStudent: response.isStudent,
@@ -42,9 +55,20 @@ export default function GroupCoursesPage(){
         }
         
     }
-    
-    async function GetGroupCourses(){
+
+    async function getUsersList(){
+        const response = await getUsers(token)
+        if(response){
+            
+            setUsers(response)
+            
+            
+        }
         
+    }
+    
+
+    async function GetGroupCourses(){
         const response=await getGroupCourses(token,id)
         if(response){
             setCourses(response)
@@ -55,11 +79,43 @@ export default function GroupCoursesPage(){
     async function getGroupName(){
         const response=await getGroups(token)
         if(response){
-            
             setGroupName((response.find(group => group.id === id)).name)
         }
     }
 
+    async function handleCreateCourse(){
+        if (courseData.name !== "" && 
+        courseData.startYear !== "" && 
+        courseData.maximumStudentsCount !== "" && 
+        courseData.semester !== "" && 
+        courseData.requirements !== "" && 
+        courseData.annotations !== "" && 
+        courseData.mainTeacherId !== ""){
+            const response = await createCourse(token, id, 
+                courseData.name, 
+                courseData.startYear, 
+                courseData.maximumStudentsCount,
+                courseData.semester, 
+                courseData.requirements, 
+                courseData.annotations, 
+                courseData.mainTeacherId)
+            if(response){
+                setShowModal(true)
+                GetGroupCourses()
+            }
+        }
+    }    
+
+    const modules = {
+        toolbar: [
+            [{ header: [false, 1, 2, 3] }, { font: [] },{ size: [] }],
+            [{ color: [] }, 'bold', 'italic', 'underline', 'strike', 'blockquote','code-block'],
+            [{ align: [] }, { 'list': 'ordered' }, { 'list': 'bullet' }, { 'indent': '-1' }, { 'indent': '+1' }],
+            ['link', 'image', 'video'],
+        ]
+    }
+
+    
     return(
         <Container style={{marginTop: '110px'}}>
             <CardTitle className="fs-3">Группа - {groupName}</CardTitle>
@@ -93,6 +149,7 @@ export default function GroupCoursesPage(){
                     <></>
                 )
             )}
+            
             <Modal show={showModal} onHide={()=> setShowModal(false)} className="modal-xl"> 
                 <ModalHeader closeButton>
                     <ModalTitle>Создание курса</ModalTitle>
@@ -102,18 +159,18 @@ export default function GroupCoursesPage(){
                     <Form>
                         <FormGroup className="mb-3">
                             <FormLabel>Название курса</FormLabel>
-                            <FormControl placeholder="Введите название курса"></FormControl>
+                            <FormControl value={courseData.name} onChange={(e)=> setCourseData({...courseData,name: e.target.value})} placeholder="Введите название курса"></FormControl>
                         </FormGroup>
                         <FormGroup className="mb-3">
-                            <FormLabel>god</FormLabel>
-                            <FormControl placeholder="god"></FormControl>
+                            <FormLabel>Год начала курса</FormLabel>
+                            <FormControl value={courseData.startYear} onChange={(e)=> setCourseData({...courseData, startYear: e.target.value})} placeholder="Введите год" type="number"></FormControl>
                         </FormGroup>
                         <FormGroup className="mb-3">
-                            <FormLabel>obshee mest</FormLabel>
-                            <FormControl placeholder="mesta"></FormControl>
+                            <FormLabel >Общее количестов мест</FormLabel>
+                            <FormControl value={courseData.maximumStudentsCount} onChange={(e)=> setCourseData({...courseData,maximumStudentsCount: e.target.value})} placeholder="Введите количество мест" type="number"></FormControl>
                         </FormGroup>
                         <FormGroup className="mb-3">
-                            <FormLabel>semestr</FormLabel>
+                            <FormLabel>Семестр</FormLabel>
                             <div>
                                 <FormCheck
                                     inline
@@ -121,8 +178,13 @@ export default function GroupCoursesPage(){
                                     label="Осенний"
                                     name="filter"
                                     value="Spring"
-                                    
-                                    // onChange={handleOptionChange}
+                                    checked={courseData.semester === "Spring"}
+                                    onChange={(e)=> 
+                                        setCourseData({
+                                            ...courseData,
+                                            semester: e.target.value
+                                        })
+                                    }
                                 />
                                 <FormCheck
                                     inline
@@ -130,28 +192,44 @@ export default function GroupCoursesPage(){
                                     label="Весенний"
                                     name="filter"
                                     value="Autumn"
-                                    
-                                    // onChange={handleOptionChange}
+                                    checked={courseData.semester === "Autumn"}
+                                    onChange={(e)=> 
+                                        setCourseData({
+                                            ...courseData,
+                                            semester: e.target.value
+                                        })
+                                    }
                                 />
                         </div>
                         </FormGroup>
                         <FormGroup className="mb-3">
                             <FormLabel>Требования</FormLabel>
-                            <FormControl as='textarea'></FormControl>
+                            <ReactQuill modules={modules} value={courseData.requirements} onChange={(e)=> setCourseData({...courseData, requirements: e})} theme="snow" />
+
                         </FormGroup>
                         <FormGroup className="mb-3">
                             <FormLabel>Аннотация</FormLabel>
-                            <FormControl as='textarea'></FormControl>
+                            <ReactQuill modules={modules} value={courseData.annotations} onChange={(e)=> setCourseData({...courseData, annotations: e})} theme="snow" />
+                            
                         </FormGroup>
                         <FormGroup className="mb-3">
                             <FormLabel>Основной преподаватель курса</FormLabel>
-                            <div>сделать селект/селект2 хз</div>
+                            <ReactSelect
+                                options={users.map(user => ({ value: user.id, label: user.fullName }))}
+                                onChange={(e) => setCourseData({...courseData, mainTeacherId: e.value})}
+                                value={courseData.mainTeacherId ? 
+                                    { value: courseData.mainTeacherId, 
+                                      label: users.find(user => user.id === courseData.mainTeacherId)?.fullName || '' 
+                                    } : 
+                                    null}
+                                isSearchable={true}
+                            />
                         </FormGroup>
                     </Form>
                 </ModalBody>
                 <ModalFooter>
                     <Button variant="secondary" onClick={() => setShowModal(false)}>Отмена</Button>
-                    <Button variant="primary">Сохранить</Button>
+                    <Button variant="primary" type="submit" onClick={handleCreateCourse}>Сохранить</Button>
                 </ModalFooter>
             </Modal>
         </Container>

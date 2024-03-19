@@ -166,4 +166,39 @@ export const getGroupCourses= async (token,id)=>{
 }
 
 //курсы
-// 
+export const getUsers= async (token)=>{
+    try{
+        
+        const response=await axios.get(`${apiURL}/users`,{
+            headers:{
+                Authorization: `Bearer ${token}`
+            }
+        })
+        
+        return response.data
+    } catch(error){
+        console.error('An error occurred:', error);
+        return error.response.data;
+    }
+}
+export const createCourse= async (token,id, name,startYear,maximumStudentsCount,semester,requirements,annotations,mainTeacherId)=>{
+    try{
+        const response=await axios.post(`${apiURL}/groups/${id}`,{
+            name,
+            startYear,
+            maximumStudentsCount,
+            semester,
+            requirements,
+            annotations,
+            mainTeacherId
+        },{
+            headers:{
+                Authorization: `Bearer ${token}`
+            }
+        })
+        return response.data
+    } catch(error){
+        console.error('An error occurred:', error);
+        return error.response.data;
+    }
+}
