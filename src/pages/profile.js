@@ -26,7 +26,7 @@ export default function Profile(){
             if (token) {
                 const response = await getProfile(token);
                 if(response.fullName){
-
+                    
                     setName(response.fullName);
                     setDate(dateConvertor(response.birthDate));
                     setEmail(response.email);
@@ -109,7 +109,7 @@ export default function Profile(){
                         
                         <Row className="mb-2">
                             <Col sm={12} className="d-flex justify-content-end">
-                                <Button type="submit"  onClick={handleSubmit}>Изменить</Button>
+                                <Button type="onSubmit"  onClick={handleSubmit}>Изменить</Button>
                             </Col>
                         </Row>
                     </Form>

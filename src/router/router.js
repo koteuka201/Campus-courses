@@ -7,6 +7,8 @@ import WelcomePage from '../pages/welcomePage';
 import Profile from '../pages/profile';
 import GroupsPage from '../pages/groupsPage';
 import GroupCoursesPage from '../pages/groupCoursesPage';
+import { AuthLayout } from '../layouts/authLayout';
+import { UnAuthLayout } from '../layouts/unAuthLayout';
 
 export default function Router(){
     return(
@@ -33,24 +35,14 @@ export default function Router(){
                 
             }/>
             <Route path='/profile' element={
-                <>
-                    <Header/>
-                    <Profile/>
-                </>
-                
+                <UnAuthLayout children={<Profile/>}/>
             }/>
             <Route path='/groups' element={
-                <>
-                    <Header/>
-                    <GroupsPage/>
-                </>
+                <UnAuthLayout children={<GroupsPage/>}/>
                 
             }/>
             <Route path='/groups/:id' element={
-                <>
-                    <Header/>
-                    <GroupCoursesPage/>
-                </>
+                <UnAuthLayout children={<GroupCoursesPage/>}/>
                 
             }/>
         </Routes>

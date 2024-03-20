@@ -62,7 +62,6 @@ export default function GroupCoursesPage(){
             
             setUsers(response)
             
-            
         }
         
     }
@@ -214,16 +213,19 @@ export default function GroupCoursesPage(){
                         </FormGroup>
                         <FormGroup className="mb-3">
                             <FormLabel>Основной преподаватель курса</FormLabel>
-                            <ReactSelect
-                                options={users.map(user => ({ value: user.id, label: user.fullName }))}
-                                onChange={(e) => setCourseData({...courseData, mainTeacherId: e.value})}
-                                value={courseData.mainTeacherId ? 
-                                    { value: courseData.mainTeacherId, 
-                                      label: users.find(user => user.id === courseData.mainTeacherId)?.fullName || '' 
-                                    } : 
-                                    null}
-                                isSearchable={true}
-                            />
+                            {Array.isArray(users) && users.map(user => (
+                                <ReactSelect
+                                    key={user.id}
+                                    options={[{ value: user.id, label: user.fullName }]}
+                                    onChange={(e) => setCourseData({...courseData, mainTeacherId: e.value})}
+                                    value={courseData.mainTeacherId ? 
+                                        { value: courseData.mainTeacherId, 
+                                        label: users.find(user => user.id === courseData.mainTeacherId)?.fullName || '' 
+                                        } : 
+                                        null}
+                                    isSearchable={true}
+                                />
+                            ))}
                         </FormGroup>
                     </Form>
                 </ModalBody>

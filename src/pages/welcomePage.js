@@ -7,7 +7,8 @@ export default function WelcomePage(){
 
     
     return (
-        <Container className="mt-5">
+        <Container className="mt-5 d-flex justify-content-center fs-1  ">
+            
             Добро пожаловать в систему кампусных курсов
 
  
