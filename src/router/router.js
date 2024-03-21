@@ -21,17 +21,19 @@ export default function Router(){
                 </>
             }/>
             <Route path='/login' element={
-                <>
-                    <Header/>
-                    <Login/>
-                </>
+                <AuthLayout children={<Login/>}/>
+                // <>
+                //     <Header/>
+                //     <Login/>
+                // </>
                 
             }/>
             <Route path='/registration' element={
-                <>
-                    <Header/>
-                    <Registration/>
-                </>
+                <AuthLayout children={<Registration/>}/>
+                // <>
+                //     <Header/>
+                //     <Registration/>
+                // </>
                 
             }/>
             <Route path='/profile' element={
