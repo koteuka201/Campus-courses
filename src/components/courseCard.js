@@ -2,9 +2,8 @@ import React, { useState, useEffect } from "react";
 import {Row,Col, Container, Button, Alert, Card, CardBody,  FormControl,  Modal, ModalHeader,ModalFooter,ModalBody,ModalTitle, CardTitle } from 'react-bootstrap';
 import { getProfile, putProfile } from "../services/apiService";
 import { Link, Navigate, useNavigate } from "react-router-dom";
-import { dateConvertor } from "../helpers/dateConverter";
 
-export default function CourseCard({ id, name,startYear, isAdmin, maximumStudentsCount, remainingSlotsCount, status,semester}){
+export default function CourseCard({ id, name,startYear, roles, maximumStudentsCount, remainingSlotsCount, status,semester}){
 
     
 
@@ -13,7 +12,7 @@ export default function CourseCard({ id, name,startYear, isAdmin, maximumStudent
             <Card>
                 <CardBody className="">
                     <CardTitle className="row">
-                        <Col sm={10} className="fs-5 fw-bold ">{name}</Col>
+                        <Link to={`/courses/${id}`} className="col-sm-10 fs-5 fw-bold text-decoration-none text-dark">{name}</Link>
                         <Col sm={2} className={
                             `${status === 'Finished' ? 'text-danger' :
                             status === 'Created' ? 'text-secondary' :

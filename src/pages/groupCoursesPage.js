@@ -99,7 +99,7 @@ export default function GroupCoursesPage(){
                 courseData.annotations, 
                 courseData.mainTeacherId)
             if(response){
-                setShowModal(true)
+                setShowModal(false)
                 GetGroupCourses()
             }
         }
@@ -131,7 +131,7 @@ export default function GroupCoursesPage(){
                         id={course.id}
                         name={course.name}
                         startYear={course.startYear}
-                        isAdmin={roles.isAdmin}
+                        roles={roles}
                         maximumStudentsCount={course.maximumStudentsCount}
                         remainingSlotsCount={course.remainingSlotsCount}
                         status={course.status}
@@ -213,10 +213,9 @@ export default function GroupCoursesPage(){
                         </FormGroup>
                         <FormGroup className="mb-3">
                             <FormLabel>Основной преподаватель курса</FormLabel>
-                            {Array.isArray(users) && users.map(user => (
+                            {Array.isArray(users) ? (
                                 <ReactSelect
-                                    key={user.id}
-                                    options={[{ value: user.id, label: user.fullName }]}
+                                    options={users.map(user => ({ value: user.id, label: user.fullName }))}
                                     onChange={(e) => setCourseData({...courseData, mainTeacherId: e.value})}
                                     value={courseData.mainTeacherId ? 
                                         { value: courseData.mainTeacherId, 
@@ -225,7 +224,7 @@ export default function GroupCoursesPage(){
                                         null}
                                     isSearchable={true}
                                 />
-                            ))}
+                            ) : ( <></>)}
                         </FormGroup>
                     </Form>
                 </ModalBody>

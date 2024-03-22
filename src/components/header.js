@@ -96,7 +96,7 @@ export const Header=  ()=>{
                                 )}
                                 
                                 {roles.isTeacher ? (
-                                    <Link to='/' className="nav-link">
+                                    <Link to='/courses/teaching' className="nav-link">
                                         Преподаваемые курсы
                                     </Link>
                                 ) : (

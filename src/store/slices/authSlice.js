@@ -7,9 +7,13 @@ export const isAuth= createAsyncThunk('auth/isAuth', async (token)=>{
     const response= await getProfile(token)
     
     if(response!=''){
+        
+
         return true
     }
     else{
+        
+
         return false
     }
     

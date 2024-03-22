@@ -12,6 +12,7 @@ export const UnAuthLayout = ({ children }) => {
         
     },[dispatch])
     useEffect(() => {
+        
         if ((isAuthenticated===false) && !isLoading) {
             localStorage.clear();
             dispatch(clearAuth());
@@ -25,6 +26,8 @@ export const UnAuthLayout = ({ children }) => {
     
     if ((isAuthenticated===false)  && !isLoading) {
         
+        localStorage.clear();
+        dispatch(clearAuth());
         return <Navigate to={"/login"} />
     }
     

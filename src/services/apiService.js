@@ -202,3 +202,34 @@ export const createCourse= async (token,id, name,startYear,maximumStudentsCount,
         return error.response.data;
     }
 }
+//
+export const getTeachingCourses= async (token)=>{
+    try{
+        
+        const response=await axios.get(`${apiURL}/courses/teaching`,{
+            headers:{
+                Authorization: `Bearer ${token}`
+            }
+        })
+        
+        return response.data
+    } catch(error){
+        console.error('An error occurred:', error);
+        return error.response.data;
+    }
+}
+export const getCourseDetails= async (token,id)=>{
+    try{
+        
+        const response=await axios.get(`${apiURL}/courses/${id}/details`,{
+            headers:{
+                Authorization: `Bearer ${token}`
+            }
+        })
+        
+        return response.data
+    } catch(error){
+        console.error('An error occurred:', error);
+        return error.response.data;
+    }
+}

@@ -7,8 +7,11 @@ import WelcomePage from '../pages/welcomePage';
 import Profile from '../pages/profile';
 import GroupsPage from '../pages/groupsPage';
 import GroupCoursesPage from '../pages/groupCoursesPage';
+import TeachingCoursesPage from '../pages/teachingCoursesPage';
+import CourseDetailsPage from '../pages/courseDetailsPage';
 import { AuthLayout } from '../layouts/authLayout';
 import { UnAuthLayout } from '../layouts/unAuthLayout';
+
 
 export default function Router(){
     return(
@@ -22,18 +25,12 @@ export default function Router(){
             }/>
             <Route path='/login' element={
                 <AuthLayout children={<Login/>}/>
-                // <>
-                //     <Header/>
-                //     <Login/>
-                // </>
+                
                 
             }/>
             <Route path='/registration' element={
                 <AuthLayout children={<Registration/>}/>
-                // <>
-                //     <Header/>
-                //     <Registration/>
-                // </>
+                
                 
             }/>
             <Route path='/profile' element={
@@ -45,6 +42,14 @@ export default function Router(){
             }/>
             <Route path='/groups/:id' element={
                 <UnAuthLayout children={<GroupCoursesPage/>}/>
+                
+            }/>
+            <Route path='/courses/teaching' element={
+                <UnAuthLayout children={<TeachingCoursesPage/>}/>
+                
+            }/>
+            <Route path='/courses/:id' element={
+                <UnAuthLayout children={<CourseDetailsPage/>}/>
                 
             }/>
         </Routes>
