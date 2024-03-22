@@ -1,18 +1,63 @@
 import React, { useState, useEffect } from "react";
-import ReactQuill from 'react-quill';
-import ReactSelect from 'react-select';
-import 'react-quill/dist/quill.snow.css';
-import {Container, Button, Alert,ListGroup ,  CardTitle,Form, FormCheck, FormGroup, FormControl, Modal, ModalHeader,ModalFooter,ModalBody,ModalTitle, FormLabel, Col, Card, CardBody, Row } from 'react-bootstrap';
-import { getRoles, getCourseDetails} from "../services/apiService";
-import { useNavigate,useParams  } from "react-router-dom";
-import CourseCard from "../components/courseCard";
+import '../../styles/tab.css'
+import { FaCircle } from "react-icons/fa";
+import {Container, ButtonCardTitle, Tab, Tabs, Button  } from 'react-bootstrap';
+import { useNavigate } from "react-router-dom";
 
 export default function CourseTabbed({roles,requirements ,annotations,notifications}){
 
-    
     return(
-        <Container style={{marginTop: '110px'}}>
+        
+        <Tabs
+            defaultActiveKey='requirements'
+            fill
+            className="custom-tabs mt-2 "
+        >
             
-        </Container>
+            <Tab eventKey="requirements" className="border border-top-0" title={'Требования к курсу'} >
+                <div className="me-3 ms-3 mb-3">
+                    <div dangerouslySetInnerHTML={{ __html: requirements }} />
+                </div>
+                
+            </Tab>
+            
+            
+            <Tab eventKey="annotations" className="border border-top-0" title={'Аннотация'}>
+                <div className="me-3 ms-3 mb-3 ">
+                    <div dangerouslySetInnerHTML={{ __html: annotations }} />
+                </div>
+            </Tab>
+            <Tab eventKey="notifications" className="border border-top-0" 
+                title={
+                    !notifications ? (
+                        <div>Уведомления</div>
+                    ) : (
+                        
+                        <div>
+                            Уведомления
+                            <div className="badge rounded-pill bg-danger ms-1">{notifications.length>3 ? '3+' : notifications.length}</div>
+                        </div>
+                    )}
+                    >
+                <div className="me-3 ms-3 mb-3 ">
+                    {roles.isAdmin || roles.isTeacher ? (
+                        <Button className="mt-4 ms-2">Создать уведомление</Button>
+                    ):(<></>)}
+                    <div className="mt-3 ms-2">
+                        {notifications ? (
+                            notifications.map(note=>(
+                                <div className={`${note.isImportant ? 'bg-danger-subtle text-danger ' : ''} border-bottom`}>
+                                    <div className="mb-2 ms-2 fs-5">
+                                    {note.text}
+                                    </div>
+                                </div>
+                            ))
+                        ):(
+                            <span className="fs-3 text-danger">Уведомлений нет</span>
+                        )}
+                    </div>
+                </div>
+            </Tab>
+        </Tabs>
     )
 }

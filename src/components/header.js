@@ -83,12 +83,12 @@ export const Header=  ()=>{
                     {
                         token ? (
                             <>
-                                <Link to='/groups/' className="nav-link">
+                                <Link to='/groups/' className="nav-link header">
                                     Группы курсов
 
                                 </Link>
                                 {roles.isStudent ? (
-                                    <Link to='/' className="nav-link">
+                                    <Link to='/' className="nav-link header">
                                         Мои курсы
                                     </Link>
                                 ) : (
@@ -96,7 +96,7 @@ export const Header=  ()=>{
                                 )}
                                 
                                 {roles.isTeacher ? (
-                                    <Link to='/courses/teaching' className="nav-link">
+                                    <Link to='/courses/teaching' className="nav-link header">
                                         Преподаваемые курсы
                                     </Link>
                                 ) : (
@@ -104,17 +104,17 @@ export const Header=  ()=>{
                                 )}
                                 
 
-                                <Link to='/profile' className="nav-link ms-lg-auto">{name}</Link>
-                                <Link className="nav-link" onClick={handleLogout}>Выход</Link>
+                                <Link to='/profile' className="nav-link profile ms-lg-auto">{name}</Link>
+                                <Link className="nav-link header" onClick={handleLogout}>Выход</Link>
                                 
                             </>
                             
                         ) : 
                             < >
-                                <Link to="/login" className="nav-link ms-lg-auto mt-lg-0">
+                                <Link to="/login" className="nav-link profile ms-3 ms-lg-auto mt-lg-0">
                                     Вход
                                 </Link>
-                                <Link to="/registration" className="nav-link">
+                                <Link to="/registration" className="nav-link profile ms-3">
                                     Регистрация
                                 </Link>
                             </>

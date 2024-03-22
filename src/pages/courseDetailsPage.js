@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import ReactQuill from 'react-quill';
 import ReactSelect from 'react-select';
 import 'react-quill/dist/quill.snow.css';
-import {Container, Button, Alert,ListGroup ,  CardTitle,Form, FormCheck, FormGroup, FormControl, Modal, ModalHeader,ModalFooter,ModalBody,ModalTitle, FormLabel, Col, Card, CardBody, Row } from 'react-bootstrap';
+import {Container, Button, Alert,ListGroup , Tab, Tabs, CardTitle,Form, FormCheck, FormGroup, FormControl, Modal, ModalHeader,ModalFooter,ModalBody,ModalTitle, FormLabel, Col, Card, CardBody, Row } from 'react-bootstrap';
 import { getRoles, getCourseDetails} from "../services/apiService";
 import { useNavigate,useParams  } from "react-router-dom";
-import CourseCard from "../components/courseCard";
+import CourseTabbed from "../components/courseDetails/courseTabbed";
 
 export default function CourseDetailsPage(){
 
@@ -38,16 +38,16 @@ export default function CourseDetailsPage(){
     return(
         <Container style={{marginTop: '110px'}}>
             <CardTitle className="fs-1 mb-3">{details.name}</CardTitle>
-            <CardTitle className="row">
+            <Row>
                 <Col sm={4} className="fs-4">Основные данные курса</Col>
                 {roles.isAdmin || roles.isTeacher ? (
                     <Col sm={8} className="text-end">
-                        <Button variant="warning" className="fs-6">Редактировать</Button>
+                        <Button variant="warning">Редактировать</Button>
                     </Col>
                 ) :(
                     <></>
                 )}
-            </CardTitle>
+            </Row>
             <ListGroup className="mt-2">
                 <ListGroup.Item>
                     <Row>
@@ -118,7 +118,17 @@ export default function CourseDetailsPage(){
                     {details.studentsInQueueCount}
                 </ListGroup.Item>
             </ListGroup>
-
+            
+            <CourseTabbed 
+                key={id}
+                roles={roles}
+                requirements={details.requirements}
+                annotations={details.annotations}
+                notifications={details.notifications}
+            />
+            
+            
+                           
         </Container>
     )
 }
