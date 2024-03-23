@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from "react";
 import '../../styles/tab.css'
-import { FaCircle } from "react-icons/fa";
 import {Container, ButtonCardTitle, Tab, Tabs, Button  } from 'react-bootstrap';
 import { useNavigate } from "react-router-dom";
 
-export default function CourseTabbed({roles,requirements ,annotations,notifications}){
+export default function CourseTabbed({id,roles,requirements ,annotations,notifications}){
 
     return(
         
         <Tabs
             defaultActiveKey='requirements'
             fill
-            className="custom-tabs mt-2 "
+            className="custom-tabs mt-4 "
         >
             
             <Tab eventKey="requirements" className="border border-top-0" title={'Требования к курсу'} >
@@ -44,16 +43,16 @@ export default function CourseTabbed({roles,requirements ,annotations,notificati
                         <Button className="mt-4 ms-2">Создать уведомление</Button>
                     ):(<></>)}
                     <div className="mt-3 ms-2">
-                        {notifications ? (
+                        {notifications && notifications.length ? (
                             notifications.map(note=>(
-                                <div className={`${note.isImportant ? 'bg-danger-subtle text-danger ' : ''} border-bottom`}>
+                                <div key={note.text} className={`${note.isImportant ? 'bg-danger-subtle text-danger ' : ''} border-bottom`}>
                                     <div className="mb-2 ms-2 fs-5">
                                     {note.text}
                                     </div>
                                 </div>
                             ))
                         ):(
-                            <span className="fs-3 text-danger">Уведомлений нет</span>
+                            <span className="fs-3 fw-bold  text-danger">Уведомлений нет</span>
                         )}
                     </div>
                 </div>

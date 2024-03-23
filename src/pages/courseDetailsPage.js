@@ -6,6 +6,7 @@ import {Container, Button, Alert,ListGroup , Tab, Tabs, CardTitle,Form, FormChec
 import { getRoles, getCourseDetails} from "../services/apiService";
 import { useNavigate,useParams  } from "react-router-dom";
 import CourseTabbed from "../components/courseDetails/courseTabbed";
+import CourseCommunityTabbed from "../components/courseDetails/courseCommunity/courseCommunityTabbed";
 
 export default function CourseDetailsPage(){
 
@@ -120,13 +121,19 @@ export default function CourseDetailsPage(){
             </ListGroup>
             
             <CourseTabbed 
-                key={id}
+                id={id}
                 roles={roles}
                 requirements={details.requirements}
                 annotations={details.annotations}
                 notifications={details.notifications}
             />
-            
+            <CourseCommunityTabbed
+                
+                id={id}
+                roles={roles}
+                teachers={details.teachers}
+                students={details.students}
+            />
             
                            
         </Container>
