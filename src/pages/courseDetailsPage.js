@@ -7,11 +7,13 @@ import { getRoles, getCourseDetails} from "../services/apiService";
 import { useNavigate,useParams  } from "react-router-dom";
 import CourseTabbed from "../components/courseDetails/courseTabbed";
 import CourseCommunityTabbed from "../components/courseDetails/courseCommunity/courseCommunityTabbed";
+import CreateEditCourseModal from "../components/generalModals/createEditCourseModal";
 
 export default function CourseDetailsPage(){
 
-    const { id } = useParams();
-    
+    const { id } = useParams()
+
+    const [showModal, setShowModal] = useState(false)
     const [details,setDetails]=useState([])
     const [roles,setRoles]=useState({})
     
@@ -41,9 +43,9 @@ export default function CourseDetailsPage(){
             <CardTitle className="fs-1 mb-3">{details.name}</CardTitle>
             <Row>
                 <Col sm={4} className="fs-4">Основные данные курса</Col>
-                {roles.isAdmin || roles.isTeacher ? (
+                {roles.isAdmin ? (
                     <Col sm={8} className="text-end">
-                        <Button variant="warning">Редактировать</Button>
+                        <Button variant="warning" onClick={() => setShowModal(true)}>Редактировать</Button>
                     </Col>
                 ) :(
                     <></>
@@ -128,13 +130,20 @@ export default function CourseDetailsPage(){
                 notifications={details.notifications}
             />
             <CourseCommunityTabbed
-                
                 id={id}
                 roles={roles}
                 teachers={details.teachers}
                 students={details.students}
             />
-            
+            <CreateEditCourseModal
+                type={'edit'}
+                roles={roles}
+                show={showModal}
+                handleClose={() => setShowModal(false)}
+                token={token}
+                id={id}
+                updateCourses={GetCourseDetails}
+            />
                            
         </Container>
     )

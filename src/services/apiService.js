@@ -233,3 +233,26 @@ export const getCourseDetails= async (token,id)=>{
         return error.response.data;
     }
 }
+export const editCourseDetails= async (token,id, name,startYear,maximumStudentsCount,semester,requirements,annotations,mainTeacherId)=>{
+    try{
+        
+        const response=await axios.put(`${apiURL}/courses/${id}`,{
+            name,
+            startYear,
+            maximumStudentsCount,
+            semester,
+            requirements,
+            annotations,
+            mainTeacherId
+        },{
+            headers:{
+                Authorization: `Bearer ${token}`
+            }
+        })
+        
+        return response.data
+    } catch(error){
+        console.error('An error occurred:', error);
+        return error.response.data;
+    }
+}
