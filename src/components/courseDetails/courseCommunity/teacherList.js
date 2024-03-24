@@ -9,8 +9,8 @@ export default function TeachersList({name, email, isMain}){
             <div className=" fw-bold">
                 {name}
                 {isMain ? (
-                    <span className="rounded bg-success ms-1 text-white">
-                        <span className="me-2 ms-2">Основной</span>
+                    <span className="badge bg-success ms-1 text-white">
+                        Основной
                     </span>
                 ) : (<></>)}
             </div>

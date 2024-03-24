@@ -3,7 +3,7 @@ import ReactQuill from 'react-quill';
 import ReactSelect from 'react-select';
 import 'react-quill/dist/quill.snow.css';
 import {Container, Button, Alert,ListGroup , Tab, Tabs, CardTitle,Form, FormCheck, FormGroup, FormControl, Modal, ModalHeader,ModalFooter,ModalBody,ModalTitle, FormLabel, Col, Card, CardBody, Row } from 'react-bootstrap';
-import { getRoles, getCourseDetails} from "../services/apiService";
+import { getRoles, getCourseDetails, getProfile, deleteCourse} from "../services/apiService";
 import { useNavigate,useParams  } from "react-router-dom";
 import CourseTabbed from "../components/courseDetails/courseTabbed";
 import CourseCommunityTabbed from "../components/courseDetails/courseCommunity/courseCommunityTabbed";
@@ -11,23 +11,38 @@ import CreateEditCourseModal from "../components/generalModals/createEditCourseM
 
 export default function CourseDetailsPage(){
 
+
     const { id } = useParams()
 
+    const navigate=useNavigate()
+    const [isCourseTeacher, setIsCourseTeacher]=useState(false)
+    const [isRolesGot, setIsRolesGot]=useState(false)
+
+    // const [profile,setProfile]=useState([])
     const [showModal, setShowModal] = useState(false)
     const [details,setDetails]=useState([])
     const [roles,setRoles]=useState({})
     
     useEffect(()=>{
-        getRole()
         GetCourseDetails()
+        getRole()
+        
     },[])
 
+    useEffect(()=>{
+        if(details.name){
+            GetProfile()
+        }
+        
+    },[details])
     const token=localStorage.getItem('token')
 
     async function getRole(){
         const response = await getRoles(token)
         if(response){
+            
             setRoles(response) 
+            setIsRolesGot(true)
         }
     }
     async function GetCourseDetails(){
@@ -38,6 +53,22 @@ export default function CourseDetailsPage(){
             setDetails(response)
         }
     }
+    async function GetProfile(){
+        const response = await getProfile(token)
+        if(response){
+            
+            if(details.teachers.find(teacher => teacher.name===response.fullName)){
+                
+                setIsCourseTeacher(true)
+            }
+        }
+    }
+    async function handleDeleteCourse(){
+        const response = await deleteCourse(token,id)
+        if(response){
+            navigate(-1)
+        }
+    }
     return(
         <Container style={{marginTop: '110px'}}>
             <CardTitle className="fs-1 mb-3">{details.name}</CardTitle>
@@ -46,9 +77,17 @@ export default function CourseDetailsPage(){
                 {roles.isAdmin ? (
                     <Col sm={8} className="text-end">
                         <Button variant="warning" onClick={() => setShowModal(true)}>Редактировать</Button>
+                        <Button variant="danger" className="ms-1" onClick={handleDeleteCourse}>Удалить</Button>
                     </Col>
                 ) :(
-                    <></>
+                    isCourseTeacher ? (
+                        <Col sm={8} className="text-end">
+                            <Button variant="warning" onClick={() => setShowModal(true)}>Редактировать</Button>
+                        </Col>
+                        ) : (
+                        <></>
+                    )
+                    
                 )}
             </Row>
             <ListGroup className="mt-2">
@@ -73,11 +112,16 @@ export default function CourseDetailsPage(){
                             </div>
                         </Col>
                         <Col sm={6} className="text-end">
-                            {roles.isAdmin || roles.isTeacher ? (
-                                <Button variant="warning">Изменить</Button>
-                            ):(
-                                <Button variant="success">Записаться на курс</Button>
+                            {isRolesGot ? (
+                                roles.isAdmin || roles.isTeacher ? (
+                                    <Button variant="warning">Изменить</Button>
+                                ):(
+                                    <Button variant="success">Записаться на курс</Button>
+                                )
+                            ) : (
+                                <></>
                             )}
+                            
                         </Col>
                     </Row>
                 </ListGroup.Item>
@@ -122,7 +166,7 @@ export default function CourseDetailsPage(){
                 </ListGroup.Item>
             </ListGroup>
             
-            <CourseTabbed 
+            <CourseTabbed
                 id={id}
                 roles={roles}
                 requirements={details.requirements}
@@ -137,6 +181,7 @@ export default function CourseDetailsPage(){
             />
             <CreateEditCourseModal
                 type={'edit'}
+                isTeacher={isCourseTeacher}
                 roles={roles}
                 show={showModal}
                 handleClose={() => setShowModal(false)}

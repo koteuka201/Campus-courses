@@ -16,7 +16,7 @@ export default function CourseCommunityTabbed({id,roles, teachers,students}){
             <Tab eventKey="teachers" className="border border-top-0" title='Преподаватели'>
                 {/* добавить мейн тич */}
                 {roles.isAdmin ? (
-                    <Button>Добавить преподавателя</Button>
+                    <Button className="ms-3">Добавить преподавателя</Button>
                 ) : (
                     <></>
                 )}

@@ -44,8 +44,8 @@ export default function CourseTabbed({id,roles,requirements ,annotations,notific
                     ):(<></>)}
                     <div className="mt-3 ms-2">
                         {notifications && notifications.length ? (
-                            notifications.map(note=>(
-                                <div key={note.text} className={`${note.isImportant ? 'bg-danger-subtle text-danger ' : ''} border-bottom`}>
+                            notifications.map((note, index)=>(
+                                <div key={index} className={`${note.isImportant ? 'bg-danger-subtle text-danger ' : ''} border-bottom`}>
                                     <div className="mb-2 ms-2 fs-5">
                                     {note.text}
                                     </div>

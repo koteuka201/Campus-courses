@@ -27,15 +27,15 @@ export default function StudentsList({id, name, email, status,midtermResult, fin
                     {status==='Accepted' ? (
                         <div>
                             Промежуточная аттестация - {midtermResult==='Passed' ? (
-                                <span className="rounded bg-success ms-1 text-white">
+                                <span className="badge bg-success ms-1 text-white">
                                     Успешно пройдена
                                 </span>
                             ) : (midtermResult==='Failed ' ? (
-                                <span className="rounded bg-danger ms-1 text-white">
+                                <span className="badge bg-danger ms-1 text-white">
                                     Зафейлена
                                 </span>
                             ) : (
-                                <span className="rounded bg-secondary ms-1 text-white">
+                                <span className="badge bg-secondary ms-1 text-white">
                                     Нет отметки
                                 </span> 
                             ))}
@@ -50,15 +50,15 @@ export default function StudentsList({id, name, email, status,midtermResult, fin
                     {status==='Accepted' ? (
                         <div>
                             Финальная аттестация - {midtermResult==='Passed' ? (
-                                <span className="rounded bg-success ms-1 text-white">
+                                <span className="badge bg-success ms-1 text-white">
                                     Успешно пройдена
                                 </span>
                             ) : (midtermResult==='Failed ' ? (
-                                <span className="rounded bg-danger ms-1 text-white">
+                                <span className="badge bg-danger ms-1 text-white">
                                     Зафейлена
                                 </span>
                             ) : (
-                                <span className="rounded bg-secondary ms-1 text-white">
+                                <span className="badge bg-secondary ms-1 text-white">
                                     Нет отметки
                                 </span> 
                             ))}

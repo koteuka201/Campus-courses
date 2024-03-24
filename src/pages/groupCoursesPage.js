@@ -8,6 +8,8 @@ export default function GroupCoursesPage() {
     const { id } = useParams();
 
     const [users, setUsers] = useState([])
+    
+    const [isCourseTeacher, setIsCourseTeacher]=useState(false)
     const [courses, setCourses] = useState([])
     const [isRequested, setIsRequested] = useState(false)
     const [groupName, setGroupName] = useState('')
