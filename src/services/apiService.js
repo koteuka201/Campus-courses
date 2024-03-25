@@ -289,3 +289,35 @@ export const deleteCourse= async (token,id)=>{
         return error.response.data;
     }
 }
+export const editStatusCourse= async (token,id, status)=>{
+    try{
+        const response=await axios.post(`${apiURL}/courses/${id}/status`,{
+            status
+        },{
+            headers:{
+                Authorization: `Bearer ${token}`
+            }
+        })
+        return response.data
+    } catch(error){
+        console.error('An error occurred:', error);
+        return error.response.data;
+    }
+}
+export const createNotification= async (token,id, text,isImportant)=>{
+    try{
+            
+        const response=await axios.post(`${apiURL}/courses/${id}/notifications`,{
+            text,
+            isImportant
+        },{
+            headers:{
+                Authorization: `Bearer ${token}`
+            }
+        })
+        return response.data
+    } catch(error){
+        console.error('An error occurred:', error);
+        return error.response.data;
+    }
+}

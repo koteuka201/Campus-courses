@@ -1,9 +1,23 @@
 import React, { useState, useEffect } from "react";
-import { Button, Modal, ModalHeader, ModalFooter, ModalBody, ModalTitle, Form, FormGroup, FormLabel, FormControl, FormCheck } from 'react-bootstrap';
-import {  } from "../../services/apiService";
-export default function CreateEditCourseModal ({token, id, status, show, handleClose,  updateCourses }){
+import { Button, Modal, ModalHeader, ModalFooter, ModalBody, ModalTitle, Form, FormGroup, FormLabel, FormCheck } from 'react-bootstrap';
+import { editStatusCourse } from "../../../services/apiService";
+export default function StatusCourseModal ({token, id, status, show, handleClose,  updateStatus }){
     
-    const [selectedStatus, setSelectedStatus]=useState(status)
+    const [selectedStatus, setSelectedStatus]=useState('')
+
+    useEffect(() => {
+        setSelectedStatus(status);
+    }, [status]);
+
+    async function handleSetStatus(){
+        
+        const response=await editStatusCourse(token, id, selectedStatus)
+        debugger
+        if(response.id){
+            updateStatus()
+            handleClose()
+        }
+    }
 
     return (
 
@@ -16,20 +30,21 @@ export default function CreateEditCourseModal ({token, id, status, show, handleC
             <ModalBody>
                 <Form>
                     <FormGroup className="mb-3">
-                        <FormLabel>Семестр</FormLabel>
-                        <div>
+                        <div>                            
                             <FormCheck
                                 inline
                                 type="radio"
-                                label="Создан"
+                                label="Открыт для записи"
                                 name="filter"
-                                value="Created"
-                                checked={selectedStatus === "Created"}
+                                value="OpenForAssigning"
+                                checked={selectedStatus === "OpenForAssigning"}
                                 onChange={(e)=> 
                                     setSelectedStatus(e.target.value)
-                                    
                                 }
+                                disabled={status==='Finished' || status==='Started'}
+
                             />
+                            
                             <FormCheck
                                 inline
                                 type="radio"
@@ -40,14 +55,15 @@ export default function CreateEditCourseModal ({token, id, status, show, handleC
                                 onChange={(e)=> 
                                     setSelectedStatus(e.target.value)   
                                 }
+                                disabled={status==='Finished'}
                             />
                             <FormCheck
                                 inline
                                 type="radio"
-                                label="В процессе обучения"
+                                label="Завершен"
                                 name="filter"
-                                value="Started"
-                                checked={selectedStatus === "Started"}
+                                value="Finished"
+                                checked={selectedStatus === "Finished"}
                                 onChange={(e)=> 
                                     setSelectedStatus(e.target.value)   
                                 }
@@ -56,6 +72,12 @@ export default function CreateEditCourseModal ({token, id, status, show, handleC
                     </FormGroup>
                 </Form>
             </ModalBody>
+            <ModalFooter>
+                    <Button variant="secondary" onClick={handleClose}>Отмена</Button>
+
+                    <Button variant="primary" type="OnSubmit" onClick={handleSetStatus}>Сохранить</Button>
+                    
+                </ModalFooter>
         </Modal>
     );
 }

@@ -82,6 +82,7 @@ export default function GroupCoursesPage() {
 
             <CreateEditCourseModal
                 type={'create'}
+                isTeacher={isCourseTeacher}
                 roles={roles}
                 show={showModal}
                 handleClose={() => setShowModal(false)}

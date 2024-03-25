@@ -8,6 +8,7 @@ import { useNavigate,useParams  } from "react-router-dom";
 import CourseTabbed from "../components/courseDetails/courseTabbed";
 import CourseCommunityTabbed from "../components/courseDetails/courseCommunity/courseCommunityTabbed";
 import CreateEditCourseModal from "../components/generalModals/createEditCourseModal";
+import StatusCourseModal from "../components/courseDetails/courseDetailsModals/statusCourseModal";
 
 export default function CourseDetailsPage(){
 
@@ -114,8 +115,8 @@ export default function CourseDetailsPage(){
                         </Col>
                         <Col sm={6} className="text-end">
                             {isRolesGot ? (
-                                roles.isAdmin || roles.isTeacher ? (
-                                    <Button variant="warning" onClick={()=> showStatusModal(true)}>Изменить</Button>
+                                roles.isAdmin || isCourseTeacher ? (
+                                    <Button variant="warning" onClick={()=> setShowStatusModal(true)}>Изменить</Button>
                                 ):(
                                     <Button variant="success">Записаться на курс</Button>
                                 )
@@ -173,6 +174,8 @@ export default function CourseDetailsPage(){
                 requirements={details.requirements}
                 annotations={details.annotations}
                 notifications={details.notifications}
+                isCourseTeacher={isCourseTeacher}
+                updateNotifications={GetCourseDetails}
             />
             <CourseCommunityTabbed
                 id={id}
@@ -189,6 +192,14 @@ export default function CourseDetailsPage(){
                 token={token}
                 id={id}
                 updateCourses={GetCourseDetails}
+            />
+            <StatusCourseModal
+                token={token}
+                id={id}
+                status={details.status}
+                show={showStatusModal}
+                handleClose={()=> setShowStatusModal(false)}
+                updateStatus={GetCourseDetails}
             />
                            
         </Container>

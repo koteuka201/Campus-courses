@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
 import '../../styles/tab.css'
 import {Container, ButtonCardTitle, Tab, Tabs, Button  } from 'react-bootstrap';
-import { useNavigate } from "react-router-dom";
+import CreateNotificationModal from "./courseDetailsModals/createNotificationModal";
 
-export default function CourseTabbed({id,roles,requirements ,annotations,notifications}){
+export default function CourseTabbed({id,roles,requirements ,annotations,notifications,isCourseTeacher,updateNotifications}){
 
+    const [showNotificationModal, setShowNotificationModal]=useState(false)
+    
     return(
-        
-        <Tabs
+        <>
+            <Tabs
             defaultActiveKey='requirements'
             fill
             className="custom-tabs mt-4 "
@@ -39,8 +41,8 @@ export default function CourseTabbed({id,roles,requirements ,annotations,notific
                     )}
                     >
                 <div className="me-3 ms-3 mb-3 ">
-                    {roles.isAdmin || roles.isTeacher ? (
-                        <Button className="mt-4 ms-2">Создать уведомление</Button>
+                    {roles.isAdmin || isCourseTeacher ? (
+                        <Button className="mt-4 ms-2" onClick={()=> setShowNotificationModal(true)}>Создать уведомление</Button>
                     ):(<></>)}
                     <div className="mt-3 ms-2">
                         {notifications && notifications.length ? (
@@ -57,6 +59,15 @@ export default function CourseTabbed({id,roles,requirements ,annotations,notific
                     </div>
                 </div>
             </Tab>
+            
         </Tabs>
+        <CreateNotificationModal
+                id={id}
+                show={showNotificationModal}
+                handleClose={()=> setShowNotificationModal(false)}
+                updateNotification={updateNotifications}
+            />
+        </>
+        
     )
 }

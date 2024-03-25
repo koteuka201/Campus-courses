@@ -84,7 +84,9 @@ export default function CreateEditCourseModal ({type,isTeacher,roles, show, hand
                 courseData.requirements,
                 courseData.annotations,
                 courseData.mainTeacherId)
-            if (response) {
+                debugger
+            if (Array.isArray(response)) {
+                debugger
                 handleClose()
                 updateCourses()
             }
