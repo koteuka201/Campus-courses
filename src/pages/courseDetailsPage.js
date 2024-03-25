@@ -11,15 +11,16 @@ import CreateEditCourseModal from "../components/generalModals/createEditCourseM
 
 export default function CourseDetailsPage(){
 
-
     const { id } = useParams()
 
     const navigate=useNavigate()
+
     const [isCourseTeacher, setIsCourseTeacher]=useState(false)
     const [isRolesGot, setIsRolesGot]=useState(false)
 
-    // const [profile,setProfile]=useState([])
+    const [showStatusModal, setShowStatusModal]=useState(false)
     const [showModal, setShowModal] = useState(false)
+
     const [details,setDetails]=useState([])
     const [roles,setRoles]=useState({})
     
@@ -114,7 +115,7 @@ export default function CourseDetailsPage(){
                         <Col sm={6} className="text-end">
                             {isRolesGot ? (
                                 roles.isAdmin || roles.isTeacher ? (
-                                    <Button variant="warning">Изменить</Button>
+                                    <Button variant="warning" onClick={()=> showStatusModal(true)}>Изменить</Button>
                                 ):(
                                     <Button variant="success">Записаться на курс</Button>
                                 )
