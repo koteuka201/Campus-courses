@@ -17,6 +17,7 @@ export default function CourseDetailsPage(){
     const navigate=useNavigate()
 
     const [isCourseTeacher, setIsCourseTeacher]=useState(false)
+    const [isMainTeacher, setIsMainTeacher]=useState(false)
     const [isRolesGot, setIsRolesGot]=useState(false)
 
     const [showStatusModal, setShowStatusModal]=useState(false)
@@ -61,10 +62,14 @@ export default function CourseDetailsPage(){
     async function GetProfile(){
         const response = await getProfile(token)
         if(response){
-            
-            if(details.teachers.find(teacher => teacher.name===response.fullName)){
+            const teacher=details.teachers.find(teacher => teacher.name===response.fullName)
+            if(teacher){
                 
                 setIsCourseTeacher(true)
+                if(teacher.isMain){
+                    
+                    setIsMainTeacher(true)
+                }
             }
         }
     }
@@ -195,6 +200,7 @@ export default function CourseDetailsPage(){
                 teachers={details.teachers}
                 students={details.students}
                 users={users}
+                isMainTeacher={isMainTeacher}
                 updateTeachers={GetCourseDetails}
             />
             <CreateEditCourseModal

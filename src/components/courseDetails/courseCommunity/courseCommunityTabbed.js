@@ -5,10 +5,10 @@ import { useNavigate } from "react-router-dom";
 import TeachersList from "./teacherList";
 import StudentsList from "./studentsList";
 import AddTeacherCourseModal from "../courseDetailsModals/addTeacherCourseModal";
-export default function CourseCommunityTabbed({id,roles, teachers,students,users, updateTeachers}){
+export default function CourseCommunityTabbed({id,roles, teachers,students,users,isMainTeacher, updateTeachers}){
     
     const [shwoModal,setShowModal]=useState(false)
-
+    
     return(
         <>
             <Tabs 
@@ -17,8 +17,7 @@ export default function CourseCommunityTabbed({id,roles, teachers,students,users
             className="custom-tabs mt-4"
             >
                 <Tab eventKey="teachers" className="border border-top-0" title='Преподаватели'>
-                    {/* добавить мейн тич */}
-                    {roles.isAdmin ? (
+                    {roles.isAdmin || isMainTeacher ? (
                         <Button className="ms-3" onClick={()=>setShowModal(true)}>Добавить преподавателя</Button>
                     ) : (
                         <></>
@@ -47,11 +46,13 @@ export default function CourseCommunityTabbed({id,roles, teachers,students,users
                                 <StudentsList
                                     key={student.email}
                                     id={student.id}
+                                    courseId={id}
                                     name={student.name}
                                     email={student.email}
                                     status={student.status}
                                     midtermResult={student.midtermResult}
                                     finalResult={student.finalResult}
+                                    updatePage={updateTeachers}
                                 />
                             ))}
                         </div>

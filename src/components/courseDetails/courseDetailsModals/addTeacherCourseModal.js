@@ -8,6 +8,10 @@ export default function AddTeacherCourseModal ({id, show, handleClose,users,upda
 
     const handleAddTeacher=async ()=>{
         const response=await addTeacherCourse(localStorage.getItem('token'),id,teacherId)
+        if(response.id){
+            updateTeachers()
+            handleClose()
+        }
     }
 
     return (

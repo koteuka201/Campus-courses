@@ -1,9 +1,45 @@
 import React, { useState, useEffect } from "react";
 
 import {Container, ButtonCardTitle, Row,col, Button, Col  } from 'react-bootstrap';
-import { useNavigate } from "react-router-dom";
+import SetMarkModal from "../courseDetailsModals/setMarkModal";
 
-export default function StudentsList({id, name, email, status,midtermResult, finalResult}){
+export default function StudentsList({id,courseId, name, email, status,midtermResult, finalResult,updatePage}){
+
+    const [showModal, setShowModal]=useState(false)
+    const [modalProps, setModalProps] = useState({})
+
+
+    async function handleFinalAttestation(){
+        setShowModal(true)
+        const propsForModal = {
+            studentId: id,
+            courseId: courseId,
+            nameOfStudent: name,
+            mark: finalResult,
+            typeMark: 'Final',
+            updateMarks: updatePage
+            
+        }
+        
+        setModalProps(propsForModal)
+        
+    }
+
+    async function handleMidtermAttestation(){
+        setShowModal(true)
+        const propsForModal = {
+            studentId: id,
+            courseId: courseId,
+            nameOfStudent: name,
+            mark: midtermResult,
+            typeMark: 'Midterm',
+            updateMarks: updatePage
+            
+        }
+        
+        setModalProps(propsForModal)
+        
+    }
 
     return(
         <Container className="border-bottom">
@@ -26,11 +62,12 @@ export default function StudentsList({id, name, email, status,midtermResult, fin
                 <Col sm={4}>
                     {status==='Accepted' ? (
                         <div>
-                            Промежуточная аттестация - {midtermResult==='Passed' ? (
+                            <span style={{cursor: "pointer"}} onClick={handleMidtermAttestation}>Промежуточная аттестация -</span>
+                             {midtermResult==='Passed' ? (
                                 <span className="badge bg-success ms-1 text-white">
                                     Успешно пройдена
                                 </span>
-                            ) : (midtermResult==='Failed ' ? (
+                            ) : (midtermResult==='Failed' ? (
                                 <span className="badge bg-danger ms-1 text-white">
                                     Зафейлена
                                 </span>
@@ -49,11 +86,12 @@ export default function StudentsList({id, name, email, status,midtermResult, fin
                 <Col sm={4}>
                     {status==='Accepted' ? (
                         <div>
-                            Финальная аттестация - {midtermResult==='Passed' ? (
+                            <span style={{cursor: "pointer"}} onClick={handleFinalAttestation}>Финальная аттестация -</span>
+                             {finalResult==='Passed' ? (
                                 <span className="badge bg-success ms-1 text-white">
                                     Успешно пройдена
                                 </span>
-                            ) : (midtermResult==='Failed ' ? (
+                            ) : (finalResult==='Failed' ? (
                                 <span className="badge bg-danger ms-1 text-white">
                                     Зафейлена
                                 </span>
@@ -75,7 +113,11 @@ export default function StudentsList({id, name, email, status,midtermResult, fin
                     ) : (<></>))}
                 </Col>
             </Row>
-            
+            <SetMarkModal
+                {...modalProps}
+                show={showModal}
+                handleClose={()=>setShowModal(false)}
+            />
         </Container>
     )
 }

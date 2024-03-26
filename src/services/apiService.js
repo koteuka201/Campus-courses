@@ -337,3 +337,20 @@ export const addTeacherCourse= async (token,id, userId)=>{
         return error.response.data;
     }
 }
+export const setMarkStudent= async (token,id, studentId,mark, markType)=>{
+    try{
+            
+        const response=await axios.post(`${apiURL}/courses/${id}/marks/${studentId}`,{
+            mark,
+            markType
+        },{
+            headers:{
+                Authorization: `Bearer ${token}`
+            }
+        })
+        return response.data
+    } catch(error){
+        console.error('An error occurred:', error);
+        return error.response.data;
+    }
+}
