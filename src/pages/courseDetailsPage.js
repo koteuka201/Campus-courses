@@ -3,7 +3,7 @@ import ReactQuill from 'react-quill';
 import ReactSelect from 'react-select';
 import 'react-quill/dist/quill.snow.css';
 import {Container, Button, Alert,ListGroup , Tab, Tabs, CardTitle,Form, FormCheck, FormGroup, FormControl, Modal, ModalHeader,ModalFooter,ModalBody,ModalTitle, FormLabel, Col, Card, CardBody, Row } from 'react-bootstrap';
-import { getRoles, getCourseDetails, getProfile,getUsers, deleteCourse} from "../services/apiService";
+import { getRoles, getCourseDetails, getProfile,getUsers, deleteCourse, signUpForCourse} from "../services/apiService";
 import { useNavigate,useParams  } from "react-router-dom";
 import CourseTabbed from "../components/courseDetails/courseTabbed";
 import CourseCommunityTabbed from "../components/courseDetails/courseCommunity/courseCommunityTabbed";
@@ -16,7 +16,10 @@ export default function CourseDetailsPage(){
 
     const navigate=useNavigate()
 
+    const [currentUserName,setCurrentUserName]=useState('')
     const [isCourseTeacher, setIsCourseTeacher]=useState(false)
+    const [isCourseStudent, setIsCourseStudent]=useState(false)
+
     const [isMainTeacher, setIsMainTeacher]=useState(false)
     const [isRolesGot, setIsRolesGot]=useState(false)
 
@@ -62,7 +65,11 @@ export default function CourseDetailsPage(){
     async function GetProfile(){
         const response = await getProfile(token)
         if(response){
+            setCurrentUserName(response.fullName)
+
             const teacher=details.teachers.find(teacher => teacher.name===response.fullName)
+            const student=details.students.find(teacher => teacher.name===response.fullName)
+            
             if(teacher){
                 
                 setIsCourseTeacher(true)
@@ -70,6 +77,9 @@ export default function CourseDetailsPage(){
                     
                     setIsMainTeacher(true)
                 }
+            }
+            if(student){
+                setIsCourseStudent(true)
             }
         }
     }
@@ -81,13 +91,20 @@ export default function CourseDetailsPage(){
         }
     }
 
-
     async function handleDeleteCourse(){
         const response = await deleteCourse(token,id)
         if(response){
             navigate(-1)
         }
     }
+
+    async function handleSignUp(){
+        const response=await signUpForCourse(token,id)
+        if(response){
+            GetCourseDetails()
+        }
+    }
+
     return(
         <Container style={{marginTop: '110px'}}>
             <CardTitle className="fs-1 mb-3">{details.name}</CardTitle>
@@ -135,7 +152,16 @@ export default function CourseDetailsPage(){
                                 roles.isAdmin || isCourseTeacher ? (
                                     <Button variant="warning" onClick={()=> setShowStatusModal(true)}>Изменить</Button>
                                 ):(
-                                    <Button variant="success">Записаться на курс</Button>
+                                    isCourseStudent ? (
+                                        <></>
+                                    ) : (
+                                        details.status==='OpenForAssigning'?(
+                                            <Button variant="success" onClick={handleSignUp}>Записаться на курс</Button>
+                                        ) : (
+                                            <></>
+                                        )
+                                    )
+                                    
                                 )
                             ) : (
                                 <></>
@@ -202,6 +228,9 @@ export default function CourseDetailsPage(){
                 users={users}
                 isMainTeacher={isMainTeacher}
                 updateTeachers={GetCourseDetails}
+                isCourseStudent={isCourseStudent}
+                currentUserName={currentUserName}
+                isCourseTeacher={isCourseTeacher}
             />
             <CreateEditCourseModal
                 type={'edit'}

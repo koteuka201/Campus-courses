@@ -354,3 +354,35 @@ export const setMarkStudent= async (token,id, studentId,mark, markType)=>{
         return error.response.data;
     }
 }
+export const signUpForCourse= async (token,id)=>{
+    try{
+            
+        const response=await axios.post(`${apiURL}/courses/${id}/sign-up`,{
+            
+        },{
+            headers:{
+                Authorization: `Bearer ${token}`
+            }
+        })
+        return response.data
+    } catch(error){
+        console.error('An error occurred:', error);
+        return error.response.data;
+    }
+}
+export const editStatusOfSignUp= async (token,studentId,courseId,status)=>{
+    try{
+            
+        const response=await axios.post(`${apiURL}/courses/${courseId}/student-status/${studentId}`,{
+            status
+        },{
+            headers:{
+                Authorization: `Bearer ${token}`
+            }
+        })
+        return response.data
+    } catch(error){
+        console.error('An error occurred:', error);
+        return error.response.data;
+    }
+}

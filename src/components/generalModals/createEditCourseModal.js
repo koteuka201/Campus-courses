@@ -44,8 +44,8 @@ export default function CreateEditCourseModal ({type,isTeacher,roles, show, hand
     async function GetCourseDetails(){
         
         const response = await getCourseDetails(token,id)
-        if(response){
-
+        if(response && Array.isArray(users)){
+            
             const mainTeacherName=users.find(user => user.fullName === response.teachers.find(teacher => teacher.isMain)?.name)
             
             let teacherId
