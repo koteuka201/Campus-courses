@@ -321,3 +321,19 @@ export const createNotification= async (token,id, text,isImportant)=>{
         return error.response.data;
     }
 }
+export const addTeacherCourse= async (token,id, userId)=>{
+    try{
+            
+        const response=await axios.post(`${apiURL}/courses/${id}/teachers`,{
+            userId
+        },{
+            headers:{
+                Authorization: `Bearer ${token}`
+            }
+        })
+        return response.data
+    } catch(error){
+        console.error('An error occurred:', error);
+        return error.response.data;
+    }
+}

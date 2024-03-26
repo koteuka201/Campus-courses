@@ -3,7 +3,7 @@ import ReactQuill from 'react-quill';
 import ReactSelect from 'react-select';
 import 'react-quill/dist/quill.snow.css';
 import {Container, Button, Alert,ListGroup , Tab, Tabs, CardTitle,Form, FormCheck, FormGroup, FormControl, Modal, ModalHeader,ModalFooter,ModalBody,ModalTitle, FormLabel, Col, Card, CardBody, Row } from 'react-bootstrap';
-import { getRoles, getCourseDetails, getProfile, deleteCourse} from "../services/apiService";
+import { getRoles, getCourseDetails, getProfile,getUsers, deleteCourse} from "../services/apiService";
 import { useNavigate,useParams  } from "react-router-dom";
 import CourseTabbed from "../components/courseDetails/courseTabbed";
 import CourseCommunityTabbed from "../components/courseDetails/courseCommunity/courseCommunityTabbed";
@@ -24,10 +24,13 @@ export default function CourseDetailsPage(){
 
     const [details,setDetails]=useState([])
     const [roles,setRoles]=useState({})
+    const [users, setUsers] = useState([])
+
     
     useEffect(()=>{
         GetCourseDetails()
         getRole()
+        getUsersList()
         
     },[])
 
@@ -65,6 +68,15 @@ export default function CourseDetailsPage(){
             }
         }
     }
+    async function getUsersList() {
+        const response = await getUsers(token)
+        if (response) {
+ 
+            setUsers(response)
+        }
+    }
+
+
     async function handleDeleteCourse(){
         const response = await deleteCourse(token,id)
         if(response){
@@ -182,6 +194,8 @@ export default function CourseDetailsPage(){
                 roles={roles}
                 teachers={details.teachers}
                 students={details.students}
+                users={users}
+                updateTeachers={GetCourseDetails}
             />
             <CreateEditCourseModal
                 type={'edit'}
