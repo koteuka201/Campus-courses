@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Button, Modal, ModalHeader, ModalFooter, ModalBody, ModalTitle, Form, FormGroup, FormLabel, FormCheck, FormControl } from 'react-bootstrap';
+import React, { useState } from "react";
+import { Button, Modal, ModalHeader, ModalFooter, ModalBody, ModalTitle, Form, FormGroup, FormCheck, FormControl } from 'react-bootstrap';
 import { createNotification } from "../../../services/apiService";
 export default function CreateNotificationModal ({id, show, handleClose,updateNotification }){
     
@@ -7,11 +7,6 @@ export default function CreateNotificationModal ({id, show, handleClose,updateNo
         text:'',
         isImportant: false
     })
-    // const [text,setText]=useState('')
-
-    useEffect(()=>{
-        console.log(data.isImportant)
-    },[data.isImportant])
 
     async function handleCreateNotification(){
         const response=await createNotification(localStorage.getItem('token'), id, data.text, data.isImportant)

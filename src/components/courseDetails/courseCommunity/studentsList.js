@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import {Container, ButtonCardTitle, Row,col, Button, Col  } from 'react-bootstrap';
+import React, { useState} from "react";
+import {Container, Row, Button, Col  } from 'react-bootstrap';
 import SetMarkModal from "../courseDetailsModals/setMarkModal";
 import { editStatusOfSignUp } from "../../../services/apiService";
 

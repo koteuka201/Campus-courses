@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import '../../styles/tab.css'
-import {Container, ButtonCardTitle, Tab, Tabs, Button  } from 'react-bootstrap';
+import {Tab, Tabs, Button  } from 'react-bootstrap';
 import CreateNotificationModal from "./courseDetailsModals/createNotificationModal";
 
 export default function CourseTabbed({id,roles,requirements ,annotations,notifications,isCourseTeacher,updateNotifications}){

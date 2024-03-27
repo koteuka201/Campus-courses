@@ -33,7 +33,6 @@ export const Header=  ()=>{
         
     }
     
-    
     async function getRole(){
        if(token){
             const response = await getRoles(token)
@@ -45,21 +44,16 @@ export const Header=  ()=>{
                     isStudent: response.isStudent,
                     isTeacher: response.isTeacher,
                     isAdmin: response.isAdmin
-                })
-                
+                }) 
             }
-       }
-        
-         
+        } 
     }
 
     const handleLogout = async (e) => {
         e.preventDefault()
-        
         if(token){
             const response=await logout(token)
         
-            
             localStorage.clear()
             navigate('/login')
             
@@ -88,7 +82,7 @@ export const Header=  ()=>{
 
                                 </Link>
                                 {roles.isStudent ? (
-                                    <Link to='/' className="nav-link header">
+                                    <Link to='/courses/my' className="nav-link header">
                                         Мои курсы
                                     </Link>
                                 ) : (

@@ -9,6 +9,7 @@ import GroupsPage from '../pages/groupsPage';
 import GroupCoursesPage from '../pages/groupCoursesPage';
 import TeachingCoursesPage from '../pages/teachingCoursesPage';
 import CourseDetailsPage from '../pages/courseDetailsPage';
+import MyCoursesPage from '../components/myCourses/myCoursesPage';
 import { AuthLayout } from '../layouts/authLayout';
 import { UnAuthLayout } from '../layouts/unAuthLayout';
 
@@ -46,6 +47,10 @@ export default function Router(){
             }/>
             <Route path='/courses/teaching' element={
                 <UnAuthLayout children={<TeachingCoursesPage/>}/>
+                
+            }/>
+            <Route path='/courses/my' element={
+                <UnAuthLayout children={<MyCoursesPage/>}/>
                 
             }/>
             <Route path='/courses/:id' element={

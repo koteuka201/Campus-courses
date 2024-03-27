@@ -12,7 +12,7 @@ export default function StatusCourseModal ({token, id, status, show, handleClose
     async function handleSetStatus(){
         
         const response=await editStatusCourse(token, id, selectedStatus)
-        debugger
+        
         if(response.id){
             updateStatus()
             handleClose()

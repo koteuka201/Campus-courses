@@ -1,7 +1,4 @@
 import React, { useState, useEffect } from "react";
-import ReactQuill from 'react-quill';
-import ReactSelect from 'react-select';
-import 'react-quill/dist/quill.snow.css';
 import {Container, Button, Alert,ListGroup , Tab, Tabs, CardTitle,Form, FormCheck, FormGroup, FormControl, Modal, ModalHeader,ModalFooter,ModalBody,ModalTitle, FormLabel, Col, Card, CardBody, Row } from 'react-bootstrap';
 import { getRoles, getCourseDetails, getProfile,getUsers, deleteCourse, signUpForCourse} from "../services/apiService";
 import { useNavigate,useParams  } from "react-router-dom";

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import ReactSelect from 'react-select';
-import { Button, Modal, ModalHeader, ModalFooter, ModalBody, ModalTitle, Form, FormGroup, FormLabel, FormCheck, FormControl } from 'react-bootstrap';
+import { Button, Modal, ModalHeader, ModalFooter, ModalBody, ModalTitle, Form, FormGroup, FormCheck } from 'react-bootstrap';
 import { setMarkStudent } from "../../../services/apiService";
 export default function SetMarkModal ({studentId,courseId,nameOfStudent, mark,typeMark,updateMarks, show, handleClose }){
     

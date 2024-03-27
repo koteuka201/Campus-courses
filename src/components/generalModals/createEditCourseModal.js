@@ -22,10 +22,6 @@ export default function CreateEditCourseModal ({type,isTeacher,roles, show, hand
         setUsersGet(false)
         getUsersList()
         
-        // if(type==='edit' && usersGet){
-        //     GetCourseDetails()
-        // }
-        
     },[])
     useEffect(()=>{
         if(type==='edit' && usersGot){
@@ -84,9 +80,9 @@ export default function CreateEditCourseModal ({type,isTeacher,roles, show, hand
                 courseData.requirements,
                 courseData.annotations,
                 courseData.mainTeacherId)
-                debugger
+                
             if (Array.isArray(response)) {
-                debugger
+                
                 handleClose()
                 updateCourses()
             }
@@ -120,7 +116,7 @@ export default function CreateEditCourseModal ({type,isTeacher,roles, show, hand
     async function handleEditTeacherCourse() {
         if (courseData.requirements !== "" &&
             courseData.annotations !== "") {
-            debugger
+            
             const response = await editCourseTeacherDetails(token, id,
                 courseData.requirements,
                 courseData.annotations)

@@ -258,7 +258,7 @@ export const editCourseDetails= async (token,id, name,startYear,maximumStudentsC
 }
 export const editCourseTeacherDetails= async (token,id, requirements,annotations)=>{
     try{
-        debugger
+        
         const response=await axios.put(`${apiURL}/courses/${id}/requirements-and-annotations`,{
             requirements,
             annotations
@@ -267,7 +267,7 @@ export const editCourseTeacherDetails= async (token,id, requirements,annotations
                 Authorization: `Bearer ${token}`
             }
         })
-        debugger
+        
         return response.data
     } catch(error){
         console.error('An error occurred:', error);
@@ -380,6 +380,21 @@ export const editStatusOfSignUp= async (token,studentId,courseId,status)=>{
                 Authorization: `Bearer ${token}`
             }
         })
+        return response.data
+    } catch(error){
+        console.error('An error occurred:', error);
+        return error.response.data;
+    }
+}
+export const getMyCourses= async (token)=>{
+    try{
+        
+        const response=await axios.get(`${apiURL}/courses/my`,{
+            headers:{
+                Authorization: `Bearer ${token}`
+            }
+        })
+        
         return response.data
     } catch(error){
         console.error('An error occurred:', error);
