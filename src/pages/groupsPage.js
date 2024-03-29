@@ -3,6 +3,8 @@ import {Row,Col, Container, Button, Alert,  CardTitle,Form, FormGroup, FormContr
 import { getRoles,getGroups,createGroup,editGroup,deleteGroup } from "../services/apiService";
 import { Navigate, useNavigate } from "react-router-dom";
 import GroupsCard from "../components/groupCard";
+import { Toaster, toast } from 'react-hot-toast'
+
 
 export default function GroupsPage(){
 
@@ -52,17 +54,29 @@ export default function GroupsPage(){
     }
 
     async function handleEditGroup(groupId, name) {
+        const loadingToast = toast.loading('Изменение название группы...')
         const response = await editGroup(token, groupId, name);
+        toast.dismiss(loadingToast.id)
         if (response) {
             getGroup();
+            toast.success('Название группы обновлено!')
+        }
+        if (response==='') {
+            toast.error('Не удалось изменить название группы!')
         }
     }
 
     async function handleDeleteGroup(groupId) {
+        const loadingToast = toast.loading('Удаление группы...')
         const response = await deleteGroup(token, groupId);
+        toast.dismiss(loadingToast.id)
         
         if (response.status===200) {
             getGroup();
+            toast.success('Группа удалена!')
+        }
+        if (response.status===400) {
+            toast.error('Не удалось удалить группу!')
         }
     }
 
@@ -70,11 +84,17 @@ export default function GroupsPage(){
         if(groupName!=''){
             setisTap(false)
             setisModalEmpty(false)
-            const response = await createGroup(token, groupName);
-            if (response) {
+            const loadingToast = toast.loading('Создание группы...')
+            const response = await createGroup(token, groupName)
+            toast.dismiss(loadingToast.id)
+            
+            if (response.id) {
                 getGroup();
-                setShowModal(false);
+                toast.success('Группа создана!')
                 setGroupName('')
+            }
+            if(response===""){
+                toast.error('Не удалось создать группу!')
             }
         }
         else{
@@ -94,7 +114,9 @@ export default function GroupsPage(){
 
     return(
         <Container style={{marginTop: '110px'}} className="">
-            
+            <div>
+                <Toaster />
+            </div>
             <CardTitle className="fs-3">Группы кампусных курсов</CardTitle>
             {roles.isAdmin ? (
                 <Button className="mt-1"  onClick={() => setShowModal(true)}>Создать</Button>

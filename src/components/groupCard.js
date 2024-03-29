@@ -9,9 +9,7 @@ export default function GroupsCard({ id, name, isAdmin, onUpdateName, onDelete }
     const [showModal, setShowModal] = useState(false)
     const [groupName, setGroupName] = useState(name)
 
-    const handleEdit = () => {
-        setShowModal(true)
-    };
+    
 
     const handleCloseModal = () => {
         setShowModal(false)
@@ -22,9 +20,6 @@ export default function GroupsCard({ id, name, isAdmin, onUpdateName, onDelete }
         handleCloseModal()
     };
 
-    // useEffect(()=>{
-        
-    // },[groupName])
 
     return(
         <>
@@ -36,7 +31,7 @@ export default function GroupsCard({ id, name, isAdmin, onUpdateName, onDelete }
                     </Link>
                     {isAdmin===true ? (
                         <Col sm={6} className="text-end">
-                        <Button className="bg-warning border-0 text-dark" onClick={handleEdit}>Редактировать</Button>
+                        <Button className="bg-warning border-0 text-dark" onClick={()=>setShowModal(true)}>Редактировать</Button>
                         <Button className="bg-danger border-0 ms-1" onClick={onDelete}>Удалить</Button>
                         </Col>
                         

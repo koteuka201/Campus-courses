@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import TeachersList from "./teacherList";
 import StudentsList from "./studentsList";
 import AddTeacherCourseModal from "../courseDetailsModals/addTeacherCourseModal";
-export default function CourseCommunityTabbed({id,roles, teachers,students,users,isMainTeacher, updateTeachers, isCourseStudent,currentUserName,isCourseTeacher}){
+export default function CourseCommunityTabbed({id,roles, teachers,students,users,isMainTeacher, updateTeachers, isCourseStudent,currentUserName,isCourseTeacher, toast}){
     
     const [showModal,setShowModal]=useState(false)
     
@@ -57,6 +57,7 @@ export default function CourseCommunityTabbed({id,roles, teachers,students,users
                                     currentUserName={currentUserName}
                                     isCourseTeacher={isCourseTeacher}
                                     isAdmin={roles.isAdmin}
+                                    toast={toast}
                                 />
                             ))}
                         </div>
@@ -69,6 +70,7 @@ export default function CourseCommunityTabbed({id,roles, teachers,students,users
                 handleClose={()=>setShowModal(false)}
                 users={users}
                 updateTeachers={updateTeachers}
+                toast={toast}
             />      
         </>
     )

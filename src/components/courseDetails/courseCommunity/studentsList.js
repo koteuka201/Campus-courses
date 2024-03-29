@@ -3,7 +3,7 @@ import {Container, Row, Button, Col  } from 'react-bootstrap';
 import SetMarkModal from "../courseDetailsModals/setMarkModal";
 import { editStatusOfSignUp } from "../../../services/apiService";
 
-export default function StudentsList({id,courseId, name, email, status,midtermResult, finalResult,updatePage,isCourseStudent,currentUserName,isCourseTeacher,isAdmin}){
+export default function StudentsList({id,courseId, name, email, status,midtermResult, finalResult,updatePage,isCourseStudent,currentUserName,isCourseTeacher,isAdmin, toast}){
 
     const [showModal, setShowModal]=useState(false)
     const [modalProps, setModalProps] = useState({})
@@ -142,6 +142,7 @@ export default function StudentsList({id,courseId, name, email, status,midtermRe
                 {...modalProps}
                 show={showModal}
                 handleClose={()=>setShowModal(false)}
+                toast={toast}
             />
         </Container>
     )

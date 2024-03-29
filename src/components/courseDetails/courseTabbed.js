@@ -3,7 +3,7 @@ import '../../styles/tab.css'
 import {Tab, Tabs, Button  } from 'react-bootstrap';
 import CreateNotificationModal from "./courseDetailsModals/createNotificationModal";
 
-export default function CourseTabbed({id,roles,requirements ,annotations,notifications,isCourseTeacher,updateNotifications}){
+export default function CourseTabbed({id,roles,requirements ,annotations,notifications,isCourseTeacher,updateNotifications, toast}){
 
     const [showNotificationModal, setShowNotificationModal]=useState(false)
     
@@ -44,7 +44,7 @@ export default function CourseTabbed({id,roles,requirements ,annotations,notific
                     {roles.isAdmin || isCourseTeacher ? (
                         <Button className="mt-4 ms-2" onClick={()=> setShowNotificationModal(true)}>Создать уведомление</Button>
                     ):(<></>)}
-                    <div className="mt-3 ms-2">
+                    <div className="mt-0 ms-2">
                         {notifications && notifications.length ? (
                             notifications.map((note, index)=>(
                                 <div key={index} className={`${note.isImportant ? 'bg-danger-subtle text-danger ' : ''} border-bottom`}>
@@ -66,6 +66,7 @@ export default function CourseTabbed({id,roles,requirements ,annotations,notific
                 show={showNotificationModal}
                 handleClose={()=> setShowNotificationModal(false)}
                 updateNotification={updateNotifications}
+                toast={toast}
             />
         </>
         

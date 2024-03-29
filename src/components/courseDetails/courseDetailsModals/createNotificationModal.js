@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button, Modal, ModalHeader, ModalFooter, ModalBody, ModalTitle, Form, FormGroup, FormCheck, FormControl } from 'react-bootstrap';
 import { createNotification } from "../../../services/apiService";
-export default function CreateNotificationModal ({id, show, handleClose,updateNotification }){
+export default function CreateNotificationModal ({id, show, handleClose,updateNotification,toast }){
     
     const [data,setData]=useState({
         text:'',
@@ -9,11 +9,16 @@ export default function CreateNotificationModal ({id, show, handleClose,updateNo
     })
 
     async function handleCreateNotification(){
+        const loadingToast = toast.loading('Создание уведомления...')
         const response=await createNotification(localStorage.getItem('token'), id, data.text, data.isImportant)
-        
+        toast.dismiss(loadingToast.id)
         if(response.id){
             updateNotification()
             handleClose()
+            toast.success('Уведомление создано!')
+        }
+        if(!response.id){
+            toast.error('Не удалось создать уведомление!')
         }
     }
 

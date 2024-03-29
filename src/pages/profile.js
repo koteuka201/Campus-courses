@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import {Row,Col, Container, Button, Alert, Card, CardBody, CardTitle,Form, FormGroup, FormControl, FormLabel } from 'react-bootstrap';
+import {Row,Col, Container, Button,  Card, CardBody, CardTitle,Form, FormGroup, FormControl, FormLabel } from 'react-bootstrap';
 import { getProfile, putProfile } from "../services/apiService";
 import { Navigate, useNavigate } from "react-router-dom";
 import { dateConvertor } from "../helpers/dateConverter";
-
+import { Toaster, toast } from 'react-hot-toast'
 export default function Profile(){
 
     const navigate=useNavigate()
@@ -12,7 +12,6 @@ export default function Profile(){
     const [isEmpty, setIsempty]=useState(false)
     const [fullName, setName]=useState('')
     const [birthDate, setDate]=useState('')
-    const [errorMessage, setErrorMessage] = useState('')
     
 
     const token=localStorage.getItem('token')
@@ -51,17 +50,19 @@ export default function Profile(){
     const handleSubmit=async (e)=>{
         e.preventDefault()
         if(fullName!='' && birthDate!='' && isDate){
+            const loadingToast = toast.loading('Попытка изменить профиль...')
             setIsempty(false)
-            setErrorMessage('')
             const response=await putProfile(fullName,birthDate, token)
-            
+            toast.dismiss(loadingToast.id)
+            if(response.fullName){
+                toast.success('Профиль успешно обновлен!')
+            }
             if(response.status===400){
-                
+                toast.error('Не удалось изменить профиль!')
             }
         }
         else{
             setIsempty(true)
-            setErrorMessage('Заполните выделенные поля!')
         }
     }
 
@@ -75,6 +76,9 @@ export default function Profile(){
     }
     return(
         <Container style={{marginTop: '110px'}} className="">
+            <div>
+                <Toaster />
+            </div>
             <Card>
                 <CardBody>
                     <CardTitle className="d-flex justify-content-center align-items-center fs-3">Профиль</CardTitle>
@@ -113,7 +117,6 @@ export default function Profile(){
                             </Col>
                         </Row>
                     </Form>
-                    {errorMessage && <Alert variant="danger" className="mt-2 text-center">{errorMessage}</Alert>}
                 </CardBody>
             </Card>
         </Container>

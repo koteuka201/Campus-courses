@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Button, Modal, ModalHeader, ModalFooter, ModalBody, ModalTitle, Form, FormGroup, FormLabel, FormCheck } from 'react-bootstrap';
 import { editStatusCourse } from "../../../services/apiService";
-export default function StatusCourseModal ({token, id, status, show, handleClose,  updateStatus }){
+export default function StatusCourseModal ({token, id, status, show, handleClose,  updateStatus, toast }){
     
     const [selectedStatus, setSelectedStatus]=useState('')
 
@@ -10,12 +10,16 @@ export default function StatusCourseModal ({token, id, status, show, handleClose
     }, [status]);
 
     async function handleSetStatus(){
-        
+        const loadingToast = toast.loading('Изменение статуса...')
         const response=await editStatusCourse(token, id, selectedStatus)
-        
+        toast.dismiss(loadingToast.id)
         if(response.id){
             updateStatus()
             handleClose()
+            toast.success('Статус изменен!')
+        }
+        if(!response.id){
+            toast.error('Не удалось изменить статус!')
         }
     }
 

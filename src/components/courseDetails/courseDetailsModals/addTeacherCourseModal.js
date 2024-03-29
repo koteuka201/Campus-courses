@@ -2,15 +2,21 @@ import React, { useState, useEffect } from "react";
 import ReactSelect from 'react-select';
 import { Button, Modal, ModalHeader, ModalFooter, ModalBody, ModalTitle, Form, FormGroup, FormLabel, FormCheck, FormControl } from 'react-bootstrap';
 import { addTeacherCourse } from "../../../services/apiService";
-export default function AddTeacherCourseModal ({id, show, handleClose,users,updateTeachers }){
+export default function AddTeacherCourseModal ({id, show, handleClose,users,updateTeachers,toast }){
     
     const [teacherId,setTeacherId]=useState('')
 
     const handleAddTeacher=async ()=>{
+        const loadingToast = toast.loading('Добавление учителя...')
         const response=await addTeacherCourse(localStorage.getItem('token'),id,teacherId)
+        toast.dismiss(loadingToast.id)
         if(response.id){
             updateTeachers()
             handleClose()
+            toast.success('Учитель добавлен!')
+        }
+        if(!response.id){
+            toast.error('Не удалось добавить учителя!')
         }
     }
 

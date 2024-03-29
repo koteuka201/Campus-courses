@@ -4,7 +4,9 @@ import ReactSelect from 'react-select';
 import 'react-quill/dist/quill.snow.css';
 import { Button, Modal, ModalHeader, ModalFooter, ModalBody, ModalTitle, Form, FormGroup, FormLabel, FormControl, FormCheck } from 'react-bootstrap';
 import { createCourse, getUsers,getCourseDetails,editCourseDetails, editCourseTeacherDetails } from "../../services/apiService";
-export default function CreateEditCourseModal ({type,isTeacher,roles, show, handleClose, token, id, updateCourses }){
+
+
+export default function CreateEditCourseModal ({type,isTeacher,roles, show, handleClose, token, id, updateCourses,toast }){
     
     const [users, setUsers] = useState([])
     const [usersGot,setUsersGet]=useState(false)
@@ -72,6 +74,8 @@ export default function CreateEditCourseModal ({type,isTeacher,roles, show, hand
             courseData.requirements !== "" &&
             courseData.annotations !== "" &&
             courseData.mainTeacherId !== "") {
+            
+            const loadingToast = toast.loading('Создание курса...')   
             const response = await createCourse(token, id,
                 courseData.name,
                 courseData.startYear,
@@ -80,11 +84,17 @@ export default function CreateEditCourseModal ({type,isTeacher,roles, show, hand
                 courseData.requirements,
                 courseData.annotations,
                 courseData.mainTeacherId)
+            toast.dismiss(loadingToast.id)
                 
             if (Array.isArray(response)) {
+
                 
-                handleClose()
                 updateCourses()
+                handleClose()
+                toast.success('Курс создан!')
+            }
+            if(!Array.isArray(response)){
+                toast.error('Не удалось создать курс!')
             }
         }
     }
@@ -97,6 +107,7 @@ export default function CreateEditCourseModal ({type,isTeacher,roles, show, hand
             courseData.annotations !== "" &&
             courseData.mainTeacherId !== "") {
 
+            const loadingToast = toast.loading('Сохранение деталей курса...')
             const response = await editCourseDetails(token, id,
                 courseData.name,
                 courseData.startYear,
@@ -105,10 +116,15 @@ export default function CreateEditCourseModal ({type,isTeacher,roles, show, hand
                 courseData.requirements,
                 courseData.annotations,
                 courseData.mainTeacherId)
-            if (response) {
+            toast.dismiss(loadingToast.id)
+            if (response.id) {
                 
                 updateCourses()
                 handleClose()
+                toast.success('Курс обновлен!')
+            }
+            if(!response.id){
+                toast.error('Не удалось обновить курс!')
             }
             
         }
@@ -141,6 +157,7 @@ export default function CreateEditCourseModal ({type,isTeacher,roles, show, hand
     return (
         roles.isAdmin ? (
             <Modal show={show} onHide={handleClose} className="modal-xl">
+                
                 <ModalHeader closeButton>
                     {type==='create' ? (
                         <ModalTitle>

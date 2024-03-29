@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Button, Modal, ModalHeader, ModalFooter, ModalBody, ModalTitle, Form, FormGroup, FormCheck } from 'react-bootstrap';
 import { setMarkStudent } from "../../../services/apiService";
-export default function SetMarkModal ({studentId,courseId,nameOfStudent, mark,typeMark,updateMarks, show, handleClose }){
+export default function SetMarkModal ({studentId,courseId,nameOfStudent, mark,typeMark,updateMarks, show, handleClose, toast }){
     
     const [selectedMark,setSelectedMark]=useState(mark)
     useEffect(()=>{
@@ -10,11 +10,16 @@ export default function SetMarkModal ({studentId,courseId,nameOfStudent, mark,ty
     },[mark])
     
     async function handleSetMark(){
+        const loadingToast = toast.loading('Изменение отметки...')
         const response= await setMarkStudent(localStorage.getItem('token'),courseId, studentId,selectedMark,typeMark)
-        debugger
+        toast.dismiss(loadingToast.id)
         if(response.id){
             updateMarks()
             handleClose()
+            toast.success('Отметка изменена!')
+        }
+        if(!response.id){
+            toast.error('Не удалось изменить отметки!')
         }
     }
 

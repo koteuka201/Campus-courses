@@ -6,6 +6,8 @@ import CourseTabbed from "../components/courseDetails/courseTabbed";
 import CourseCommunityTabbed from "../components/courseDetails/courseCommunity/courseCommunityTabbed";
 import CreateEditCourseModal from "../components/generalModals/createEditCourseModal";
 import StatusCourseModal from "../components/courseDetails/courseDetailsModals/statusCourseModal";
+import { toast, Toaster } from 'react-hot-toast';
+
 
 export default function CourseDetailsPage(){
 
@@ -104,6 +106,9 @@ export default function CourseDetailsPage(){
 
     return(
         <Container style={{marginTop: '110px'}}>
+            <div>
+                <Toaster />
+            </div>
             <CardTitle className="fs-1 mb-3">{details.name}</CardTitle>
             <Row>
                 <Col sm={4} className="fs-4">Основные данные курса</Col>
@@ -216,6 +221,7 @@ export default function CourseDetailsPage(){
                 notifications={details.notifications}
                 isCourseTeacher={isCourseTeacher}
                 updateNotifications={GetCourseDetails}
+                toast={toast}
             />
             <CourseCommunityTabbed
                 id={id}
@@ -228,6 +234,7 @@ export default function CourseDetailsPage(){
                 isCourseStudent={isCourseStudent}
                 currentUserName={currentUserName}
                 isCourseTeacher={isCourseTeacher}
+                toast={toast}
             />
             <CreateEditCourseModal
                 type={'edit'}
@@ -238,6 +245,7 @@ export default function CourseDetailsPage(){
                 token={token}
                 id={id}
                 updateCourses={GetCourseDetails}
+                toast={toast}
             />
             <StatusCourseModal
                 token={token}
@@ -246,6 +254,7 @@ export default function CourseDetailsPage(){
                 show={showStatusModal}
                 handleClose={()=> setShowStatusModal(false)}
                 updateStatus={GetCourseDetails}
+                toast={toast}
             />
                            
         </Container>

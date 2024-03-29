@@ -4,8 +4,10 @@ import { useParams } from "react-router-dom";
 import { getRoles, getGroupCourses, getGroups, getUsers } from "../services/apiService";
 import CourseCard from "../components/courseCard";
 import CreateEditCourseModal from "../components/generalModals/createEditCourseModal";
+import { toast, Toaster } from 'react-hot-toast';
 export default function GroupCoursesPage() {
     const { id } = useParams();
+    // const { toast } = useToaster();
 
     const [users, setUsers] = useState([])
     
@@ -48,6 +50,9 @@ export default function GroupCoursesPage() {
 
     return (
         <Container style={{ marginTop: '110px' }}>
+            <div>
+                <Toaster />
+            </div>
             <CardTitle className="fs-3">Группа - {groupName}</CardTitle>
             {roles.isAdmin ? (
                 <Button className="mt-1" onClick={() => setShowModal(true)}>Создать курс</Button>
@@ -89,6 +94,7 @@ export default function GroupCoursesPage() {
                 token={token}
                 id={id}
                 updateCourses={GetGroupCourses}
+                toast={toast}
             />
         </Container>
     );

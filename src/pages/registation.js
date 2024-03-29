@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Container, Button, Alert, Card, CardBody, CardTitle,Form, FormGroup, FormControl, FormLabel } from 'react-bootstrap';
+import { Container, Button,  Card, CardBody, CardTitle,Form, FormGroup, FormControl, FormLabel } from 'react-bootstrap';
 import { registation } from "../services/apiService";
-import { Navigate, useNavigate } from "react-router-dom";
-import { BsPatchQuestion } from "react-icons/bs"
+import { useNavigate } from "react-router-dom";
 
 export default function Registration(){
 
@@ -11,7 +10,6 @@ export default function Registration(){
     const [isDate, setIsDate]=useState(false)
     const [isPasswordSame, setIsPasswordSame]=useState(false)
     const [isPasswordEmpty, setIsPasswordEmpty]=useState(true)
-    const [errorMessage, setErrorMessage] = useState('')
     const [data,setData]=useState({
         fullName: '',
         birthDate: '',
@@ -61,7 +59,6 @@ export default function Registration(){
         
         if(data.email!='' && data.password!='' && data.fullName!='' && data.birthDate!='' && data.confirmPassword!='' && isPasswordSame && isDate){
             setIsempty(false)
-            setErrorMessage('')
             const response=await registation(data.email, data.password, data.fullName, data.birthDate, data.confirmPassword)
             
             if(response.token){
@@ -71,7 +68,6 @@ export default function Registration(){
         }
         else{
             setIsempty(true)
-            setErrorMessage('Заполните выделенные поля!')
         }
     }
     
@@ -155,9 +151,8 @@ export default function Registration(){
                             
                         )}
                         
-                        <Button type="submit" className="mt-2" onClick={handleSubmit}>Зарегистрироваться</Button>
+                        <Button type="OnSubmit" className="mt-2" onClick={handleSubmit}>Зарегистрироваться</Button>
                     </Form>
-                    {errorMessage && <Alert variant="danger" className="mt-2 text-center">{errorMessage}</Alert>}
                 </CardBody>
             </Card>
         </Container>
