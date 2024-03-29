@@ -94,6 +94,7 @@ export default function GroupsPage(){
                 getGroup();
                 toast.success('Группа создана!')
                 setGroupName('')
+                setShowModal(false)
             }
             if(response===""){
                 toast.error('Не удалось создать группу!')
