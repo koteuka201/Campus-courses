@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Container, Button, CardTitle } from 'react-bootstrap';
 import { useParams } from "react-router-dom";
-import { getRoles, getGroupCourses, getGroups, getUsers } from "../services/apiService";
+import { getRoles, getGroupCourses, getGroups } from "../services/apiService";
 import CourseCard from "../components/courseCard";
 import CreateEditCourseModal from "../components/generalModals/createEditCourseModal";
 import { toast, Toaster } from 'react-hot-toast';
 export default function GroupCoursesPage() {
     const { id } = useParams();
-    // const { toast } = useToaster();
 
     const [users, setUsers] = useState([])
     

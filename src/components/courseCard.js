@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
-import {Row,Col, Container, Button, Alert, Card, CardBody,  FormControl,  Modal, ModalHeader,ModalFooter,ModalBody,ModalTitle, CardTitle } from 'react-bootstrap';
-import { getProfile, putProfile } from "../services/apiService";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import React from "react";
+import {Col, Card, CardBody,  CardTitle } from 'react-bootstrap';
+import { Link } from "react-router-dom";
 
 export default function CourseCard({ id, name,startYear, roles, maximumStudentsCount, remainingSlotsCount, status,semester}){
 

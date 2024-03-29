@@ -1,8 +1,6 @@
-import React, { useState, useEffect } from "react";
-import {Row,Col, Container, Button, Alert, Card, CardBody,  FormControl,  Modal, ModalHeader,ModalFooter,ModalBody,ModalTitle } from 'react-bootstrap';
-import { getProfile, putProfile } from "../services/apiService";
-import { Link, Navigate, useNavigate } from "react-router-dom";
-import { dateConvertor } from "../helpers/dateConverter";
+import React, { useState } from "react";
+import {Col, Button, Card, CardBody,  FormControl,  Modal, ModalHeader,ModalFooter,ModalBody,ModalTitle } from 'react-bootstrap';
+import { Link } from "react-router-dom";
 
 export default function GroupsCard({ id, name, isAdmin, onUpdateName, onDelete }){
 

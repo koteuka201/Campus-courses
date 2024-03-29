@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import '../../../styles/tab.css'
-import {Container, Button,CardTitle, Tab, Tabs  } from 'react-bootstrap';
-import { useNavigate } from "react-router-dom";
+import {Button,Tab, Tabs  } from 'react-bootstrap';
 import TeachersList from "./teacherList";
 import StudentsList from "./studentsList";
 import AddTeacherCourseModal from "../courseDetailsModals/addTeacherCourseModal";

@@ -4,7 +4,7 @@ import { login } from "../services/apiService";
 import { useNavigate } from "react-router-dom";
 import { clearAuth } from '../store/slices/authSlice';
 import { useDispatch } from 'react-redux';
-
+import { isFieldEmpty } from "../helpers/isFieldEmpty";
 
 export default function Login(){
     const dispatch=useDispatch()
@@ -13,7 +13,7 @@ export default function Login(){
         email: '',
         password: ''
     })
-    const [loading, setLoading] = useState(false);
+    const [isEmpty, setIsEmpty] = useState(false);
 
     const [errorMessage, setErrorMessage] = useState('')
 
@@ -44,6 +44,9 @@ export default function Login(){
             }
             
         }
+        else{
+            setIsEmpty(true)
+        }
     }
     return (
         <Container style={{marginTop: '110px'}} className="d-flex justify-content-center align-items-center">
@@ -54,20 +57,14 @@ export default function Login(){
                         <FormGroup>
                             <FormLabel>Email</FormLabel>
                             <FormControl type="email" value={data.email} onChange={handleEmailChange}  placeholder="Введите ваш email" />
+                            {isFieldEmpty(data.email,isEmpty)}
                         </FormGroup>
                         <FormGroup className="mt-4 ">
                             <FormLabel>Пароль</FormLabel>
                             <FormControl type="password" value={data.password} onChange={handlePasswordChange} placeholder="Введите ваш пароль" />
+                            {isFieldEmpty(data.password,isEmpty)}
                         </FormGroup>
-                        {loading ? (
-                            <div className="d-flex ms-4 justify-content-center align-items-center">
-                                {/* <Loader
-                                    color="#43c4ca"
-                                    height={80}
-                                    width={80}
-                                /> */}
-                            </div>
-                        ) :<Button type="submit" onClick={handleSubmit} className="mt-4 mb-3 text-center w-100">Войти</Button>}
+                        <Button type="submit" onClick={handleSubmit} className="mt-4 mb-3 text-center w-100">Войти</Button>
 
                         {errorMessage && <Alert variant="danger" className="text-center">{errorMessage}</Alert>}
                     </Form>

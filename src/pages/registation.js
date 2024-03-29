@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Container, Button,  Card, CardBody, CardTitle,Form, FormGroup, FormControl, FormLabel } from 'react-bootstrap';
 import { registation } from "../services/apiService";
 import { useNavigate } from "react-router-dom";
+import { isDateValid } from "../helpers/dateValidChecker";
+import { isFieldEmpty } from "../helpers/isFieldEmpty";
 
 export default function Registration(){
 
@@ -74,13 +76,7 @@ export default function Registration(){
 
     function checkForm(firstP,secondP, date){
         
-        if(new Date(date)>new Date()){
-            setIsDate(false)
-        }
-        else{
-            setIsDate(true)
-        }
-
+        setIsDate(isDateValid(date))
         if(firstP=='' || secondP==''){
             setIsPasswordEmpty(true)
         }
@@ -106,20 +102,22 @@ export default function Registration(){
                         <FormGroup>
                             <FormLabel>ФИО</FormLabel>
                             <FormControl className={data.fullName.trim() === "" && isEmpty  ? "border-danger" : ""} value={data.fullName} onChange={handlefullName} placeholder="Введите ваше ФИО"></FormControl>
+                            {isFieldEmpty(data.fullName,isEmpty)}
                         </FormGroup>
                         <FormGroup className="mt-2">
                             <FormLabel>День рождения</FormLabel>
-                            <FormControl className={(data.birthDate.trim() === "" && isEmpty) || !isDate ? "border-danger" : ""} type="date" value={data.birthDate} onChange={handleDateBirth}></FormControl>
+                            <FormControl className={(data.birthDate.trim() === "" || !isDate) && isEmpty  ? "border-danger" : ""} type="date" value={data.birthDate} onChange={handleDateBirth}></FormControl>
                         </FormGroup>
-                        {isDate ? (
-                            <></>
+                        {!isDate && isEmpty ? (
+                            <span className="text-danger">День рождения должен быть в промежутке от 01.01.1900 до настоящего момента!</span>
                         ) :(
-                            <span className="text-danger">День рождения не может быть в будущем!</span>
+                            <></>
                         )}
                         <FormGroup className="mt-2">
                             <FormLabel>Email</FormLabel>
-                            <FormControl type="email" className={data.email.trim() === "" && isEmpty ? "border-danger" : ""} value={data.email} onChange={handleEmailChange} placeholder="Введите ваш email"></FormControl>
-                            <FormLabel className="small" style={{opacity: 0.7}}>Email будет использоваться для входа в систему</FormLabel>
+                            <FormControl type="email" className={data.email.trim() === "" && isEmpty && !isDate ? "border-danger" : ""} value={data.email} onChange={handleEmailChange} placeholder="Введите ваш email"></FormControl>
+                            <div className="small" style={{opacity: 0.7}}>Email будет использоваться для входа в систему</div>
+                            {isFieldEmpty(data.email,isEmpty)}
                         </FormGroup>
                         
                         {isPasswordSame ? (
@@ -136,6 +134,7 @@ export default function Registration(){
                             <FormGroup className="mt-2">
                                 <FormLabel>Пароль</FormLabel>
                                 <FormControl type="password" className={(data.password.trim() === "" && isEmpty) || !isPasswordEmpty ? "border-danger" : ''} value={data.password} onChange={handlePasswordChange} placeholder="Введите ваш пароль"></FormControl>
+                                {isFieldEmpty(data.password,isEmpty)}
                             </FormGroup>
                             {!isPasswordEmpty ? (
                                 <span className="text-danger">Пароли не совпадают!</span>
@@ -145,6 +144,7 @@ export default function Registration(){
                             <FormGroup className="mt-2">
                                 <FormLabel>Повторите пароль</FormLabel>
                                 <FormControl type="password" className={(data.confirmPassword.trim() === "" && isEmpty) || !isPasswordEmpty ? "border-danger" : ''} value={data.confirmPassword} onChange={handleConfirmPasswordChange} placeholder="Повторите ваш пароль"></FormControl>
+                                {isFieldEmpty(data.confirmPassword,isEmpty)}
                             </FormGroup>
 
                             </div>

@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from "react";
-import {Row,Col, Container, Button,  Card, CardBody, CardTitle,Form, FormGroup, FormControl, FormLabel } from 'react-bootstrap';
+import {Row,Col, Container, Button,  Card, CardBody, CardTitle,Form,  FormControl, FormLabel } from 'react-bootstrap';
 import { getProfile, putProfile } from "../services/apiService";
-import { Navigate, useNavigate } from "react-router-dom";
 import { dateConvertor } from "../helpers/dateConverter";
+import { isDateValid } from "../helpers/dateValidChecker";
+import { isFieldEmpty } from "../helpers/isFieldEmpty";
 import { Toaster, toast } from 'react-hot-toast'
 export default function Profile(){
 
-    const navigate=useNavigate()
     const [email,setEmail]=useState('')
-    const [isDate, setIsDate]=useState(false)
     const [isEmpty, setIsempty]=useState(false)
     const [fullName, setName]=useState('')
     const [birthDate, setDate]=useState('')
@@ -16,9 +15,6 @@ export default function Profile(){
 
     const token=localStorage.getItem('token')
     
-    useEffect(()=>{
-        checkDate(birthDate)
-    },[birthDate])
 
     useEffect(() => {
         async function getName(){
@@ -49,7 +45,7 @@ export default function Profile(){
 
     const handleSubmit=async (e)=>{
         e.preventDefault()
-        if(fullName!='' && birthDate!='' && isDate){
+        if(fullName!='' && birthDate!='' && isDateValid(birthDate)){
             const loadingToast = toast.loading('Попытка изменить профиль...')
             setIsempty(false)
             const response=await putProfile(fullName,birthDate, token)
@@ -66,14 +62,6 @@ export default function Profile(){
         }
     }
 
-    function checkDate(date){
-        if(new Date(date)>new Date()){
-            setIsDate(false)
-        }
-        else{
-            setIsDate(true)
-        }
-    }
     return(
         <Container style={{marginTop: '110px'}} className="">
             <div>
@@ -87,6 +75,7 @@ export default function Profile(){
                             <FormLabel column sm={2} className="">ФИО</FormLabel>
                             <Col sm={10}>
                                 <FormControl className={(fullName.trim() === "" && isEmpty) ? "border-danger" : ""} value={fullName} onChange={handlefullName} placeholder="Введите ваше ФИО" />
+                                {isFieldEmpty(fullName,isEmpty)}
                             </Col>
                         </Row>
                         <Row className="mb-2">
@@ -99,11 +88,11 @@ export default function Profile(){
                         <Row className=" mb-2">
                             <FormLabel column sm={2}>День рождения</FormLabel>
                             <Col sm={10}>
-                                <FormControl className={birthDate.trim() === "" && isEmpty ? "border-danger" : ""} type="date" value={birthDate} onChange={handleDateBirth}></FormControl>
-                                {isDate ? (
+                                <FormControl className={birthDate.trim() === "" && isEmpty && !isDateValid(birthDate) ? "border-danger" : ""} type="date" value={birthDate} onChange={handleDateBirth}></FormControl>
+                                {isDateValid(birthDate) ? (
                                     <></>
                                 ) :(
-                                    <span className="text-danger">День рождения не может быть в будущем!</span>
+                                    <span className="text-danger">День рождения должен быть в промежутке от 01.01.1900 до настоящего момента!</span>
                                 )}
                             </Col>
                             

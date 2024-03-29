@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import 'react-quill/dist/quill.snow.css';
 import {Container, CardTitle} from 'react-bootstrap';
 import { getRoles,getTeachingCourses } from "../services/apiService";
-import { Navigate, useNavigate  } from "react-router-dom";
 import CourseCard from "../components/courseCard";
 
 export default function TeachingCoursesPage(){

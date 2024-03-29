@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-import {Row,Col, Container, Button, Alert,  CardTitle,Form, FormGroup, FormControl, Modal, ModalHeader,ModalFooter,ModalBody,ModalTitle } from 'react-bootstrap';
+import { Container, Button,  CardTitle, FormControl, Modal, ModalHeader,ModalFooter,ModalBody,ModalTitle } from 'react-bootstrap';
 import { getRoles,getGroups,createGroup,editGroup,deleteGroup } from "../services/apiService";
-import { Navigate, useNavigate } from "react-router-dom";
 import GroupsCard from "../components/groupCard";
 import { Toaster, toast } from 'react-hot-toast'
 
@@ -54,16 +53,19 @@ export default function GroupsPage(){
     }
 
     async function handleEditGroup(groupId, name) {
-        const loadingToast = toast.loading('Изменение название группы...')
-        const response = await editGroup(token, groupId, name);
-        toast.dismiss(loadingToast.id)
-        if (response) {
-            getGroup();
-            toast.success('Название группы обновлено!')
+        if(groupName!==''){
+            const loadingToast = toast.loading('Изменение название группы...')
+            const response = await editGroup(token, groupId, name);
+            toast.dismiss(loadingToast.id)
+            if (response) {
+                getGroup();
+                toast.success('Название группы обновлено!')
+            }
+            if (response==='') {
+                toast.error('Не удалось изменить название группы!')
+            }
         }
-        if (response==='') {
-            toast.error('Не удалось изменить название группы!')
-        }
+        
     }
 
     async function handleDeleteGroup(groupId) {

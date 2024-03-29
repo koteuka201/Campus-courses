@@ -4,9 +4,13 @@ import ReactSelect from 'react-select';
 import 'react-quill/dist/quill.snow.css';
 import { Button, Modal, ModalHeader, ModalFooter, ModalBody, ModalTitle, Form, FormGroup, FormLabel, FormControl, FormCheck } from 'react-bootstrap';
 import { createCourse, getUsers,getCourseDetails,editCourseDetails, editCourseTeacherDetails } from "../../services/apiService";
-
+import { isFieldEmpty } from "../../helpers/isFieldEmpty";
 
 export default function CreateEditCourseModal ({type,isTeacher,roles, show, handleClose, token, id, updateCourses,toast }){
+    
+    const [startYeatValid,setStartYeatValid]=useState(true)
+    const [amountValid,setAmoutValid]=useState(true)
+    const [isEmpty, setIsEmpty]=useState(false)
     
     const [users, setUsers] = useState([])
     const [usersGot,setUsersGet]=useState(false)
@@ -30,6 +34,12 @@ export default function CreateEditCourseModal ({type,isTeacher,roles, show, hand
             GetCourseDetails()
         }
     }, [usersGot])
+
+    useEffect(() => {
+        checkStudentCount(courseData.maximumStudentsCount)
+        checkStartYear(courseData.startYear)
+    },[courseData.maximumStudentsCount,courseData.startYear])
+
     async function getUsersList() {
         const response = await getUsers(token)
         if (response) {
@@ -73,8 +83,8 @@ export default function CreateEditCourseModal ({type,isTeacher,roles, show, hand
             courseData.semester !== "" &&
             courseData.requirements !== "" &&
             courseData.annotations !== "" &&
-            courseData.mainTeacherId !== "") {
-            
+            courseData.mainTeacherId !== "" && amountValid) {
+            setIsEmpty(false)
             const loadingToast = toast.loading('Создание курса...')   
             const response = await createCourse(token, id,
                 courseData.name,
@@ -97,6 +107,10 @@ export default function CreateEditCourseModal ({type,isTeacher,roles, show, hand
                 toast.error('Не удалось создать курс!')
             }
         }
+        else{
+            
+            setIsEmpty(true)
+        }
     }
     async function handleEditCourse() {
         if (courseData.name !== "" &&
@@ -105,8 +119,8 @@ export default function CreateEditCourseModal ({type,isTeacher,roles, show, hand
             courseData.semester !== "" &&
             courseData.requirements !== "" &&
             courseData.annotations !== "" &&
-            courseData.mainTeacherId !== "") {
-
+            courseData.mainTeacherId !== "" && amountValid) {
+            setIsEmpty(false)
             const loadingToast = toast.loading('Сохранение деталей курса...')
             const response = await editCourseDetails(token, id,
                 courseData.name,
@@ -128,11 +142,14 @@ export default function CreateEditCourseModal ({type,isTeacher,roles, show, hand
             }
             
         }
+        else{
+            setIsEmpty(true)
+        }
     }
     async function handleEditTeacherCourse() {
         if (courseData.requirements !== "" &&
             courseData.annotations !== "") {
-            
+            setIsEmpty(false)
             const response = await editCourseTeacherDetails(token, id,
                 courseData.requirements,
                 courseData.annotations)
@@ -142,6 +159,27 @@ export default function CreateEditCourseModal ({type,isTeacher,roles, show, hand
                 handleClose()
             }
             
+        }
+        else{
+            setIsEmpty(true)
+        }
+    }
+
+    function checkStudentCount(number){
+        if(number<1 || number>200){
+            setAmoutValid(false)
+        }
+        else{
+            setAmoutValid(true)
+        }
+    }
+
+    function checkStartYear(number){
+        if(number<2000 || number>2029){
+            setStartYeatValid(false)
+        }
+        else{
+            setStartYeatValid(true)
         }
     }
 
@@ -174,15 +212,26 @@ export default function CreateEditCourseModal ({type,isTeacher,roles, show, hand
                     <Form>
                         <FormGroup className="mb-3">
                             <FormLabel>Название курса</FormLabel>
-                            <FormControl value={courseData.name} onChange={(e)=> setCourseData({...courseData,name: e.target.value})} placeholder="Введите название курса"></FormControl>
+                            <FormControl className={courseData.name==='' && isEmpty ? 'border-danger' : ''} value={courseData.name} onChange={(e)=> setCourseData({...courseData,name: e.target.value})} placeholder="Введите название курса"></FormControl>
+                            {isFieldEmpty(courseData.name,isEmpty)}
                         </FormGroup>
                         <FormGroup className="mb-3">
                             <FormLabel>Год начала курса</FormLabel>
-                            <FormControl value={courseData.startYear} onChange={(e)=> setCourseData({...courseData, startYear: e.target.value})} placeholder="Введите год" type="number"></FormControl>
+                            <FormControl className={!startYeatValid && isEmpty ? 'border-danger' : ''} value={courseData.startYear} onChange={(e)=> setCourseData({...courseData, startYear: e.target.value})} placeholder="Введите год" type="number"></FormControl>
+                            {!startYeatValid && isEmpty ? (
+                                <span className="text-danger">Год начала курса должен быть от 2000 до 2029</span>
+                            ) : (
+                                <></>
+                            )}
                         </FormGroup>
                         <FormGroup className="mb-3">
                             <FormLabel >Общее количестов мест</FormLabel>
-                            <FormControl value={courseData.maximumStudentsCount} onChange={(e)=> setCourseData({...courseData,maximumStudentsCount: e.target.value})} placeholder="Введите количество мест" type="number"></FormControl>
+                            <FormControl className={!amountValid && isEmpty ? 'border-danger' : ''} value={courseData.maximumStudentsCount} onChange={(e)=> setCourseData({...courseData,maximumStudentsCount: e.target.value})} placeholder="Введите количество мест" type="number"></FormControl>
+                            {!amountValid && isEmpty ? (
+                                <span className="text-danger">Количество мест должно быть от 1 до 200</span>
+                            ) : (
+                                <></>
+                            )}
                         </FormGroup>
                         <FormGroup className="mb-3">
                             <FormLabel>Семестр</FormLabel>
@@ -216,16 +265,21 @@ export default function CreateEditCourseModal ({type,isTeacher,roles, show, hand
                                     }
                                 />
                             </div>
+                            {!courseData.semester && isEmpty ? (
+                                <span className="text-danger">Семестр должен быть выбран!</span>
+                            ) : (
+                                <></>
+                            )}
                         </FormGroup>
                         <FormGroup className="mb-3">
                             <FormLabel>Требования</FormLabel>
                             <ReactQuill modules={modules} value={courseData.requirements} onChange={(e)=> setCourseData({...courseData, requirements: e})} theme="snow" />
-
+                            {isFieldEmpty(courseData.requirements,isEmpty)}
                         </FormGroup>
                         <FormGroup className="mb-3">
                             <FormLabel>Аннотация</FormLabel>
                             <ReactQuill modules={modules} value={courseData.annotations} onChange={(e)=> setCourseData({...courseData, annotations: e})} theme="snow" />
-                            
+                            {isFieldEmpty(courseData.annotations,isEmpty)}
                         </FormGroup>
                         <FormGroup className="mb-3">
                             <FormLabel>Основной преподаватель курса</FormLabel>
@@ -240,6 +294,11 @@ export default function CreateEditCourseModal ({type,isTeacher,roles, show, hand
                                     isSearchable={true}
                                 />
                             ) : ( <></>)}
+                            {!courseData.mainTeacherId && isEmpty ? (
+                                <span className="text-danger">Преподаватель должен быть выбран!</span>
+                            ) : (
+                                <></>
+                            )}
                         </FormGroup>
                     </Form>
                 </ModalBody>
@@ -266,10 +325,12 @@ export default function CreateEditCourseModal ({type,isTeacher,roles, show, hand
                             <FormGroup className="mb-3">
                                 <FormLabel>Требования</FormLabel>
                                 <ReactQuill modules={modules} value={courseData.requirements} onChange={(e)=> setCourseData({...courseData, requirements: e})} theme="snow" />
+                                {isFieldEmpty(courseData.requirements,isEmpty)}
                             </FormGroup>
                             <FormGroup className="mb-3">
                                 <FormLabel>Аннотация</FormLabel>
                                 <ReactQuill modules={modules} value={courseData.annotations} onChange={(e)=> setCourseData({...courseData, annotations: e})} theme="snow" />
+                                {isFieldEmpty(courseData.annotations,isEmpty)}
                             </FormGroup>
                         </Form>
                     </ModalBody>

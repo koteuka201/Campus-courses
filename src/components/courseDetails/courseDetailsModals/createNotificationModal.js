@@ -1,25 +1,35 @@
 import React, { useState } from "react";
 import { Button, Modal, ModalHeader, ModalFooter, ModalBody, ModalTitle, Form, FormGroup, FormCheck, FormControl } from 'react-bootstrap';
 import { createNotification } from "../../../services/apiService";
+import { isFieldEmpty } from "../../../helpers/isFieldEmpty";
+
 export default function CreateNotificationModal ({id, show, handleClose,updateNotification,toast }){
     
+    const [isEmpty, setIsEmpty]=useState(false)
     const [data,setData]=useState({
         text:'',
         isImportant: false
     })
 
     async function handleCreateNotification(){
-        const loadingToast = toast.loading('Создание уведомления...')
-        const response=await createNotification(localStorage.getItem('token'), id, data.text, data.isImportant)
-        toast.dismiss(loadingToast.id)
-        if(response.id){
-            updateNotification()
-            handleClose()
-            toast.success('Уведомление создано!')
+        if(data.text!==''){
+            setIsEmpty(false)
+            const loadingToast = toast.loading('Создание уведомления...')
+            const response=await createNotification(localStorage.getItem('token'), id, data.text, data.isImportant)
+            toast.dismiss(loadingToast.id)
+            if(response.id){
+                updateNotification()
+                handleClose()
+                toast.success('Уведомление создано!')
+            }
+            if(!response.id){
+                toast.error('Не удалось создать уведомление!')
+            }
         }
-        if(!response.id){
-            toast.error('Не удалось создать уведомление!')
+        else{
+            setIsEmpty(true)
         }
+        
     }
 
     return (
@@ -40,8 +50,10 @@ export default function CreateNotificationModal ({id, show, handleClose,updateNo
                                 ...data,
                                 text:e.target.value
                             })}
+                            className={data.text==='' && isEmpty ? 'border-danger' : ''}
                         >
                         </FormControl>
+                        {isFieldEmpty(data.text,isEmpty)}
                         <FormCheck
                             type="switch"
                             name="isImportant"

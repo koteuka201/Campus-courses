@@ -1,23 +1,31 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import ReactSelect from 'react-select';
-import { Button, Modal, ModalHeader, ModalFooter, ModalBody, ModalTitle, Form, FormGroup, FormLabel, FormCheck, FormControl } from 'react-bootstrap';
+import { Button, Modal, ModalHeader, ModalFooter, ModalBody, ModalTitle, Form, FormGroup, FormLabel } from 'react-bootstrap';
 import { addTeacherCourse } from "../../../services/apiService";
 export default function AddTeacherCourseModal ({id, show, handleClose,users,updateTeachers,toast }){
     
+    const [isEmpty, setIsEmpty]=useState(false)
     const [teacherId,setTeacherId]=useState('')
 
     const handleAddTeacher=async ()=>{
-        const loadingToast = toast.loading('Добавление учителя...')
-        const response=await addTeacherCourse(localStorage.getItem('token'),id,teacherId)
-        toast.dismiss(loadingToast.id)
-        if(response.id){
-            updateTeachers()
-            handleClose()
-            toast.success('Учитель добавлен!')
+        if(teacherId!==''){
+            setIsEmpty(false)
+            const loadingToast = toast.loading('Добавление учителя...')
+            const response=await addTeacherCourse(localStorage.getItem('token'),id,teacherId)
+            toast.dismiss(loadingToast.id)
+            if(response.id){
+                updateTeachers()
+                handleClose()
+                toast.success('Учитель добавлен!')
+            }
+            if(!response.id){
+                toast.error('Не удалось добавить учителя!')
+            }
         }
-        if(!response.id){
-            toast.error('Не удалось добавить учителя!')
+        else{
+            setIsEmpty(true)
         }
+        
     }
 
     return (
@@ -43,6 +51,11 @@ export default function AddTeacherCourseModal ({id, show, handleClose,users,upda
                                 isSearchable={true}
                             />
                         ) : ( <></>)}
+                        {!teacherId && isEmpty ? (
+                            <span className="text-danger">Преподаватель должен быть выбран!</span>
+                        ) : (
+                            <></>
+                        )}
                     </FormGroup>
                 </Form>
             </ModalBody>
