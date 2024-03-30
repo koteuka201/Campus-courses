@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { clearAuth } from '../store/slices/authSlice';
 import { useDispatch } from 'react-redux';
 import { isFieldEmpty } from "../helpers/isFieldEmpty";
+import { toast, Toaster } from 'react-hot-toast';
 
 export default function Login(){
     const dispatch=useDispatch()
@@ -33,8 +34,10 @@ export default function Login(){
     const handleSubmit=async (e)=>{
         e.preventDefault()
         if(data.email!='' && data.password!=''){
+            const loadingToast = toast.loading('Выполняется вход...')
             const response=await login(data.email, data.password)
             if(response){
+                toast.dismiss(loadingToast.id)
                 localStorage.setItem('token', response.token)
                 dispatch(clearAuth())
                 navigate('/')
@@ -50,6 +53,9 @@ export default function Login(){
     }
     return (
         <Container style={{marginTop: '110px'}} className="d-flex justify-content-center align-items-center">
+            <div>
+                <Toaster />
+            </div>
             <Card className="col-md-6 shadow">
                 <CardBody>
                     <CardTitle className="text-center fs-3">Авторизация</CardTitle>

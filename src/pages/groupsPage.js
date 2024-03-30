@@ -4,11 +4,12 @@ import { getRoles,getGroups,createGroup,editGroup,deleteGroup } from "../service
 import GroupsCard from "../components/groupCard";
 import { Toaster, toast } from 'react-hot-toast'
 
-
 export default function GroupsPage(){
 
     const [isTap,setisTap]=useState(false)
     const [isModalEmpty,setisModalEmpty]=useState(false)
+    const [showModal, setShowModal] = useState(false);
+
     const [groups, setGroups]=useState([])
     const [groupName,setGroupName]=useState('')
     const [roles,setRoles]=useState({
@@ -16,7 +17,7 @@ export default function GroupsPage(){
         isTeacher: '',
         isAdmin: ''
     })
-    const [showModal, setShowModal] = useState(false);
+    
     const token=localStorage.getItem('token')
 
     useEffect(()=>{
@@ -53,12 +54,13 @@ export default function GroupsPage(){
     }
 
     async function handleEditGroup(groupId, name) {
-        if(groupName!==''){
+        
+        if(name!==''){
             const loadingToast = toast.loading('Изменение название группы...')
             const response = await editGroup(token, groupId, name);
             toast.dismiss(loadingToast.id)
             if (response) {
-                getGroup();
+                await getGroup();
                 toast.success('Название группы обновлено!')
             }
             if (response==='') {
@@ -66,20 +68,6 @@ export default function GroupsPage(){
             }
         }
         
-    }
-
-    async function handleDeleteGroup(groupId) {
-        const loadingToast = toast.loading('Удаление группы...')
-        const response = await deleteGroup(token, groupId);
-        toast.dismiss(loadingToast.id)
-        
-        if (response.status===200) {
-            getGroup();
-            toast.success('Группа удалена!')
-        }
-        if (response.status===400) {
-            toast.error('Не удалось удалить группу!')
-        }
     }
 
     async function handleCreateGroup() {
@@ -91,7 +79,7 @@ export default function GroupsPage(){
             toast.dismiss(loadingToast.id)
             
             if (response.id) {
-                getGroup();
+                await getGroup();
                 toast.success('Группа создана!')
                 setGroupName('')
                 setShowModal(false)
@@ -105,7 +93,7 @@ export default function GroupsPage(){
             setisModalEmpty(true)
         } 
     }
-
+    // debugger
     function isEmpty(value){
         if(value==='' && isTap){
             setisModalEmpty(true)
@@ -136,7 +124,8 @@ export default function GroupsPage(){
                     name={group.name}
                     isAdmin={roles.isAdmin}
                     onUpdateName={(newName) => handleEditGroup(group.id, newName)}
-                    onDelete={() => handleDeleteGroup(group.id)}
+                    toast={toast}
+                    updatePage={getGroup}
                 />
             ))}
             </div>
@@ -157,6 +146,7 @@ export default function GroupsPage(){
                     <Button variant="primary" onClick={handleCreateGroup}>Создать</Button>
                 </ModalFooter>
             </Modal>
+            
         </Container>
     )
 }

@@ -18,7 +18,7 @@ export default function CreateNotificationModal ({id, show, handleClose,updateNo
             const response=await createNotification(localStorage.getItem('token'), id, data.text, data.isImportant)
             toast.dismiss(loadingToast.id)
             if(response.id){
-                updateNotification()
+                await updateNotification()
                 handleClose()
                 toast.success('Уведомление создано!')
             }

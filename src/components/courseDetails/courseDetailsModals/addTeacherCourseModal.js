@@ -14,7 +14,7 @@ export default function AddTeacherCourseModal ({id, show, handleClose,users,upda
             const response=await addTeacherCourse(localStorage.getItem('token'),id,teacherId)
             toast.dismiss(loadingToast.id)
             if(response.id){
-                updateTeachers()
+                await updateTeachers()
                 handleClose()
                 toast.success('Учитель добавлен!')
             }

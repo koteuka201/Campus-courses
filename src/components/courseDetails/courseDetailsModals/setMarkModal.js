@@ -14,7 +14,7 @@ export default function SetMarkModal ({studentId,courseId,nameOfStudent, mark,ty
         const response= await setMarkStudent(localStorage.getItem('token'),courseId, studentId,selectedMark,typeMark)
         toast.dismiss(loadingToast.id)
         if(response.id){
-            updateMarks()
+            await updateMarks()
             handleClose()
             toast.success('Отметка изменена!')
         }

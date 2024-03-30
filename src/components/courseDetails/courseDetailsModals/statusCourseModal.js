@@ -14,7 +14,7 @@ export default function StatusCourseModal ({token, id, status, show, handleClose
         const response=await editStatusCourse(token, id, selectedStatus)
         toast.dismiss(loadingToast.id)
         if(response.id){
-            updateStatus()
+            await updateStatus()
             handleClose()
             toast.success('Статус изменен!')
         }

@@ -99,7 +99,7 @@ export default function CreateEditCourseModal ({type,isTeacher,roles, show, hand
             if (Array.isArray(response)) {
 
                 
-                updateCourses()
+                await updateCourses()
                 handleClose()
                 toast.success('Курс создан!')
             }
@@ -133,7 +133,7 @@ export default function CreateEditCourseModal ({type,isTeacher,roles, show, hand
             toast.dismiss(loadingToast.id)
             if (response.id) {
                 
-                updateCourses()
+                await updateCourses()
                 handleClose()
                 toast.success('Курс обновлен!')
             }
@@ -150,15 +150,20 @@ export default function CreateEditCourseModal ({type,isTeacher,roles, show, hand
         if (courseData.requirements !== "" &&
             courseData.annotations !== "") {
             setIsEmpty(false)
+            const loadingToast = toast.loading('Сохранение деталей курса...')
             const response = await editCourseTeacherDetails(token, id,
                 courseData.requirements,
                 courseData.annotations)
+            toast.dismiss(loadingToast.id)
             if (response) {
                 
-                updateCourses()
+                await updateCourses()
                 handleClose()
+                toast.success('Курс обновлен!')
             }
-            
+            if(!response.id){
+                toast.error('Не удалось обновить курс!')
+            }
         }
         else{
             setIsEmpty(true)

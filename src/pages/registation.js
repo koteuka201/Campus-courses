@@ -4,6 +4,8 @@ import { registation } from "../services/apiService";
 import { useNavigate } from "react-router-dom";
 import { isDateValid } from "../helpers/dateValidChecker";
 import { isFieldEmpty } from "../helpers/isFieldEmpty";
+import { toast, Toaster } from 'react-hot-toast';
+
 
 export default function Registration(){
 
@@ -61,9 +63,11 @@ export default function Registration(){
         
         if(data.email!='' && data.password!='' && data.fullName!='' && data.birthDate!='' && data.confirmPassword!='' && isPasswordSame && isDate){
             setIsempty(false)
+            const loadingToast = toast.loading('Регистрируем тебя...')
             const response=await registation(data.email, data.password, data.fullName, data.birthDate, data.confirmPassword)
             
             if(response.token){
+                toast.dismiss(loadingToast.id)
                 localStorage.setItem('token', response.token)
                 navigate('/')
             }

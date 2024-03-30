@@ -6,14 +6,13 @@ import CourseTabbed from "../components/courseDetails/courseTabbed";
 import CourseCommunityTabbed from "../components/courseDetails/courseCommunity/courseCommunityTabbed";
 import CreateEditCourseModal from "../components/generalModals/createEditCourseModal";
 import StatusCourseModal from "../components/courseDetails/courseDetailsModals/statusCourseModal";
+import DeleteEntityModal from "../components/generalModals/deleteEntity";
 import { toast, Toaster } from 'react-hot-toast';
 
 
 export default function CourseDetailsPage(){
 
     const { id } = useParams()
-
-    const navigate=useNavigate()
 
     const [currentUserName,setCurrentUserName]=useState('')
     const [isCourseTeacher, setIsCourseTeacher]=useState(false)
@@ -24,6 +23,8 @@ export default function CourseDetailsPage(){
 
     const [showStatusModal, setShowStatusModal]=useState(false)
     const [showModal, setShowModal] = useState(false)
+    const [showDeleteModal, setShowDeleteModal]=useState(false)
+
 
     const [details,setDetails]=useState([])
     const [roles,setRoles]=useState({})
@@ -90,13 +91,6 @@ export default function CourseDetailsPage(){
         }
     }
 
-    async function handleDeleteCourse(){
-        const response = await deleteCourse(token,id)
-        if(response){
-            navigate(-1)
-        }
-    }
-
     async function handleSignUp(){
         const response=await signUpForCourse(token,id)
         if(response){
@@ -115,7 +109,7 @@ export default function CourseDetailsPage(){
                 {roles.isAdmin ? (
                     <Col sm={8} className="text-end">
                         <Button variant="warning" onClick={() => setShowModal(true)}>Редактировать</Button>
-                        <Button variant="danger" className="ms-1" onClick={handleDeleteCourse}>Удалить</Button>
+                        <Button variant="danger" className="ms-1" onClick={()=>setShowDeleteModal(true)}>Удалить</Button>
                     </Col>
                 ) :(
                     isCourseTeacher ? (
@@ -256,7 +250,15 @@ export default function CourseDetailsPage(){
                 updateStatus={GetCourseDetails}
                 toast={toast}
             />
-                           
+            <DeleteEntityModal
+                id={id}
+                show={showDeleteModal}
+                handleClose={()=>setShowDeleteModal(false)}
+                updatePage={GetCourseDetails}
+                toast={toast}
+                type={'course'}
+                name={details.name}
+            />   
         </Container>
     )
 }
