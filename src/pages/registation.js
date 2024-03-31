@@ -61,7 +61,7 @@ export default function Registration(){
     const handleSubmit=async (e)=>{
         e.preventDefault()
         
-        if(data.email!='' && data.password!='' && data.fullName!='' && data.birthDate!='' && data.confirmPassword!='' && isPasswordSame && isDate){
+        if(data.email!=='' && data.password!=='' && data.fullName!=='' && data.birthDate!=='' && data.confirmPassword!=='' && isPasswordSame && isDate){
             setIsempty(false)
             const loadingToast = toast.loading('Регистрируем тебя...')
             const response=await registation(data.email, data.password, data.fullName, data.birthDate, data.confirmPassword)
@@ -81,14 +81,14 @@ export default function Registration(){
     function checkForm(firstP,secondP, date){
         
         setIsDate(isDateValid(date))
-        if(firstP=='' || secondP==''){
+        if(firstP==='' || secondP===''){
             setIsPasswordEmpty(true)
         }
         else{
             setIsPasswordEmpty(false)
         }
 
-        if(firstP===secondP && firstP!=''){
+        if(firstP===secondP && firstP!==''){
             setIsPasswordSame(true)
         }
         else{

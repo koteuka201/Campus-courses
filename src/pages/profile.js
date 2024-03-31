@@ -21,12 +21,9 @@ export default function Profile(){
             if (token) {
                 const response = await getProfile(token);
                 if(response.fullName){
-                    
                     setName(response.fullName);
                     setDate(dateConvertor(response.birthDate));
                     setEmail(response.email);
-
-                    
                 }
             }
         }

@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { Container, Button, Alert, Card, CardBody, CardTitle,Form, FormGroup, FormControl, FormLabel } from 'react-bootstrap';
-import { login } from "../services/apiService";
+import { login } from "../../../services/apiService";
 import { useNavigate } from "react-router-dom";
-import { clearAuth } from '../store/slices/authSlice';
+import { clearAuth } from '../../../store/slices/authSlice';
 import { useDispatch } from 'react-redux';
-import { isFieldEmpty } from "../helpers/isFieldEmpty";
+import { isFieldEmpty } from "../../../helpers/isFieldEmpty";
 import { toast, Toaster } from 'react-hot-toast';
 
 export default function Login(){
@@ -33,7 +33,7 @@ export default function Login(){
     
     const handleSubmit=async (e)=>{
         e.preventDefault()
-        if(data.email!='' && data.password!=''){
+        if(data.email!=='' && data.password!==''){
             const loadingToast = toast.loading('Выполняется вход...')
             const response=await login(data.email, data.password)
             if(response){

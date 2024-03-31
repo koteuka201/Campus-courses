@@ -71,7 +71,7 @@ export default function GroupsPage(){
     }
 
     async function handleCreateGroup() {
-        if(groupName!=''){
+        if(groupName!==''){
             setisTap(false)
             setisModalEmpty(false)
             const loadingToast = toast.loading('Создание группы...')

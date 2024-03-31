@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import {Container, Button, ListGroup , CardTitle, Col,  Row } from 'react-bootstrap';
-import { getRoles, getCourseDetails, getProfile,getUsers, deleteCourse, signUpForCourse} from "../services/apiService";
-import { useNavigate,useParams  } from "react-router-dom";
+import { getRoles, getCourseDetails, getProfile,getUsers,  signUpForCourse} from "../services/apiService";
+import { useParams  } from "react-router-dom";
 import CourseTabbed from "../components/courseDetails/courseTabbed";
 import CourseCommunityTabbed from "../components/courseDetails/courseCommunity/courseCommunityTabbed";
 import CreateEditCourseModal from "../components/generalModals/createEditCourseModal";
-import StatusCourseModal from "../components/courseDetails/courseDetailsModals/statusCourseModal";
 import DeleteEntityModal from "../components/generalModals/deleteEntity";
+import CourseMainInfo from "../components/courseDetails/courseMainInfo";
 import { toast, Toaster } from 'react-hot-toast';
 
 
@@ -21,7 +21,6 @@ export default function CourseDetailsPage(){
     const [isMainTeacher, setIsMainTeacher]=useState(false)
     const [isRolesGot, setIsRolesGot]=useState(false)
 
-    const [showStatusModal, setShowStatusModal]=useState(false)
     const [showModal, setShowModal] = useState(false)
     const [showDeleteModal, setShowDeleteModal]=useState(false)
 
@@ -58,7 +57,7 @@ export default function CourseDetailsPage(){
         
         const response = await getCourseDetails(token,id)
         if(response){
-            
+            // debugger
             setDetails(response)
         }
     }
@@ -68,7 +67,7 @@ export default function CourseDetailsPage(){
             setCurrentUserName(response.fullName)
 
             const teacher=details.teachers.find(teacher => teacher.name===response.fullName)
-            const student=details.students.find(teacher => teacher.name===response.fullName)
+            const student=details.students.find(student => student.name===response.fullName)
             
             if(teacher){
                 
@@ -88,13 +87,6 @@ export default function CourseDetailsPage(){
         if (response) {
  
             setUsers(response)
-        }
-    }
-
-    async function handleSignUp(){
-        const response=await signUpForCourse(token,id)
-        if(response){
-            GetCourseDetails()
         }
     }
 
@@ -122,7 +114,7 @@ export default function CourseDetailsPage(){
                     
                 )}
             </Row>
-            <ListGroup className="mt-2">
+            {/* <ListGroup className="mt-2">
                 <ListGroup.Item>
                     <Row>
                         <Col sm={6}>
@@ -205,8 +197,17 @@ export default function CourseDetailsPage(){
                     </div>
                     {details.studentsInQueueCount}
                 </ListGroup.Item>
-            </ListGroup>
-            
+            </ListGroup> */}
+            <CourseMainInfo
+                id={id}
+                roles={roles}
+                details={details}
+                isCourseTeacher={isCourseTeacher}
+                isCourseStudent={isCourseStudent}
+                updatePage={GetCourseDetails}
+                toast={toast}
+                isRolesGot={isRolesGot}
+            />
             <CourseTabbed
                 id={id}
                 roles={roles}
@@ -241,7 +242,8 @@ export default function CourseDetailsPage(){
                 updateCourses={GetCourseDetails}
                 toast={toast}
             />
-            <StatusCourseModal
+            
+            {/* <StatusCourseModal
                 token={token}
                 id={id}
                 status={details.status}
@@ -249,7 +251,7 @@ export default function CourseDetailsPage(){
                 handleClose={()=> setShowStatusModal(false)}
                 updateStatus={GetCourseDetails}
                 toast={toast}
-            />
+            /> */}
             <DeleteEntityModal
                 id={id}
                 show={showDeleteModal}

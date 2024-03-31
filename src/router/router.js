@@ -1,13 +1,13 @@
 import React from 'react';
 import { Routes, Route} from 'react-router';
 import {Header} from '../components/header';
-import Login from '../pages/login';
+import Login from '../components/pages/loginPage/login';
 import Registration from '../pages/registation';
-import WelcomePage from '../pages/welcomePage';
+import WelcomePage from '../components/pages/welcomePage/welcomePage';
 import Profile from '../pages/profile';
 import GroupsPage from '../pages/groupsPage';
 import GroupCoursesPage from '../pages/groupCoursesPage';
-import TeachingCoursesPage from '../pages/teachingCoursesPage';
+import TeachingCoursesPage from '../components/pages/teachingCoursesPage/teachingCoursesPage';
 import CourseDetailsPage from '../pages/courseDetailsPage';
 import MyCoursesPage from '../components/myCourses/myCoursesPage';
 import { AuthLayout } from '../layouts/authLayout';
