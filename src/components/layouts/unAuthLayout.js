@@ -1,9 +1,9 @@
 import { useSelector,useDispatch } from 'react-redux';
 import { useEffect,useState } from 'react';
 import { Navigate } from 'react-router-dom';
-import { Header } from '../components/header';
-import { isAuth, clearAuth } from '../store/slices/authSlice';
-export const AuthLayout = ({ children }) => {
+import { Header } from '../pages/header/header';
+import { isAuth, clearAuth } from '../../store/slices/authSlice';
+export const UnAuthLayout = ({ children }) => {
     const {isAuthenticated, isLoading}=useSelector(state=>state.auth)
     const dispatch=useDispatch()
     useEffect(()=>{
@@ -11,15 +11,24 @@ export const AuthLayout = ({ children }) => {
         dispatch(isAuth(localStorage.getItem('token')))
         
     },[dispatch])
+    useEffect(() => {
+        
+        if ((isAuthenticated===false) && !isLoading) {
+            localStorage.clear();
+            dispatch(clearAuth());
+        }
+    }, [isAuthenticated, isLoading, dispatch]);
     
     if(isLoading){
         console.log('loading')
         return <></>
     }
     
-    if ((isAuthenticated===true)  && !isLoading) {
+    if ((isAuthenticated===false)  && !isLoading) {
         
-        return <Navigate to={"/"} />
+        localStorage.clear();
+        dispatch(clearAuth());
+        return <Navigate to={"/login"} />
     }
     
     return (

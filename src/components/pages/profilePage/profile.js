@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import {Row,Col, Container, Button,  Card, CardBody, CardTitle,Form,  FormControl, FormLabel } from 'react-bootstrap';
-import { getProfile, putProfile } from "../services/apiService";
-import { dateConvertor } from "../helpers/dateConverter";
-import { isDateValid } from "../helpers/dateValidChecker";
-import { isFieldEmpty } from "../helpers/isFieldEmpty";
+import { getProfile, putProfile } from "../../../services/apiService";
+import { dateConvertor } from "../../../helpers/dateConverter";
+import { isDateValid } from "../../../helpers/dateValidChecker";
+import { isFieldEmpty } from "../../../helpers/isFieldEmpty";
 import { Toaster, toast } from 'react-hot-toast'
 export default function Profile(){
 

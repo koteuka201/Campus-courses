@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button, Modal, ModalHeader, ModalFooter, ModalBody, ModalTitle, Form, FormGroup, FormCheck, FormControl } from 'react-bootstrap';
-import { createNotification } from "../../../services/apiService";
-import { isFieldEmpty } from "../../../helpers/isFieldEmpty";
+import { createNotification } from "../../../../services/apiService";
+import { isFieldEmpty } from "../../../../helpers/isFieldEmpty";
 
 export default function CreateNotificationModal ({id, show, handleClose,updateNotification,toast }){
     

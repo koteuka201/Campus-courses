@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Container, Button,  CardTitle, FormControl, Modal, ModalHeader,ModalFooter,ModalBody,ModalTitle } from 'react-bootstrap';
-import { getRoles,getGroups,createGroup,editGroup,deleteGroup } from "../services/apiService";
-import GroupsCard from "../components/groupCard";
+import { getRoles,getGroups,createGroup,editGroup,deleteGroup } from "../../../services/apiService";
+import GroupsCard from "./groupCard";
 import { Toaster, toast } from 'react-hot-toast'
 
 export default function GroupsPage(){

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Container, Button, CardTitle } from 'react-bootstrap';
 import { useParams } from "react-router-dom";
-import { getRoles, getGroupCourses, getGroups } from "../services/apiService";
-import CourseCard from "../components/courseCard";
-import CreateEditCourseModal from "../components/generalModals/createEditCourseModal";
+import { getRoles, getGroupCourses, getGroups } from "../../../services/apiService";
+import CourseCard from "./courseCard";
+import CreateEditCourseModal from "../../generalModals/createEditCourseModal";
 import { toast, Toaster } from 'react-hot-toast';
 export default function GroupCoursesPage() {
     const { id } = useParams();

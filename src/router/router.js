@@ -1,17 +1,18 @@
 import React from 'react';
 import { Routes, Route} from 'react-router';
-import {Header} from '../components/header';
+import {Header} from '../components/pages/header/header';
 import Login from '../components/pages/loginPage/login';
-import Registration from '../pages/registation';
+import Registration from '../components/pages/registrationPage/registation';
 import WelcomePage from '../components/pages/welcomePage/welcomePage';
-import Profile from '../pages/profile';
-import GroupsPage from '../pages/groupsPage';
-import GroupCoursesPage from '../pages/groupCoursesPage';
+import Profile from '../components/pages/profilePage/profile';
+import GroupsPage from '../components/pages/groupsPage/groupsPage';
+import GroupCoursesPage from '../components/pages/groupCoursesPage/groupCoursesPage';
 import TeachingCoursesPage from '../components/pages/teachingCoursesPage/teachingCoursesPage';
-import CourseDetailsPage from '../pages/courseDetailsPage';
-import MyCoursesPage from '../components/myCourses/myCoursesPage';
-import { AuthLayout } from '../layouts/authLayout';
-import { UnAuthLayout } from '../layouts/unAuthLayout';
+import CourseDetailsPage from '../components/pages/courseDetailsPage/courseDetailsPage';
+import MyCoursesPage from '../components/pages/myCoursesPage/myCoursesPage';
+import { UnAuthLayout } from '../components/layouts/unAuthLayout';
+import { AuthLayout } from '../components/layouts/authLayout';
+
 
 
 export default function Router(){

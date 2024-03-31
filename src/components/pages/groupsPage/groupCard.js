@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import {Col, Button, Card, CardBody,  FormControl,  Modal, ModalHeader,ModalFooter,ModalBody,ModalTitle } from 'react-bootstrap';
 import { Link } from "react-router-dom";
-import DeleteEntityModal from "../components/generalModals/deleteEntity";
+import DeleteEntityModal from "../../generalModals/deleteEntityModal";
 
 
 export default function GroupsCard({ id, name, isAdmin, onUpdateName, toast,updatePage }){

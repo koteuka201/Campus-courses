@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import 'react-quill/dist/quill.snow.css';
 import {Container, CardTitle} from 'react-bootstrap';
 import { getRoles,getTeachingCourses } from "../../../services/apiService";
-import CourseCard from "../../courseCard";
+import CourseCard from "../groupCoursesPage/courseCard";
 
 export default function TeachingCoursesPage(){
 

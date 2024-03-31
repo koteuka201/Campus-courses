@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Container, Button,  Card, CardBody, CardTitle,Form, FormGroup, FormControl, FormLabel } from 'react-bootstrap';
-import { registation } from "../services/apiService";
+import { registation } from "../../../services/apiService";
 import { useNavigate } from "react-router-dom";
-import { isDateValid } from "../helpers/dateValidChecker";
-import { isFieldEmpty } from "../helpers/isFieldEmpty";
+import { isDateValid } from "../../../helpers/dateValidChecker";
+import { isFieldEmpty } from "../../../helpers/isFieldEmpty";
 import { toast, Toaster } from 'react-hot-toast';
+import {isPasswordValid, isEmailValid} from "../../../helpers/registrationValidation";
 
 
 export default function Registration(){
@@ -61,7 +62,7 @@ export default function Registration(){
     const handleSubmit=async (e)=>{
         e.preventDefault()
         
-        if(data.email!=='' && data.password!=='' && data.fullName!=='' && data.birthDate!=='' && data.confirmPassword!=='' && isPasswordSame && isDate){
+        if(data.email!=='' && data.password!=='' && data.fullName!=='' && data.birthDate!=='' && data.confirmPassword!=='' && isPasswordSame && isDate && isPasswordValid(data.password)){
             setIsempty(false)
             const loadingToast = toast.loading('Регистрируем тебя...')
             const response=await registation(data.email, data.password, data.fullName, data.birthDate, data.confirmPassword)
@@ -99,6 +100,9 @@ export default function Registration(){
 
     return(
         <Container style={{marginTop: '110px'}} className="">
+            <div>
+                <Toaster/>
+            </div>
             <Card>
                 <CardBody>
                     <CardTitle className="d-flex justify-content-center align-items-center">Регистрация нового пользователя</CardTitle>
@@ -119,16 +123,21 @@ export default function Registration(){
                         )}
                         <FormGroup className="mt-2">
                             <FormLabel>Email</FormLabel>
-                            <FormControl type="email" className={data.email.trim() === "" && isEmpty && !isDate ? "border-danger" : ""} value={data.email} onChange={handleEmailChange} placeholder="Введите ваш email"></FormControl>
+                            <FormControl type="email" className={(data.email.trim() === "" || !isEmailValid(data.email)) && isEmpty && !isDate ? "border-danger" : ""} value={data.email} onChange={handleEmailChange} placeholder="Введите ваш email"></FormControl>
                             <div className="small" style={{opacity: 0.7}}>Email будет использоваться для входа в систему</div>
-                            {isFieldEmpty(data.email,isEmpty)}
+                            {!isEmailValid(data.email) && isEmpty ? (
+                                <span className="text-danger">Используйте маску exemple@exemple.exemple!</span>
+                            ) : (
+                                isFieldEmpty(data.email,isEmpty)
+                            )}
+                            
                         </FormGroup>
                         
-                        {isPasswordSame ? (
+                        {isPasswordSame && isPasswordValid(data.password) ? (
                             <div>
                             <FormGroup className="mt-2">
                                 <FormLabel>Пароль</FormLabel>
-                                <FormControl type="password" className={data.password.trim() === "" && isEmpty ? "border-danger" : "border-success"} value={data.password} onChange={handlePasswordChange} placeholder="Введите ваш пароль"></FormControl>
+                                <FormControl type="password" className={(data.password.trim() === "" || !isPasswordValid(data.password)) && isEmpty ? "border-danger" : "border-success"} value={data.password} onChange={handlePasswordChange} placeholder="Введите ваш пароль"></FormControl>
                             </FormGroup>
                             <span className="text-success">Пароли совпадают!</span>
                             </div>
@@ -140,11 +149,16 @@ export default function Registration(){
                                 <FormControl type="password" className={(data.password.trim() === "" && isEmpty) || !isPasswordEmpty ? "border-danger" : ''} value={data.password} onChange={handlePasswordChange} placeholder="Введите ваш пароль"></FormControl>
                                 {isFieldEmpty(data.password,isEmpty)}
                             </FormGroup>
-                            {!isPasswordEmpty ? (
-                                <span className="text-danger">Пароли не совпадают!</span>
-                            ) :(
-                                <></>
+                            {!isPasswordValid(data.password) && isEmpty && data.password!=='' ? (
+                                <span className="text-danger">Пароль должен содержать не менее 6 букв и хотя бы одну цифру</span>
+                            ) : (
+                                !isPasswordEmpty  ? (
+                                    <span className="text-danger">Пароли не совпадают!</span>
+                                ) :(
+                                    <></>
+                                )
                             )}
+                            
                             <FormGroup className="mt-2">
                                 <FormLabel>Повторите пароль</FormLabel>
                                 <FormControl type="password" className={(data.confirmPassword.trim() === "" && isEmpty) || !isPasswordEmpty ? "border-danger" : ''} value={data.confirmPassword} onChange={handleConfirmPasswordChange} placeholder="Повторите ваш пароль"></FormControl>

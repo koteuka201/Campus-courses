@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import '../../styles/tab.css'
+import '../../../styles/tab.css'
 import {Tab, Tabs, Button  } from 'react-bootstrap';
 import CreateNotificationModal from "./courseDetailsModals/createNotificationModal";
 

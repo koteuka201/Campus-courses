@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import {Container, Button, ListGroup , CardTitle, Col,  Row } from 'react-bootstrap';
-import { getRoles, getCourseDetails, getProfile,getUsers,  signUpForCourse} from "../services/apiService";
+import { getRoles, getCourseDetails, getProfile,getUsers,  signUpForCourse} from "../../../services/apiService";
 import { useParams  } from "react-router-dom";
-import CourseTabbed from "../components/courseDetails/courseTabbed";
-import CourseCommunityTabbed from "../components/courseDetails/courseCommunity/courseCommunityTabbed";
-import CreateEditCourseModal from "../components/generalModals/createEditCourseModal";
-import DeleteEntityModal from "../components/generalModals/deleteEntity";
-import CourseMainInfo from "../components/courseDetails/courseMainInfo";
+import CourseTabbed from "./courseTabbed";
+import CourseCommunityTabbed from "./courseCommunity/courseCommunityTabbed";
+import CreateEditCourseModal from "../../generalModals/createEditCourseModal";
+import DeleteEntityModal from "../../generalModals/deleteEntityModal";
+import CourseMainInfo from "./courseMainInfo";
 import { toast, Toaster } from 'react-hot-toast';
 
 

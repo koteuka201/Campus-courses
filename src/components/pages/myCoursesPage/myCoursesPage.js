@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import 'react-quill/dist/quill.snow.css';
 import {Container, CardTitle} from 'react-bootstrap';
-import { getRoles, getMyCourses } from "../../services/apiService";
-import CourseCard from "../courseCard";
+import { getRoles, getMyCourses } from "../../../services/apiService";
+import CourseCard from "../groupCoursesPage/courseCard";
 export default function MyCoursesPage(){
 
     const [courses, setCourses]=useState([])
