@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import ReactSelect from 'react-select';
 import { Button, Modal, ModalHeader, ModalFooter, ModalBody, ModalTitle, Form, FormGroup, FormLabel } from 'react-bootstrap';
 import { addTeacherCourse } from "../../../../services/apiService";
-export default function AddTeacherCourseModal ({id, show, handleClose,users,updateTeachers,toast }){
+export default function AddTeacherCourseModal ({id, show, handleClose,users,updateTeachers,toast, students }){
     
     const [isEmpty, setIsEmpty]=useState(false)
     const [teacherId,setTeacherId]=useState('')
@@ -42,8 +42,7 @@ export default function AddTeacherCourseModal ({id, show, handleClose,users,upda
                         <FormLabel>Основной преподаватель курса</FormLabel>
                         {Array.isArray(users) ? (
                             <ReactSelect
-                                options={users.map(user => ({ value: user.id, label: user.fullName }))}
-                                onChange={(e) => setTeacherId(e.value)}
+                                options={users.filter(user => !students.some(student => student.id === user.id)).map(user => ({ value: user.id, label: user.fullName }))}                                onChange={(e) => setTeacherId(e.value)}
                                 value={teacherId ?
                                     { value: teacherId, label: users.find(user => user.id === teacherId)?.fullName || '' } :
                                     null

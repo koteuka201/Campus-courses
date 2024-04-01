@@ -98,7 +98,7 @@ export const Header=  ()=>{
                                 )}
                                 
 
-                                <Link to='/profile' className="nav-link profile ms-lg-auto">{name}</Link>
+                                <Link to='/profile' className="nav-link profile ms-lg-auto" style={{marginLeft: 30}}>{name}</Link>
                                 <Link className="nav-link header" onClick={handleLogout}>Выход</Link>
                                 
                             </>

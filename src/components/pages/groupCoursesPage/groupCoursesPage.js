@@ -5,11 +5,15 @@ import { getRoles, getGroupCourses, getGroups } from "../../../services/apiServi
 import CourseCard from "./courseCard";
 import CreateEditCourseModal from "../../generalModals/createEditCourseModal";
 import { toast, Toaster } from 'react-hot-toast';
+import { Loader } from "../../layouts/loader/loader";
+
+
 export default function GroupCoursesPage() {
     const { id } = useParams();
 
     const [users, setUsers] = useState([])
     
+    const [loading,setLoading]=useState(false)
     const [isCourseTeacher, setIsCourseTeacher]=useState(false)
     const [courses, setCourses] = useState([])
     const [isRequested, setIsRequested] = useState(false)
@@ -33,11 +37,13 @@ export default function GroupCoursesPage() {
     }
 
     async function GetGroupCourses() {
+        setLoading(true)
         const response = await getGroupCourses(token, id);
         if (response) {
             setCourses(response)
             setIsRequested(true)
         }
+        setLoading(false)
     }
 
     async function getGroupName() {
@@ -45,6 +51,11 @@ export default function GroupCoursesPage() {
         if (response) {
             setGroupName((response.find(group => group.id === id)).name)
         }
+    }
+
+
+    if(loading){
+        return <Loader/>
     }
 
     return (

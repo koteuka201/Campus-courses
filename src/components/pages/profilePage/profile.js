@@ -5,8 +5,11 @@ import { dateConvertor } from "../../../helpers/dateConverter";
 import { isDateValid } from "../../../helpers/dateValidChecker";
 import { isFieldEmpty } from "../../../helpers/isFieldEmpty";
 import { Toaster, toast } from 'react-hot-toast'
+import { Loader } from "../../layouts/loader/loader";
+
 export default function Profile(){
 
+    const [loading,setLoading]=useState(false)
     const [email,setEmail]=useState('')
     const [isEmpty, setIsempty]=useState(false)
     const [fullName, setName]=useState('')
@@ -19,11 +22,13 @@ export default function Profile(){
     useEffect(() => {
         async function getName(){
             if (token) {
+                setLoading(true)
                 const response = await getProfile(token);
                 if(response.fullName){
                     setName(response.fullName);
                     setDate(dateConvertor(response.birthDate));
                     setEmail(response.email);
+                    setLoading(false)
                 }
             }
         }
@@ -57,6 +62,10 @@ export default function Profile(){
         else{
             setIsempty(true)
         }
+    }
+
+    if(loading){
+        return <Loader/>
     }
 
     return(

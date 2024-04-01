@@ -4,7 +4,6 @@ import {Button,Tab, Tabs  } from 'react-bootstrap';
 import TeachersList from "./teacherList";
 import StudentsList from "./studentsList";
 import AddTeacherCourseModal from '../courseDetailsModals/addTeacherCourseModal'
-// import AddTeacherCourseModal from "../../../courseDetails/courseDetailsModals/addTeacherCourseModal";
 export default function CourseCommunityTabbed({id,roles, teachers,students,users,isMainTeacher, updateTeachers, isCourseStudent,currentUserName,isCourseTeacher, toast}){
     
     const [showModal,setShowModal]=useState(false)
@@ -71,6 +70,7 @@ export default function CourseCommunityTabbed({id,roles, teachers,students,users
                 users={users}
                 updateTeachers={updateTeachers}
                 toast={toast}
+                students={students}
             />      
         </>
     )

@@ -8,12 +8,14 @@ import CreateEditCourseModal from "../../generalModals/createEditCourseModal";
 import DeleteEntityModal from "../../generalModals/deleteEntityModal";
 import CourseMainInfo from "./courseMainInfo";
 import { toast, Toaster } from 'react-hot-toast';
+import { Loader } from "../../layouts/loader/loader";
 
 
 export default function CourseDetailsPage(){
 
     const { id } = useParams()
 
+    const [loading,setLoading]=useState(false)
     const [currentUserName,setCurrentUserName]=useState('')
     const [isCourseTeacher, setIsCourseTeacher]=useState(false)
     const [isCourseStudent, setIsCourseStudent]=useState(false)
@@ -54,12 +56,13 @@ export default function CourseDetailsPage(){
         }
     }
     async function GetCourseDetails(){
-        
+        setLoading(true)
         const response = await getCourseDetails(token,id)
         if(response){
             // debugger
             setDetails(response)
         }
+        setLoading(false)
     }
     async function GetProfile(){
         const response = await getProfile(token)
@@ -88,6 +91,10 @@ export default function CourseDetailsPage(){
  
             setUsers(response)
         }
+    }
+
+    if(loading){
+        return <Loader/>
     }
 
     return(

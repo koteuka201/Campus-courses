@@ -3,9 +3,11 @@ import { Container, Button,  CardTitle, FormControl, Modal, ModalHeader,ModalFoo
 import { getRoles,getGroups,createGroup,editGroup,deleteGroup } from "../../../services/apiService";
 import GroupsCard from "./groupCard";
 import { Toaster, toast } from 'react-hot-toast'
+import { Loader } from "../../layouts/loader/loader";
 
 export default function GroupsPage(){
 
+    const [loading,setLoading]=useState(false)
     const [isTap,setisTap]=useState(false)
     const [isModalEmpty,setisModalEmpty]=useState(false)
     const [showModal, setShowModal] = useState(false);
@@ -46,10 +48,12 @@ export default function GroupsPage(){
         
     }
     async function getGroup(){
+        setLoading(true)
         const response=await getGroups(token)
         if(response){
             
             setGroups(response)
+            setLoading(false)
         }
     }
 
@@ -80,7 +84,10 @@ export default function GroupsPage(){
             
             if (response.id) {
                 await getGroup();
-                toast.success('Группа создана!')
+                setTimeout(() => {
+                    toast.success('Группа создана!')
+                }, 10)
+                // toast.success('Группа создана!')
                 setGroupName('')
                 setShowModal(false)
             }
@@ -103,11 +110,17 @@ export default function GroupsPage(){
         }
     }
 
+    if(loading){
+        return <Loader/>
+        
+    }
+
     return(
-        <Container style={{marginTop: '110px'}} className="">
+        <Container style={{marginTop: '110px'}} >
             <div>
                 <Toaster />
             </div>
+            
             <CardTitle className="fs-3">Группы кампусных курсов</CardTitle>
             {roles.isAdmin ? (
                 <Button className="mt-1"  onClick={() => setShowModal(true)}>Создать</Button>
@@ -132,6 +145,7 @@ export default function GroupsPage(){
             <Modal show={showModal} onHide={() => setShowModal(false)}>
                 <ModalHeader closeButton>
                     <ModalTitle>Создание группы</ModalTitle>
+                    
                 </ModalHeader>
                 <ModalBody>
                     <FormControl className={isModalEmpty ? "border-danger" : ""} type="text" placeholder="Название курса" value={groupName} onChange={(e) => setGroupName(e.target.value)} />

@@ -3,9 +3,11 @@ import 'react-quill/dist/quill.snow.css';
 import {Container, CardTitle} from 'react-bootstrap';
 import { getRoles,getTeachingCourses } from "../../../services/apiService";
 import CourseCard from "../groupCoursesPage/courseCard";
+import { Loader } from "../../layouts/loader/loader";
 
 export default function TeachingCoursesPage(){
 
+    const [loading,setLoading]=useState(false)
     const [courses, setCourses]=useState([])
     const [roles,setRoles]=useState({
         isStudent: '',
@@ -35,16 +37,23 @@ export default function TeachingCoursesPage(){
     }
 
     async function GetTeachingCourses(){
+        setLoading(true)
         const response=await getTeachingCourses(token)
         if(response){
             setCourses(response)
         }
+        setLoading(false)
+    }
+
+    if(loading){
+        return <Loader/>
     }
 
     return(
         <Container style={{marginTop: '110px'}}>
             <CardTitle className="fs-3">Преподаваемые курсы</CardTitle>
-            <div className="mt-4">
+            {courses.length ? (
+                <div className="mt-4">
                     {courses.map(course=>(
                     <CourseCard
                         key={course.id}
@@ -59,6 +68,10 @@ export default function TeachingCoursesPage(){
                     />
                     ))}
                 </div>
+            ) : (
+                <span className="text-center fw-bold text-danger fs-3">Курсов еще нет</span>
+            )}
+            
         </Container>
     )
 }

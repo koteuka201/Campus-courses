@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Button, Modal, ModalHeader, ModalFooter, ModalBody, ModalTitle } from 'react-bootstrap';
 import { deleteCourse, deleteGroup } from "../../services/apiService";
 import { useNavigate  } from "react-router-dom";
