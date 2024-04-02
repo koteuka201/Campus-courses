@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Button, ListGroup ,  Col,  Row } from 'react-bootstrap';
-import { signUpForCourse } from "../../../services/apiService";
+// import { signUpForCourse } from "../../../services/apiService";
+import { signUpForCourse } from "../../../apiServices/courseService";
 import StatusCourseModal from "./courseDetailsModals/statusCourseModal";
 
 export default function CourseMainInfo({id,roles, details, isCourseTeacher, isCourseStudent, updatePage, toast,isRolesGot}){

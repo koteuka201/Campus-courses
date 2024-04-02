@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import {Row,Col, Container, Button,  Card, CardBody, CardTitle,Form,  FormControl, FormLabel } from 'react-bootstrap';
-import { getProfile, putProfile } from "../../../services/apiService";
+// import { getProfile, putProfile } from "../../../services/apiService";
+import { getProfile, putProfile } from "../../../apiServices/accountService";
 import { dateConvertor } from "../../../helpers/dateConverter";
 import { isDateValid } from "../../../helpers/dateValidChecker";
 import { isFieldEmpty } from "../../../helpers/isFieldEmpty";
@@ -95,7 +96,7 @@ export default function Profile(){
                         <Row className=" mb-2">
                             <FormLabel column sm={2}>День рождения</FormLabel>
                             <Col sm={10}>
-                                <FormControl className={birthDate.trim() === "" && isEmpty && !isDateValid(birthDate) ? "border-danger" : ""} type="date" value={birthDate} onChange={handleDateBirth}></FormControl>
+                                <FormControl className={(birthDate.trim() === "" || !isDateValid(birthDate)) && isEmpty ? "border-danger" : ""} type="date" value={birthDate} onChange={handleDateBirth}></FormControl>
                                 {isDateValid(birthDate) ? (
                                     <></>
                                 ) :(

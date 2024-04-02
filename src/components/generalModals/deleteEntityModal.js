@@ -1,6 +1,8 @@
 import React from "react";
 import { Button, Modal, ModalHeader, ModalFooter, ModalBody, ModalTitle } from 'react-bootstrap';
-import { deleteCourse, deleteGroup } from "../../services/apiService";
+// import { deleteCourse, deleteGroup } from "../../services/apiService";
+import { deleteCourse } from "../../apiServices/courseService";
+import { deleteGroup } from "../../apiServices/groupService";
 import { useNavigate  } from "react-router-dom";
 
 export default function DeleteEntityModal ({id, show, handleClose,updatePage,toast, type, name }){

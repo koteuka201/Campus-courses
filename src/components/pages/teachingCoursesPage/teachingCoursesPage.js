@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import 'react-quill/dist/quill.snow.css';
 import {Container, CardTitle} from 'react-bootstrap';
-import { getRoles,getTeachingCourses } from "../../../services/apiService";
+// import { getRoles,getTeachingCourses } from "../../../services/apiService";
+import { getTeachingCourses } from "../../../apiServices/courseService";
+import { getRoles } from "../../../apiServices/usersService";
 import CourseCard from "../groupCoursesPage/courseCard";
 import { Loader } from "../../layouts/loader/loader";
 

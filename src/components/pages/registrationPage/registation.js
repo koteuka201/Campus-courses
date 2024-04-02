@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from "react";
+import { useDispatch } from 'react-redux';
 import { Container, Button,  Card, CardBody, CardTitle,Form, FormGroup, FormControl, FormLabel } from 'react-bootstrap';
-import { registation } from "../../../services/apiService";
+import { registation } from "../../../apiServices/accountService";
 import { useNavigate } from "react-router-dom";
 import { isDateValid } from "../../../helpers/dateValidChecker";
 import { isFieldEmpty } from "../../../helpers/isFieldEmpty";
 import { toast, Toaster } from 'react-hot-toast';
 import {isPasswordValid, isEmailValid} from "../../../helpers/registrationValidation";
-
+import { clearAuth } from "../../../store/slices/authSlice";
 
 export default function Registration(){
 
+    const dispatch=useDispatch()
     const navigate = useNavigate();
     const [isEmpty, setIsempty]=useState(false)
     const [isDate, setIsDate]=useState(false)
@@ -62,14 +64,15 @@ export default function Registration(){
     const handleSubmit=async (e)=>{
         e.preventDefault()
         
-        if(data.email!=='' && data.password!=='' && data.fullName!=='' && data.birthDate!=='' && data.confirmPassword!=='' && isPasswordSame && isDate && isPasswordValid(data.password)){
+        if(data.email!=='' && data.password!=='' && data.fullName!=='' && data.birthDate!=='' && data.confirmPassword!=='' && isPasswordSame && isDate && isPasswordValid(data.password) && isEmailValid(data.email)){
             setIsempty(false)
             const loadingToast = toast.loading('Регистрируем тебя...')
             const response=await registation(data.email, data.password, data.fullName, data.birthDate, data.confirmPassword)
-            
+            toast.dismiss(loadingToast.id)
             if(response.token){
-                toast.dismiss(loadingToast.id)
+                
                 localStorage.setItem('token', response.token)
+                dispatch(clearAuth())
                 navigate('/')
             }
         }
@@ -123,7 +126,7 @@ export default function Registration(){
                         )}
                         <FormGroup className="mt-2">
                             <FormLabel>Email</FormLabel>
-                            <FormControl type="email" className={(data.email.trim() === "" || !isEmailValid(data.email)) && isEmpty && !isDate ? "border-danger" : ""} value={data.email} onChange={handleEmailChange} placeholder="Введите ваш email"></FormControl>
+                            <FormControl type="email" className={(data.email.trim() === "" || !isEmailValid(data.email)) && isEmpty ? "border-danger" : ""} value={data.email} onChange={handleEmailChange} placeholder="Введите ваш email"></FormControl>
                             <div className="small" style={{opacity: 0.7}}>Email будет использоваться для входа в систему</div>
                             {!isEmailValid(data.email) && isEmpty ? (
                                 <span className="text-danger">Используйте маску exemple@exemple.exemple!</span>

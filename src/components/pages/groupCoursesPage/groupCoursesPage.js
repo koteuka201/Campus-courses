@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Container, Button, CardTitle } from 'react-bootstrap';
 import { useParams } from "react-router-dom";
-import { getRoles, getGroupCourses, getGroups } from "../../../services/apiService";
+// import { getRoles, getGroupCourses, getGroups } from "../../../services/apiService";
+// import { getGroupCourses, getGroups } from "../../../services/apiService";
+import { getGroupCourses, getGroups } from "../../../apiServices/groupService";
+import { getRoles } from "../../../apiServices/usersService";
 import CourseCard from "./courseCard";
 import CreateEditCourseModal from "../../generalModals/createEditCourseModal";
 import { toast, Toaster } from 'react-hot-toast';
@@ -23,7 +26,7 @@ export default function GroupCoursesPage() {
 
     useEffect(() => {
         getRole()
-        GetGroupCourses()
+        GetGroupCourses('first')
         getGroupName()
     }, []);
 
@@ -36,14 +39,18 @@ export default function GroupCoursesPage() {
         }
     }
 
-    async function GetGroupCourses() {
-        setLoading(true)
+    async function GetGroupCourses(num) {
+        if(num==='first'){
+            setLoading(true)
+        }
         const response = await getGroupCourses(token, id);
         if (response) {
             setCourses(response)
             setIsRequested(true)
         }
-        setLoading(false)
+        if(num==='first'){
+            setLoading(false)
+        }
     }
 
     async function getGroupName() {
@@ -104,6 +111,7 @@ export default function GroupCoursesPage() {
                 id={id}
                 updateCourses={GetGroupCourses}
                 toast={toast}
+                isMainTeacher={false}
             />
             
         </Container>

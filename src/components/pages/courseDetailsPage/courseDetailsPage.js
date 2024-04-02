@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
 import {Container, Button, ListGroup , CardTitle, Col,  Row } from 'react-bootstrap';
-import { getRoles, getCourseDetails, getProfile,getUsers,  signUpForCourse} from "../../../services/apiService";
+// import { getRoles, getCourseDetails, getProfile,getUsers,  signUpForCourse} from "../../../services/apiService";
+import { getCourseDetails } from "../../../apiServices/courseService";
+import { getRoles, getUsers } from "../../../apiServices/usersService";
+import { getProfile } from "../../../apiServices/accountService";
 import { useParams  } from "react-router-dom";
-import CourseTabbed from "./courseTabbed";
+import CourseTabbed from "./courseTabbed"; 
 import CourseCommunityTabbed from "./courseCommunity/courseCommunityTabbed";
 import CreateEditCourseModal from "../../generalModals/createEditCourseModal";
 import DeleteEntityModal from "../../generalModals/deleteEntityModal";
@@ -33,7 +36,7 @@ export default function CourseDetailsPage(){
 
     
     useEffect(()=>{
-        GetCourseDetails()
+        GetCourseDetails('first')
         getRole()
         getUsersList()
         
@@ -55,14 +58,18 @@ export default function CourseDetailsPage(){
             setIsRolesGot(true)
         }
     }
-    async function GetCourseDetails(){
-        setLoading(true)
+    async function GetCourseDetails(num){
+        if(num==='first'){
+            setLoading(true)
+        }
+        
         const response = await getCourseDetails(token,id)
         if(response){
-            // debugger
             setDetails(response)
         }
-        setLoading(false)
+        if(num==='first'){
+            setLoading(false)
+        }
     }
     async function GetProfile(){
         const response = await getProfile(token)
@@ -164,6 +171,7 @@ export default function CourseDetailsPage(){
                 id={id}
                 updateCourses={GetCourseDetails}
                 toast={toast}
+                isMainTeacher={isMainTeacher}
             />
             
             <DeleteEntityModal

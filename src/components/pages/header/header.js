@@ -3,8 +3,10 @@ import { Link,  useNavigate } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {  Container,NavbarToggle, Navbar, NavbarCollapse, NavbarBrand, Nav } from 'react-bootstrap';
 import '../../../styles/header.css'
-import { getProfile, logout,getRoles } from "../../../services/apiService";
-
+// import { getProfile, logout,getRoles } from "../../../services/apiService";
+// import {getRoles } from "../../../services/apiService";
+import { getRoles } from "../../../apiServices/usersService";
+import { getProfile, logout } from "../../../apiServices/accountService";
 
 export const Header=  ()=>{
 

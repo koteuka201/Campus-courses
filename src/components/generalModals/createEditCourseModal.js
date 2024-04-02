@@ -3,10 +3,11 @@ import ReactQuill from 'react-quill';
 import ReactSelect from 'react-select';
 import 'react-quill/dist/quill.snow.css';
 import { Button, Modal, ModalHeader, ModalFooter, ModalBody, ModalTitle, Form, FormGroup, FormLabel, FormControl, FormCheck } from 'react-bootstrap';
-import { createCourse, getUsers,getCourseDetails,editCourseDetails, editCourseTeacherDetails } from "../../services/apiService";
+import { createCourse, getCourseDetails, editCourseDetails, editCourseTeacherDetails } from "../../apiServices/courseService";
+import { getUsers } from "../../apiServices/usersService";
 import { isFieldEmpty } from "../../helpers/isFieldEmpty";
 
-export default function CreateEditCourseModal ({type,isTeacher,roles, show, handleClose, token, id, updateCourses,toast }){
+export default function CreateEditCourseModal ({type,isTeacher,roles, show, handleClose, token, id, updateCourses,toast,isMainTeacher }){
     
     const [startYeatValid,setStartYeatValid]=useState(true)
     const [amountValid,setAmoutValid]=useState(true)
@@ -43,7 +44,7 @@ export default function CreateEditCourseModal ({type,isTeacher,roles, show, hand
     async function getUsersList() {
         const response = await getUsers(token)
         if (response) {
- 
+            
             setUsers(response)
             setUsersGet(true)
         }
@@ -52,6 +53,7 @@ export default function CreateEditCourseModal ({type,isTeacher,roles, show, hand
     async function GetCourseDetails(){
         
         const response = await getCourseDetails(token,id)
+        
         if(response && Array.isArray(users)){
             
             const mainTeacherName=users.find(user => user.fullName === response.teachers.find(teacher => teacher.isMain)?.name)
@@ -72,6 +74,21 @@ export default function CreateEditCourseModal ({type,isTeacher,roles, show, hand
                 mainTeacherId: teacherId
             })
             
+        }
+        else{
+            if((response && !isMainTeacher)){
+            
+                setCourseData({
+                    ...courseData,
+                    name: response.name,
+                    startYear: response.startYear,
+                    maximumStudentsCount: response.maximumStudentsCount,
+                    semester: response.semester,
+                    requirements: response.requirements,
+                    annotations: response.annotations,
+                    mainTeacherId: ''
+                })
+            }
         }
         
     }
@@ -101,10 +118,10 @@ export default function CreateEditCourseModal ({type,isTeacher,roles, show, hand
                 
                 await updateCourses()
                 handleClose()
-                toast.success('Курс создан!')
+                toast.success('Курс создан!', { duration: 1000 })
             }
             if(!Array.isArray(response)){
-                toast.error('Не удалось создать курс!')
+                toast.error('Не удалось создать курс!', { duration: 1000 })
             }
         }
         else{
@@ -135,10 +152,10 @@ export default function CreateEditCourseModal ({type,isTeacher,roles, show, hand
                 
                 await updateCourses()
                 handleClose()
-                toast.success('Курс обновлен!')
+                toast.success('Курс обновлен!', { duration: 1000 })
             }
             if(!response.id){
-                toast.error('Не удалось обновить курс!')
+                toast.error('Не удалось обновить курс!', { duration: 1000 })
             }
             
         }
@@ -159,10 +176,10 @@ export default function CreateEditCourseModal ({type,isTeacher,roles, show, hand
                 
                 await updateCourses()
                 handleClose()
-                toast.success('Курс обновлен!')
+                toast.success('Курс обновлен!', { duration: 1000 })
             }
             if(!response.id){
-                toast.error('Не удалось обновить курс!')
+                toast.error('Не удалось обновить курс!', { duration: 1000 })
             }
         }
         else{

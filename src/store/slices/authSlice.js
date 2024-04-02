@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { getProfile } from "../../services/apiService";
-
+// import { getProfile } from "../../services/apiService";
+import { getProfile } from "../../apiServices/accountService";
 
 export const isAuth= createAsyncThunk('auth/isAuth', async (token)=>{
     
