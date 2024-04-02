@@ -17,10 +17,10 @@ export default function SetMarkModal ({studentId,courseId,nameOfStudent, mark,ty
         if(response.id){
             await updateMarks()
             handleClose()
-            toast.success('Отметка изменена!')
+            toast.success('Отметка изменена!', { duration: 1000 })
         }
         if(!response.id){
-            toast.error('Не удалось изменить отметки!')
+            toast.error('Не удалось изменить отметки!', { duration: 1000 })
         }
     }
 

@@ -17,10 +17,10 @@ export default function StatusCourseModal ({token, id, status, show, handleClose
         if(response.id){
             await updateStatus()
             handleClose()
-            toast.success('Статус изменен!')
+            toast.success('Статус изменен!', { duration: 1000 })
         }
         if(!response.id){
-            toast.error('Не удалось изменить статус!')
+            toast.error('Не удалось изменить статус!', { duration: 1000 })
         }
     }
 

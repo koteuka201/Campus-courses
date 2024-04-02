@@ -16,10 +16,10 @@ export default function AddTeacherCourseModal ({id, show, handleClose,users,upda
             if(response.id){
                 await updateTeachers()
                 handleClose()
-                toast.success('Учитель добавлен!')
+                toast.success('Учитель добавлен!', { duration: 1000 })
             }
             if(!response.id){
-                toast.error('Не удалось добавить учителя!')
+                toast.error('Не удалось добавить учителя!', { duration: 1000 })
             }
         }
         else{

@@ -28,8 +28,9 @@ export default function Profile(){
                     setName(response.fullName);
                     setDate(dateConvertor(response.birthDate));
                     setEmail(response.email);
-                    setLoading(false)
+                    
                 }
+                setLoading(false)
             }
         }
         getName();
@@ -53,10 +54,10 @@ export default function Profile(){
             const response=await putProfile(fullName,birthDate, token)
             toast.dismiss(loadingToast.id)
             if(response.fullName){
-                toast.success('Профиль успешно обновлен!')
+                toast.success('Профиль успешно обновлен!', { duration: 1000 })
             }
             if(response.status===400){
-                toast.error('Не удалось изменить профиль!')
+                toast.error('Не удалось изменить профиль!', { duration: 1000 })
             }
         }
         else{

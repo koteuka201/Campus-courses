@@ -53,7 +53,6 @@ export default function GroupCoursesPage() {
         }
     }
 
-
     if(loading){
         return <Loader/>
     }
@@ -106,6 +105,7 @@ export default function GroupCoursesPage() {
                 updateCourses={GetGroupCourses}
                 toast={toast}
             />
+            
         </Container>
     );
 }

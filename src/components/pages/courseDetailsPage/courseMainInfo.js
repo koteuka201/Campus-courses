@@ -14,10 +14,10 @@ export default function CourseMainInfo({id,roles, details, isCourseTeacher, isCo
         
         if(response===''){
             await updatePage()
-            toast.success('Ваша заявка принята!')
+            toast.success('Ваша заявка принята!', { duration: 1000 })
         }
         else{
-            toast.error('Похоже, что ваша заявка уже на рассмотрении!')
+            toast.error('Похоже, что ваша заявка уже на рассмотрении!', { duration: 1000 })
         }
     }
 
