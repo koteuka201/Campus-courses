@@ -110,18 +110,21 @@ export default function GroupsPage(){
         }
     }
 
-    if(loading){
-        return <Loader/>
+    // if(loading){
+    //     return <Loader/>
         
-    }
+    // }
 
     return(
         <Container style={{marginTop: '110px'}} >
             <div>
                 <Toaster />
             </div>
-            
-            <CardTitle className="fs-3">Группы кампусных курсов</CardTitle>
+            {loading ? (
+                <Loader/>
+            ) : (
+                <>
+                    <CardTitle className="fs-3">Группы кампусных курсов</CardTitle>
             {roles.isAdmin ? (
                 <Button className="mt-1"  onClick={() => setShowModal(true)}>Создать</Button>
             ):(
@@ -160,6 +163,47 @@ export default function GroupsPage(){
                     <Button variant="primary" onClick={handleCreateGroup}>Создать</Button>
                 </ModalFooter>
             </Modal>
+                </>
+            )}
+            {/* <CardTitle className="fs-3">Группы кампусных курсов</CardTitle>
+            {roles.isAdmin ? (
+                <Button className="mt-1"  onClick={() => setShowModal(true)}>Создать</Button>
+            ):(
+                <></>
+            )}
+            
+            
+            <div className="mt-4">
+            {groups.map(group=>(
+                <GroupsCard
+                    key={group.id}
+                    id={group.id}
+                    name={group.name}
+                    isAdmin={roles.isAdmin}
+                    onUpdateName={(newName) => handleEditGroup(group.id, newName)}
+                    toast={toast}
+                    updatePage={getGroup}
+                />
+            ))}
+            </div>
+            <Modal show={showModal} onHide={() => setShowModal(false)}>
+                <ModalHeader closeButton>
+                    <ModalTitle>Создание группы</ModalTitle>
+                    
+                </ModalHeader>
+                <ModalBody>
+                    <FormControl className={isModalEmpty ? "border-danger" : ""} type="text" placeholder="Название курса" value={groupName} onChange={(e) => setGroupName(e.target.value)} />
+                    {isModalEmpty ? (
+                        <span className="text-danger">Введите название группы!</span>
+                    ) : (
+                        <></>
+                    )}
+                </ModalBody>
+                <ModalFooter>
+                    <Button variant="secondary" onClick={() => setShowModal(false)}>Отмена</Button>
+                    <Button variant="primary" onClick={handleCreateGroup}>Создать</Button>
+                </ModalFooter>
+            </Modal> */}
             
         </Container>
     )
