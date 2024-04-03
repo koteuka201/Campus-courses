@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {Container, Button, ListGroup , CardTitle, Col,  Row } from 'react-bootstrap';
-// import { getRoles, getCourseDetails, getProfile,getUsers,  signUpForCourse} from "../../../services/apiService";
+import {Container, Button,  CardTitle, Col,  Row } from 'react-bootstrap';
 import { getCourseDetails } from "../../../apiServices/courseService";
 import { getRoles, getUsers } from "../../../apiServices/usersService";
 import { getProfile } from "../../../apiServices/accountService";

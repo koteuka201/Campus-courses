@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import 'react-quill/dist/quill.snow.css';
 import {Container, CardTitle} from 'react-bootstrap';
-// import { getRoles, getMyCourses } from "../../../services/apiService";
 import { getMyCourses } from "../../../apiServices/courseService";
 import { getRoles } from "../../../apiServices/usersService";
 import CourseCard from "../groupCoursesPage/courseCard";

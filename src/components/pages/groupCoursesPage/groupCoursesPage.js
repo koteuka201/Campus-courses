@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Container, Button, CardTitle } from 'react-bootstrap';
 import { useParams } from "react-router-dom";
-// import { getRoles, getGroupCourses, getGroups } from "../../../services/apiService";
-// import { getGroupCourses, getGroups } from "../../../services/apiService";
 import { getGroupCourses, getGroups } from "../../../apiServices/groupService";
 import { getRoles } from "../../../apiServices/usersService";
 import CourseCard from "./courseCard";

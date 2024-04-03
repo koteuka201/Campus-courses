@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Button, Modal, ModalHeader, ModalFooter, ModalBody, ModalTitle, Form, FormGroup, FormCheck } from 'react-bootstrap';
-// import { editStatusCourse } from "../../../services/apiService";
 import { editStatusCourse } from "../../../../apiServices/courseService";
 export default function StatusCourseModal ({token, id, status, show, handleClose,  updateStatus, toast }){
     

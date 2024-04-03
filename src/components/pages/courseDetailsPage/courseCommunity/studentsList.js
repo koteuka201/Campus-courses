@@ -1,8 +1,6 @@
 import React, { useState} from "react";
 import {Container, Row, Button, Col  } from 'react-bootstrap';
-// import SetMarkModal from "../../../courseDetails/courseDetailsModals/setMarkModal";
 import SetMarkModal from '../courseDetailsModals/setMarkModal'
-// import { editStatusOfSignUp } from "../../../../services/apiService";
 import { editStatusOfSignUp } from "../../../../apiServices/courseService";
 export default function StudentsList({id,courseId, name, email, status,midtermResult, finalResult,updatePage,isCourseStudent,currentUserName,isCourseTeacher,isAdmin, toast}){
 

@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import ReactSelect from 'react-select';
 import { Button, Modal, ModalHeader, ModalFooter, ModalBody, ModalTitle, Form, FormGroup, FormLabel } from 'react-bootstrap';
-// import { addTeacherCourse } from "../../../../services/apiService";
 import { addTeacherCourse } from "../../../../apiServices/courseService";
 export default function AddTeacherCourseModal ({id, show, handleClose,users,updateTeachers,toast, students }){
     

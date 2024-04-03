@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Container, Button,  CardTitle, FormControl, Modal, ModalHeader,ModalFooter,ModalBody,ModalTitle } from 'react-bootstrap';
-// import { getRoles,getGroups,createGroup,editGroup } from "../../../services/apiService";
-// import { getGroups,createGroup,editGroup } from "../../../services/apiService";
 import { getGroups, createGroup, editGroup } from "../../../apiServices/groupService";
 import { getRoles } from "../../../apiServices/usersService";
 import GroupsCard from "./groupCard";
