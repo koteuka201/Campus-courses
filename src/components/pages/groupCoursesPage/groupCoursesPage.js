@@ -7,7 +7,7 @@ import CourseCard from "./courseCard";
 import CreateEditCourseModal from "../../generalModals/createEditCourseModal";
 import { toast, Toaster } from 'react-hot-toast';
 import { Loader } from "../../layouts/loader/loader";
-
+import "../../../styles/tab.css"
 
 export default function GroupCoursesPage() {
     const { id } = useParams();
@@ -67,7 +67,7 @@ export default function GroupCoursesPage() {
             <div>
                 <Toaster />
             </div>
-            <CardTitle className="fs-3">Группа - {groupName}</CardTitle>
+            <CardTitle className="fs-3 wrap" >Группа - {groupName}</CardTitle>
             {roles.isAdmin ? (
                 <Button className="mt-1" onClick={() => setShowModal(true)}>Создать курс</Button>
             ) : (

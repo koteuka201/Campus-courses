@@ -11,7 +11,7 @@ import DeleteEntityModal from "../../generalModals/deleteEntityModal";
 import CourseMainInfo from "./courseMainInfo";
 import { toast, Toaster } from 'react-hot-toast';
 import { Loader } from "../../layouts/loader/loader";
-
+import '../../../styles/tab.css'
 
 export default function CourseDetailsPage(){
     
@@ -108,7 +108,7 @@ export default function CourseDetailsPage(){
             <div>
                 <Toaster />
             </div>
-            <CardTitle className="fs-1 mb-3">{details.name}</CardTitle>
+            <CardTitle className="fs-1 mb-3 wrap" >{details.name}</CardTitle>
             <Row>
                 <Col sm={4} className="fs-4">Основные данные курса</Col>
                 {roles.isAdmin ? (

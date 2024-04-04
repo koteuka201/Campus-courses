@@ -4,7 +4,7 @@ import { Button, Modal, ModalHeader, ModalFooter, ModalBody, ModalTitle } from '
 import { deleteCourse } from "../../apiServices/courseService";
 import { deleteGroup } from "../../apiServices/groupService";
 import { useNavigate  } from "react-router-dom";
-
+import '../../styles/tab.css'
 export default function DeleteEntityModal ({id, show, handleClose,updatePage,toast, type, name }){
     
     const navigate=useNavigate()
@@ -61,11 +61,11 @@ export default function DeleteEntityModal ({id, show, handleClose,updatePage,toa
                 
             </ModalHeader>
             {type==='course' ? (
-                    <ModalBody>
-                        Вы уверены, что хотите удалить курс - <span className="fw-bold fs-4">{name}</span>
+                    <ModalBody style={{overflow: "auto"}}>
+                        Вы уверены, что хотите удалить курс?
                     </ModalBody>
                 ) : (
-                    <ModalBody>
+                    <ModalBody className="wrap">
                         Вы уверены, что хотите удалить группу - <span className="fw-bold">{name}</span>
                     </ModalBody>
                 )}
