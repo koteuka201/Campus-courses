@@ -41,8 +41,11 @@ export default function Login(){
                 localStorage.setItem('token', response.token)
                 dispatch(clearAuth())
                 navigate('/')
+                toast.success('Вы успешно вошли в систему!')
             }
             else{
+                toast.dismiss(loadingToast.id)
+                toast.error('Не удалось войти в систему!')
                 setErrorMessage('Неправильный email или пароль')
             }
             
@@ -53,9 +56,6 @@ export default function Login(){
     }
     return (
         <Container style={{marginTop: '110px'}} className="d-flex justify-content-center align-items-center">
-            <div>
-                <Toaster />
-            </div>
             <Card className="col-md-6 shadow">
                 <CardBody>
                     <CardTitle className="text-center fs-3">Авторизация</CardTitle>

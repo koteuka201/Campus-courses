@@ -74,6 +74,10 @@ export default function Registration(){
                 localStorage.setItem('token', response.token)
                 dispatch(clearAuth())
                 navigate('/')
+                toast.success('Вы успешно зарегистрировались!')
+            }
+            else{
+                toast.error('Не удалось зарегистрироваться!')
             }
         }
         else{

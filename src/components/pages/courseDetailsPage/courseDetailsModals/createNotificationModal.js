@@ -20,10 +20,10 @@ export default function CreateNotificationModal ({id, show, handleClose,updateNo
             if(response.id){
                 await updateNotification()
                 handleClose()
-                toast.success('Уведомление создано!', { duration: 1000 })
+                toast.success('Уведомление создано!')
             }
             if(!response.id){
-                toast.error('Не удалось создать уведомление!', { duration: 1000 })
+                toast.error('Не удалось создать уведомление!')
             }
         }
         else{

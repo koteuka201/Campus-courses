@@ -105,9 +105,7 @@ export default function CourseDetailsPage(){
 
     return(
         <Container style={{marginTop: '110px'}}>
-            <div>
-                <Toaster />
-            </div>
+            
             <CardTitle className="fs-1 mb-3 wrap" >{details.name}</CardTitle>
             <Row>
                 <Col sm={4} className="fs-4">Основные данные курса</Col>

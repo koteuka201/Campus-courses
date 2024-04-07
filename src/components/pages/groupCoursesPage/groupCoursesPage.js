@@ -64,9 +64,7 @@ export default function GroupCoursesPage() {
 
     return (
         <Container style={{ marginTop: '110px' }}>
-            <div>
-                <Toaster />
-            </div>
+            
             <CardTitle className="fs-3 wrap" >Группа - {groupName}</CardTitle>
             {roles.isAdmin ? (
                 <Button className="mt-1" onClick={() => setShowModal(true)}>Создать курс</Button>

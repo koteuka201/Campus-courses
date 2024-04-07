@@ -118,10 +118,10 @@ export default function CreateEditCourseModal ({type,isTeacher,roles, show, hand
                 
                 await updateCourses()
                 handleClose()
-                toast.success('Курс создан!', { duration: 1000 })
+                toast.success('Курс создан!')
             }
             if(!Array.isArray(response)){
-                toast.error('Не удалось создать курс!', { duration: 1000 })
+                toast.error('Не удалось создать курс!')
             }
         }
         else{
@@ -152,10 +152,10 @@ export default function CreateEditCourseModal ({type,isTeacher,roles, show, hand
                 
                 await updateCourses()
                 handleClose()
-                toast.success('Курс обновлен!', { duration: 1000 })
+                toast.success('Курс обновлен!')
             }
             if(!response.id){
-                toast.error('Не удалось обновить курс!', { duration: 1000 })
+                toast.error('Не удалось обновить курс!')
             }
             
         }
@@ -176,10 +176,10 @@ export default function CreateEditCourseModal ({type,isTeacher,roles, show, hand
                 
                 await updateCourses()
                 handleClose()
-                toast.success('Курс обновлен!', { duration: 1000 })
+                toast.success('Курс обновлен!')
             }
             if(!response.id){
-                toast.error('Не удалось обновить курс!', { duration: 1000 })
+                toast.error('Не удалось обновить курс!')
             }
         }
         else{

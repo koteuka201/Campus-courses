@@ -3,6 +3,7 @@ import { Container, Button,  CardTitle, FormControl, Modal, ModalHeader,ModalFoo
 import { getGroups, createGroup, editGroup } from "../../../apiServices/groupService";
 import { getRoles } from "../../../apiServices/usersService";
 import GroupsCard from "./groupCard";
+// import { Toaster, toast } from 'react-hot-toast'
 import { Toaster, toast } from 'react-hot-toast'
 import { Loader } from "../../layouts/loader/loader";
 
@@ -72,10 +73,10 @@ export default function GroupsPage(){
             toast.dismiss(loadingToast.id)
             if (response) {
                 await getGroup('second');
-                toast.success('Название группы обновлено!', { duration: 1000 })
+                toast.success('Название группы обновлено!')
             }
             if (response==='') {
-                toast.error('Не удалось изменить название группы!', { duration: 1000 })
+                toast.error('Не удалось изменить название группы!')
             }
         }
         
@@ -92,13 +93,13 @@ export default function GroupsPage(){
             if (response.id) {
                 await getGroup('second');
                 
-                toast.success('Группа создана!', { duration: 1000 })
+                toast.success('Группа создана!')
                 
                 setGroupName('')
                 setShowModal(false)
             }
             if(response===""){
-                toast.error('Не удалось создать группу!', { duration: 1000 })
+                toast.error('Не удалось создать группу!')
             }
         }
         else{
@@ -121,9 +122,7 @@ export default function GroupsPage(){
     
     return(
         <Container style={{marginTop: '110px'}} >
-            <div>
-                <Toaster />
-            </div>
+            
             <CardTitle className="fs-3">Группы кампусных курсов</CardTitle>
             {roles.isAdmin ? (
                 <Button className="mt-1"  onClick={() => setShowModal(true)}>Создать</Button>

@@ -54,10 +54,10 @@ export default function Profile(){
             const response=await putProfile(fullName,birthDate, token)
             toast.dismiss(loadingToast.id)
             if(response.fullName){
-                toast.success('Профиль успешно обновлен!', { duration: 1000 })
+                toast.success('Профиль успешно обновлен!')
             }
             if(response.status===400){
-                toast.error('Не удалось изменить профиль!', { duration: 1000 })
+                toast.error('Не удалось изменить профиль!')
             }
         }
         else{
@@ -71,9 +71,7 @@ export default function Profile(){
 
     return(
         <Container style={{marginTop: '110px'}} className="">
-            <div>
-                <Toaster />
-            </div>
+            
             <Card>
                 <CardBody>
                     <CardTitle className="d-flex justify-content-center align-items-center fs-3">Профиль</CardTitle>

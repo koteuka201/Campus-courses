@@ -19,12 +19,12 @@ export default function DeleteEntityModal ({id, show, handleClose,updatePage,toa
             await updatePage()
             handleClose()
             toast.dismiss(loadingToast.id)
-            toast.success('Группа удалена!', { duration: 1000 })
+            toast.success('Группа удалена!')
             
         }
         else{
             toast.dismiss(loadingToast.id)
-            toast.error('Не удалось удалить группу!', { duration: 1000 })
+            toast.error('Не удалось удалить группу!')
         }
     }
 
@@ -36,12 +36,12 @@ export default function DeleteEntityModal ({id, show, handleClose,updatePage,toa
         if(response){
             handleClose()
             
-            toast.success('Курс удален!', { duration: 1000 })
+            toast.success('Курс удален!')
             navigate(-1)
         }
         else{
             
-            toast.error('Не удалось удалить курс!', { duration: 1000 })
+            toast.error('Не удалось удалить курс!')
         }
     }
 
