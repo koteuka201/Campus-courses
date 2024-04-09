@@ -11,12 +11,14 @@ import DeleteEntityModal from "../../generalModals/deleteEntityModal";
 import CourseMainInfo from "./courseMainInfo";
 import { toast, Toaster } from 'react-hot-toast';
 import { Loader } from "../../layouts/loader/loader";
+import NotFoundPage from "../notFoundPage/notFoundPage";
 import '../../../styles/tab.css'
 
 export default function CourseDetailsPage(){
     
     const { id } = useParams()
 
+    const [isValidId,setIsValidId]=useState(true)
     const [loading,setLoading]=useState(false)
     const [currentUserName,setCurrentUserName]=useState('')
     const [isCourseTeacher, setIsCourseTeacher]=useState(false)
@@ -63,13 +65,18 @@ export default function CourseDetailsPage(){
         }
         
         const response = await getCourseDetails(token,id)
+        
         if(response){
             setDetails(response)
+        }
+        else{
+            setIsValidId(false)
         }
         if(num==='first'){
             setLoading(false)
         }
     }
+    
     async function GetProfile(){
         const response = await getProfile(token)
         if(response){
@@ -103,8 +110,12 @@ export default function CourseDetailsPage(){
         return <Loader/>
     }
 
+    if(!isValidId){
+        return <NotFoundPage/>
+    }
+
     return(
-        <Container style={{marginTop: '110px'}}>
+        <Container className="mt-5">
             
             <CardTitle className="fs-1 mb-3 wrap" >{details.name}</CardTitle>
             <Row>

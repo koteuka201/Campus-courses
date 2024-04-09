@@ -43,7 +43,7 @@ export default function MyCoursesPage(){
     }
 
     return(
-        <Container style={{marginTop: '110px'}}>
+        <Container className="mt-5">
             <CardTitle className="fs-3">Мои курсы</CardTitle>
             {courses.length ? (
                 <div className="mt-4">

@@ -3,7 +3,6 @@ import { Container, Button,  CardTitle, FormControl, Modal, ModalHeader,ModalFoo
 import { getGroups, createGroup, editGroup } from "../../../apiServices/groupService";
 import { getRoles } from "../../../apiServices/usersService";
 import GroupsCard from "./groupCard";
-// import { Toaster, toast } from 'react-hot-toast'
 import { Toaster, toast } from 'react-hot-toast'
 import { Loader } from "../../layouts/loader/loader";
 
@@ -121,7 +120,7 @@ export default function GroupsPage(){
     }
     
     return(
-        <Container style={{marginTop: '110px'}} >
+        <Container className="mt-5" >
             
             <CardTitle className="fs-3">Группы кампусных курсов</CardTitle>
             {roles.isAdmin ? (

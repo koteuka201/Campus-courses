@@ -20,7 +20,6 @@ export const UnAuthLayout = ({ children }) => {
     }, [isAuthenticated, isLoading, dispatch]);
     
     if(isLoading){
-        console.log('loading')
         return <></>
     }
     

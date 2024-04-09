@@ -8,6 +8,7 @@ import { getProfile, logout } from "../../../apiServices/accountService";
 
 export const Header=  ()=>{
 
+    const [handleClose,setHandleClose]=useState(false)
     const [name, setName]=useState('')
     const navigate = useNavigate();
     const [roles,setRoles]=useState({
@@ -22,47 +23,38 @@ export const Header=  ()=>{
         getRole()
     },[token])
     async function getName(){
-        if(token){
-            const response = await getProfile(token)
-            if(response.fullName){
-                setName(response.fullName)
-            }
+        const response = await getProfile(token)
+        if(response.fullName){
+            setName(response.fullName)
         }
-        
-
         
     }
     
     async function getRole(){
-       if(token){
-            const response = await getRoles(token)
-            
-            if(response){
-                
-                setRoles({
-                    ...roles,
-                    isStudent: response.isStudent,
-                    isTeacher: response.isTeacher,
-                    isAdmin: response.isAdmin
-                }) 
-            }
-        } 
+        const response = await getRoles(token)
+        
+        if(response){
+            setRoles({
+                ...roles,
+                isStudent: response.isStudent,
+                isTeacher: response.isTeacher,
+                isAdmin: response.isAdmin
+            }) 
+        }
     }
 
     const handleLogout = async (e) => {
         e.preventDefault()
-        if(token){
-            const response=await logout(token)
-        
-            localStorage.clear()
-            navigate('/login')
+        const response=await logout(token)
+    
+        localStorage.clear()
+        navigate('/login')
             
-        }
         
     };    
 
     return (
-        <Navbar className="bg-secondary shadow fixed-top" expand='lg'>
+        <Navbar className="bg-secondary shadow" expand='lg'>
             <Container fluid className="me-3">
                 <Link to="/" className="text-decoration-none ms-2">
                     
@@ -71,18 +63,18 @@ export const Header=  ()=>{
                     </NavbarBrand>
                 </Link>
                 
-                <NavbarToggle className="bg-light"/>
-                <NavbarCollapse >
+                <NavbarToggle className="bg-light" onClick={()=>setHandleClose(!handleClose)}/>
+                <NavbarCollapse in={handleClose}>
                     <Nav className="w-100">
                     {
                         token ? (
                             <>
-                                <Link to='/groups/' className="nav-link header">
+                                <Link to='/groups/' className="nav-link header" onClick={()=> setHandleClose(false)}>
                                     Группы курсов
 
                                 </Link>
                                 {roles.isStudent ? (
-                                    <Link to='/courses/my' className="nav-link header">
+                                    <Link to='/courses/my' className="nav-link header" onClick={()=> setHandleClose(false)}>
                                         Мои курсы
                                     </Link>
                                 ) : (
@@ -90,7 +82,7 @@ export const Header=  ()=>{
                                 )}
                                 
                                 {roles.isTeacher ? (
-                                    <Link to='/courses/teaching' className="nav-link header">
+                                    <Link to='/courses/teaching' className="nav-link header" onClick={()=> setHandleClose(false)}>
                                         Преподаваемые курсы
                                     </Link>
                                 ) : (
@@ -98,17 +90,17 @@ export const Header=  ()=>{
                                 )}
                                 
 
-                                <Link to='/profile' className="nav-link profile ms-lg-auto" style={{marginLeft: 30}}>{name}</Link>
+                                <Link to='/profile' className="nav-link profile ms-lg-auto" style={{marginLeft: 30}} onClick={()=> setHandleClose(false)}>{name}</Link>
                                 <Link className="nav-link header" onClick={handleLogout}>Выход</Link>
                                 
                             </>
                             
                         ) : 
                             < >
-                                <Link to="/login" className="nav-link profile ms-3 ms-lg-auto mt-lg-0">
+                                <Link to="/login" className="nav-link profile ms-3 ms-lg-auto mt-lg-0" onClick={()=> setHandleClose(false)}>
                                     Вход
                                 </Link>
-                                <Link to="/registration" className="nav-link profile ms-3">
+                                <Link to="/registration" className="nav-link profile ms-3" onClick={()=> setHandleClose(false)}>
                                     Регистрация
                                 </Link>
                             </>

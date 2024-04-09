@@ -106,7 +106,7 @@ export default function Registration(){
 
 
     return(
-        <Container style={{marginTop: '110px'}} className="">
+        <Container className="mt-5">
             <div>
                 <Toaster/>
             </div>

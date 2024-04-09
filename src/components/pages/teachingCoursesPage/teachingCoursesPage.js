@@ -51,7 +51,7 @@ export default function TeachingCoursesPage(){
     }
 
     return(
-        <Container style={{marginTop: '110px'}}>
+        <Container className="mt-5">
             <CardTitle className="fs-3">Преподаваемые курсы</CardTitle>
             {courses.length ? (
                 <div className="mt-4">

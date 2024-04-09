@@ -4,6 +4,7 @@ import {Header} from '../components/pages/header/header';
 import Login from '../components/pages/loginPage/login';
 import Registration from '../components/pages/registrationPage/registation';
 import WelcomePage from '../components/pages/welcomePage/welcomePage';
+import NotFoundPage from '../components/pages/notFoundPage/notFoundPage';
 import Profile from '../components/pages/profilePage/profile';
 import GroupsPage from '../components/pages/groupsPage/groupsPage';
 import GroupCoursesPage from '../components/pages/groupCoursesPage/groupCoursesPage';
@@ -20,20 +21,15 @@ export default function Router(){
         <Routes>
             <Route path='/' element={
                 <>
-
                     <Header/>
                     <WelcomePage/>
                 </>
             }/>
             <Route path='/login' element={
                 <AuthLayout children={<Login/>}/>
-                
-                
             }/>
             <Route path='/registration' element={
                 <AuthLayout children={<Registration/>}/>
-                
-                
             }/>
             <Route path='/profile' element={
                 <UnAuthLayout children={<Profile/>}/>
@@ -56,7 +52,9 @@ export default function Router(){
             }/>
             <Route path='/courses/:id' element={
                 <UnAuthLayout children={<CourseDetailsPage/>}/>
-                
+            }/>
+            <Route path='*' element={
+                <UnAuthLayout children={<NotFoundPage/>}/>
             }/>
         </Routes>
     );

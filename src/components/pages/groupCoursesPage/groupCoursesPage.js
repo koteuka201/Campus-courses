@@ -7,13 +7,13 @@ import CourseCard from "./courseCard";
 import CreateEditCourseModal from "../../generalModals/createEditCourseModal";
 import { toast, Toaster } from 'react-hot-toast';
 import { Loader } from "../../layouts/loader/loader";
+import NotFoundPage from "../notFoundPage/notFoundPage";
 import "../../../styles/tab.css"
 
 export default function GroupCoursesPage() {
     const { id } = useParams();
 
-    const [users, setUsers] = useState([])
-    
+    const [isValidId,setIsValidId]=useState(true)
     const [loading,setLoading]=useState(false)
     const [isCourseTeacher, setIsCourseTeacher]=useState(false)
     const [courses, setCourses] = useState([])
@@ -53,8 +53,16 @@ export default function GroupCoursesPage() {
 
     async function getGroupName() {
         const response = await getGroups(token);
+        
         if (response) {
-            setGroupName((response.find(group => group.id === id)).name)
+            const group=response.find(group => group.id === id)
+            if(group){
+                setGroupName(group.name)
+            }
+            else{
+                setIsValidId(false)
+            }
+            
         }
     }
 
@@ -62,8 +70,12 @@ export default function GroupCoursesPage() {
         return <Loader/>
     }
 
+    if(!isValidId){
+        return <NotFoundPage/>
+    }
+
     return (
-        <Container style={{ marginTop: '110px' }}>
+        <Container className="mt-5">
             
             <CardTitle className="fs-3 wrap" >Группа - {groupName}</CardTitle>
             {roles.isAdmin ? (

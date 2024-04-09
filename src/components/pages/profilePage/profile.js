@@ -70,7 +70,7 @@ export default function Profile(){
     }
 
     return(
-        <Container style={{marginTop: '110px'}} className="">
+        <Container className="mt-5">
             
             <Card>
                 <CardBody>
