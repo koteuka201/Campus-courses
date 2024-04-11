@@ -6,7 +6,7 @@ export default function NotFoundPage(){
 
     return (
         <Container className="mt-5 d-flex justify-content-center text-center ">
-            <video style={{maxWidth:'88%'}}  autoPlay loop muted>
+            <video style={{maxWidth:'66%'}}  autoPlay loop muted>
                 <source src={NotFoundGif} type="video/mp4" />
             </video>
         </Container>
